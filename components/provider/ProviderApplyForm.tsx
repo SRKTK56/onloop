@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { WalletButton } from "@/components/shared/WalletButton"
+import { ImageUpload } from "@/components/shared/ImageUpload"
 
 export function ProviderApplyForm() {
   const { address, isConnected } = useAccount()
@@ -75,12 +76,11 @@ export function ProviderApplyForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="avatarUrl">プロフィール画像URL（任意）</Label>
-        <Input
-          id="avatarUrl"
-          placeholder="https://..."
+        <Label>プロフィール画像（任意）</Label>
+        <ImageUpload
           value={form.avatarUrl}
-          onChange={(e) => setForm({ ...form, avatarUrl: e.target.value })}
+          onChange={(url) => setForm({ ...form, avatarUrl: url })}
+          label="画像をアップロード（5MB以内）"
         />
       </div>
 

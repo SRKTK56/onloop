@@ -49,35 +49,43 @@ export default async function MenuPage() {
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {approvedProviders.map((provider) => (
-            <Card key={provider.id} className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-start gap-3">
+            <Card key={provider.id} className="hover:shadow-md transition-shadow overflow-hidden">
+              {/* カバー画像エリア */}
+              <div className="h-32 bg-accent flex items-center justify-center relative">
+                {provider.avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={provider.avatarUrl}
+                    alt={provider.name ?? ""}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-5xl opacity-30">🙌</span>
+                )}
+                {/* アバターアイコン */}
+                <div className="absolute -bottom-6 left-4 w-14 h-14 rounded-full border-4 border-background bg-muted overflow-hidden shadow">
                   {provider.avatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={provider.avatarUrl}
-                      alt={provider.name ?? ""}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                    <img src={provider.avatarUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-xl">
-                      🙌
+                    <div className="w-full h-full bg-primary/10 flex items-center justify-center text-lg">
+                      {(provider.name ?? "?")[0]}
                     </div>
                   )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold truncate">
-                      {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
-                    </p>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
-                    </p>
-                  </div>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
+              </div>
+              <CardContent className="pt-9 space-y-3">
                 <div>
-                  <Badge variant="secondary" className="mb-2">提供できること</Badge>
-                  <p className="font-medium">{provider.serviceTitle}</p>
+                  <p className="font-semibold">
+                    {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
+                  </p>
+                  <p className="text-xs text-muted-foreground font-mono">
+                    {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
+                  </p>
+                </div>
+                <div>
+                  <Badge variant="secondary" className="mb-1">提供できること</Badge>
+                  <p className="font-medium text-sm">{provider.serviceTitle}</p>
                 </div>
                 <p className="text-sm text-muted-foreground line-clamp-3">
                   {provider.serviceDescription}

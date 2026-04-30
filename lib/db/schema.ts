@@ -1,4 +1,12 @@
-import { pgTable, text, integer, timestamp, boolean, serial } from "drizzle-orm/pg-core"
+import { pgTable, text, integer, timestamp, serial } from "drizzle-orm/pg-core"
+
+export const userProfiles = pgTable("user_profiles", {
+  walletAddress: text("wallet_address").primaryKey(),
+  displayName: text("display_name"),
+  avatarUrl: text("avatar_url"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+})
 
 export const providers = pgTable("providers", {
   id: serial("id").primaryKey(),
