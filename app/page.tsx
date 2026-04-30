@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { PhoneMockup } from "@/components/shared/PhoneMockup"
-import { StageLadder } from "@/components/shared/StageDisplay"
+
 import { STAGES } from "@/lib/stages"
 
 export default function Home() {
@@ -77,18 +77,6 @@ export default function Home() {
           {/* スマホモックアップ */}
           <div className="shrink-0 pixel-float">
             <PhoneMockup />
-          </div>
-        </div>
-      </section>
-
-      {/* ── STAGE LADDER ── */}
-      <section style={{ background: "#060610", borderTop: "4px solid #111", borderBottom: "4px solid #111" }} className="py-8">
-        <div className="max-w-5xl mx-auto px-4">
-          <p className="font-pixel text-[0.5rem] text-center mb-4" style={{ color: "#405060" }}>
-            ▸ WORLD PROGRESSION
-          </p>
-          <div className="flex justify-center">
-            <StageLadder currentLength={1} />
           </div>
         </div>
       </section>
