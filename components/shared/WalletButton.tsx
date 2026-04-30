@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import {
   ConnectWallet,
   Wallet,
@@ -14,6 +15,16 @@ import {
 } from "@coinbase/onchainkit/identity"
 
 export function WalletButton() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div className="h-8 w-28 rounded-lg bg-muted animate-pulse" />
+  }
+
   return (
     <Wallet>
       <ConnectWallet>
