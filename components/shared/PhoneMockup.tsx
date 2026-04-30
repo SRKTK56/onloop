@@ -38,9 +38,23 @@ export function PhoneMockup() {
 
         {/* 画面 */}
         <div
-          className="px-3 py-3 flex flex-col gap-2"
-          style={{ background: "#0a0a1a", minHeight: 440 }}
+          className="px-3 py-3 flex flex-col gap-2 relative"
+          style={{ minHeight: 440 }}
         >
+          {/* ステージ背景画像 */}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              backgroundImage: `url(${stage.image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              imageRendering: "pixelated",
+            }}
+          />
+          <div className="absolute inset-0" style={{ background: "rgba(10,10,26,0.7)" }} />
+          {/* コンテンツ（背景より前面） */}
+          <div className="relative z-10 flex flex-col gap-2">
+
           {/* ゲームヘッダー */}
           <div
             className="flex items-center justify-between px-2 py-1"
@@ -148,6 +162,7 @@ export function PhoneMockup() {
               🎉 LOOP BONUS: N×10 ON FOR ORIGIN
             </p>
           </div>
+          </div>{/* z-10コンテンツ終わり */}
         </div>
 
         {/* ホームバー */}

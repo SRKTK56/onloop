@@ -181,27 +181,35 @@ export default function Home() {
           <p className="font-ja text-center text-sm mb-10" style={{ color: "#607080" }}>
             連鎖が長くなるほど世界が進化していく
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {STAGES.map((stage) => (
               <div
                 key={stage.id}
-                className="pixel-box p-4 flex flex-col gap-2"
-                style={{ background: stage.bgDark, borderColor: stage.accent, boxShadow: `4px 4px 0 ${stage.accent}` }}
+                className="pixel-box flex flex-col overflow-hidden"
+                style={{ borderColor: stage.accent, boxShadow: `4px 4px 0 ${stage.accent}` }}
               >
-                <div className="text-3xl">{stage.emoji}</div>
-                <div>
-                  <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
+                {/* 背景画像 */}
+                <div
+                  className="w-full aspect-video"
+                  style={{
+                    backgroundImage: `url(${stage.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    imageRendering: "pixelated",
+                  }}
+                />
+                {/* 情報 */}
+                <div className="p-3 flex flex-col gap-1" style={{ background: stage.bgDark }}>
+                  <p className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
                     STAGE {stage.level} · {stage.nameEn}
                   </p>
-                  <p className="font-ja font-bold text-sm mt-1" style={{ color: "#e0e8ff" }}>
-                    {stage.name}
+                  <p className="font-ja font-bold text-sm" style={{ color: "#e0e8ff" }}>
+                    {stage.emoji} {stage.name}
+                  </p>
+                  <p className="font-pixel text-[0.38rem]" style={{ color: stage.accent }}>
+                    {stage.max === Infinity ? `${stage.min}+ 連鎖` : `${stage.min}〜${stage.max} 連鎖`}
                   </p>
                 </div>
-                <p className="font-pixel text-[0.4rem]" style={{ color: stage.accent }}>
-                  {stage.min === stage.max
-                    ? `${stage.min}+ 連鎖`
-                    : `${stage.min}〜${stage.max} 連鎖`}
-                </p>
               </div>
             ))}
           </div>
