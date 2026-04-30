@@ -123,52 +123,72 @@ export function OnTokenDiagram() {
           🎉 LOOP COMPLETE BONUS
         </p>
 
-        {/* ビジュアル: ループ完成の図 */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          {/* 起点者 */}
-          <div className="flex flex-col items-center gap-1">
-            <div
-              className="w-12 h-12 flex items-center justify-center font-pixel text-base"
-              style={{
-                background: "#0052FF",
-                border: "3px solid #ffcc00",
-                boxShadow: "3px 3px 0 #ffcc00",
-                color: "#fff",
-              }}
-            >A</div>
-            <span className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>N×10 ON</span>
-          </div>
+        {/* ビジュアル: ループ図 (A→B→C→D→A) */}
+        <div className="relative px-2 mb-6">
 
-          {/* ループ矢印 */}
-          <div className="flex-1 flex flex-col items-center gap-1 max-w-32">
-            <div className="font-pixel text-[0.38rem] text-center" style={{ color: "#aa8800" }}>
-              B・C・D…
-            </div>
-            <div
-              className="w-full h-6 flex items-center justify-center font-pixel text-[0.5rem]"
-              style={{ color: "#aa8800", border: "2px solid #554400", borderRadius: 0 }}
-            >
-              ↩ LOOP!
-            </div>
-            <div className="font-pixel text-[0.38rem] text-center" style={{ color: "#aa8800" }}>
-              各自 N×5 ON
-            </div>
-          </div>
-
-          {/* 参加者アイコン */}
-          <div className="flex gap-1">
-            {["B", "C", "D"].map((id) => (
+          {/* 上段: ノード列 */}
+          <div className="flex items-center justify-between">
+            {/* A（起点・左） */}
+            <div className="flex flex-col items-center gap-1">
               <div
-                key={id}
-                className="w-10 h-10 flex items-center justify-center font-pixel text-sm"
+                className="w-12 h-12 flex items-center justify-center font-pixel text-base"
                 style={{
-                  background: "#1b3a2d",
-                  border: "2px solid #52b788",
-                  boxShadow: "2px 2px 0 #52b788",
-                  color: "#52b788",
+                  background: "#0052FF",
+                  border: "3px solid #ffcc00",
+                  boxShadow: "3px 3px 0 #ffcc00",
+                  color: "#fff",
                 }}
-              >{id}</div>
-            ))}
+              >A</div>
+              <span className="font-pixel text-[0.36rem]" style={{ color: "#ffcc00" }}>N×10 ON</span>
+              <span className="font-pixel text-[0.32rem]" style={{ color: "#0052FF" }}>ORIGIN</span>
+            </div>
+
+            {/* 上の矢印ライン (A→B→C→D) */}
+            <div className="flex-1 flex items-center justify-center gap-1 px-1">
+              {["B", "C", "D"].map((id, i) => (
+                <div key={id} className="flex items-center gap-1">
+                  <span className="font-pixel text-[0.5rem]" style={{ color: "#aa8800" }}>▶</span>
+                  <div className="flex flex-col items-center gap-0.5">
+                    <div
+                      className="w-10 h-10 flex items-center justify-center font-pixel text-sm"
+                      style={{
+                        background: "#1b3a2d",
+                        border: "2px solid #52b788",
+                        boxShadow: "2px 2px 0 #52b788",
+                        color: "#52b788",
+                      }}
+                    >{id}</div>
+                    <span className="font-pixel text-[0.32rem]" style={{ color: "#52b788" }}>N×5 ON</span>
+                  </div>
+                </div>
+              ))}
+              {/* 「...」 */}
+              <span className="font-pixel text-[0.5rem] pixel-blink ml-1" style={{ color: "#554400" }}>▶</span>
+            </div>
+          </div>
+
+          {/* ループ矢印（下のU字ライン） */}
+          <div
+            className="mt-3 mx-6 relative flex items-center justify-center"
+            style={{
+              height: 32,
+              borderLeft: "3px solid #aa8800",
+              borderRight: "3px solid #aa8800",
+              borderBottom: "3px solid #aa8800",
+            }}
+          >
+            {/* 真ん中のテキスト */}
+            <span
+              className="font-pixel text-[0.42rem] px-3 py-0.5"
+              style={{ background: "#0f1420", color: "#ffcc00", position: "relative", zIndex: 1 }}
+            >
+              🎉 LOOP COMPLETE!
+            </span>
+            {/* 左の矢印（Aへの帰還） */}
+            <span
+              className="font-pixel text-[0.6rem] absolute left-0 -bottom-3"
+              style={{ color: "#ffcc00", transform: "translateX(-50%)" }}
+            >▲</span>
           </div>
         </div>
 
