@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { PhoneMockup } from "@/components/shared/PhoneMockup"
-
+import { OnTokenDiagram } from "@/components/shared/OnTokenDiagram"
 import { STAGES } from "@/lib/stages"
 
 export default function Home() {
@@ -119,53 +119,14 @@ export default function Home() {
 
       {/* ── ON TOKEN / REWARDS ── */}
       <section className="py-16" style={{ background: "#060610" }}>
-        <div className="max-w-5xl mx-auto px-4">
+        <div className="max-w-3xl mx-auto px-4">
           <h2
             className="font-pixel text-center mb-10"
             style={{ fontSize: "0.75rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
           >
             ON TOKEN REWARDS
           </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="pixel-box p-6" style={{ background: "#0f1628" }}>
-              <p className="font-pixel text-[0.5rem] mb-4" style={{ color: "#0052FF" }}>
-                CHAIN HOP BONUS
-              </p>
-              <ul className="font-ja space-y-4 text-sm">
-                {[
-                  { role: "🌱 起点者", reward: "+5 ON / hop", color: "#52b788" },
-                  { role: "🔗 中継者", reward: "+2 ON", color: "#f4a261" },
-                  { role: "🤝 新受取人", reward: "+1 ON", color: "#48cae4" },
-                ].map((r) => (
-                  <li key={r.role} className="flex justify-between items-center border-b border-dashed border-gray-800 pb-2">
-                    <span style={{ color: "#a0b4d0" }}>{r.role}</span>
-                    <span className="font-pixel text-[0.55rem]" style={{ color: r.color }}>{r.reward}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              className="pixel-box p-6"
-              style={{ background: "#0f1420", boxShadow: "4px 4px 0 #aa8800", borderColor: "#554400" }}
-            >
-              <p className="font-pixel text-[0.5rem] mb-4" style={{ color: "#ffcc00" }}>
-                🎉 LOOP COMPLETE BONUS
-              </p>
-              <ul className="font-ja space-y-4 text-sm">
-                <li className="flex justify-between items-center border-b border-dashed border-gray-800 pb-2">
-                  <span style={{ color: "#a0b4d0" }}>全参加者</span>
-                  <span className="font-pixel text-[0.55rem]" style={{ color: "#ffcc00" }}>N × 5 ON</span>
-                </li>
-                <li className="flex justify-between items-center">
-                  <span style={{ color: "#a0b4d0" }}>起点者（2倍）</span>
-                  <span className="font-pixel text-[0.55rem]" style={{ color: "#ffcc00" }}>N × 10 ON</span>
-                </li>
-              </ul>
-              <p className="font-pixel text-[0.4rem] mt-4" style={{ color: "#554400" }}>
-                N = ループ参加人数
-              </p>
-            </div>
-          </div>
+          <OnTokenDiagram />
         </div>
       </section>
 
