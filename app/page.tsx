@@ -2,28 +2,39 @@ import Link from "next/link"
 import { buttonVariants } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { PhoneMockup } from "@/components/shared/PhoneMockup"
 
 export default function Home() {
   return (
     <div className="min-h-[calc(100vh-3.5rem)]">
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-4 py-24 text-center">
-        <Badge variant="secondary" className="mb-6">Base ブロックチェーン上で動く</Badge>
-        <h1 className="text-5xl font-bold tracking-tight mb-6 leading-tight">
-          恩送りが繋がり、<br />
-          <span className="text-primary">ループ</span>して戻ってくる。
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-          写真を撮ってあげる、企画を一緒に考える、マッサージをする——<br />
-          お金のやり取りなしに、あなたの好意が連鎖していく。
-        </p>
-        <div className="flex gap-4 justify-center flex-wrap">
-          <Link href="/menu" className={cn(buttonVariants({ size: "lg" }), "rounded-full px-8")}>
-            恩送りメニューを見る
-          </Link>
-          <Link href="/provider/apply" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "rounded-full px-8")}>
-            ギバーとして登録する
-          </Link>
+      <section className="max-w-5xl mx-auto px-4 py-16 md:py-24">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+          {/* テキスト */}
+          <div className="flex-1 text-center md:text-left">
+            <Badge variant="secondary" className="mb-6">Base ブロックチェーン上で動く</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+              恩送りが繋がり、<br />
+              <span className="text-primary">ループ</span>して戻ってくる。
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-lg mb-10 leading-relaxed">
+              写真を撮ってあげる、企画を一緒に考える、マッサージをする——<br />
+              お金のやり取りなしに、あなたの好意が連鎖していく。
+            </p>
+            <div className="flex gap-4 justify-center md:justify-start flex-wrap">
+              <Link href="/menu" className={cn(buttonVariants({ size: "lg" }), "rounded-full px-8")}>
+                恩送りメニューを見る
+              </Link>
+              <Link href="/provider/apply" className={cn(buttonVariants({ size: "lg", variant: "outline" }), "rounded-full px-8")}>
+                ギバーとして登録する
+              </Link>
+            </div>
+          </div>
+
+          {/* スマホモックアップ */}
+          <div className="shrink-0">
+            <PhoneMockup />
+          </div>
         </div>
       </section>
 
