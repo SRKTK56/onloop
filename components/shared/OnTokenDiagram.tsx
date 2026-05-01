@@ -1,227 +1,213 @@
-export function OnTokenDiagram() {
-  const nodes = [
-    { id: "A", label: "起点者", sub: "ORIGIN", bg: "#0052FF", text: "#fff", accent: "#0052FF" },
-    { id: "B", label: "中継者", sub: "RELAY", bg: "#1b3a2d", text: "#52b788", accent: "#52b788" },
-    { id: "C", label: "中継者", sub: "RELAY", bg: "#1b3a2d", text: "#52b788", accent: "#52b788" },
-    { id: "D", label: "受取人", sub: "NEW", bg: "#0a2030", text: "#90e0ef", accent: "#90e0ef" },
-  ]
+import { PixelChar } from "./PixelChar"
 
+// ── チェーンノードの定義 ──
+const CHAIN = [
+  { char: "hero" as const,     role: "ORIGIN",  label: "起点者",   reward: "+5 ON/hop", color: "#0052FF",  accent: "#0052FF" },
+  { char: "warrior" as const,  role: "RELAY",   label: "中継者",   reward: "+2 ON",     color: "#e63946",  accent: "#e63946" },
+  { char: "mage" as const,     role: "RELAY",   label: "中継者",   reward: "+2 ON",     color: "#9333ea",  accent: "#9333ea" },
+  { char: "villager" as const, role: "NEW",     label: "新受取人", reward: "+1 ON",     color: "#52b788",  accent: "#52b788" },
+]
+
+function Arrow({ color }: { color: string }) {
+  return (
+    <div className="flex items-center" style={{ paddingBottom: "2.5rem" }}>
+      <span className="font-pixel text-[0.7rem]" style={{ color }}>▶</span>
+    </div>
+  )
+}
+
+export function OnTokenDiagram() {
   return (
     <div className="space-y-6">
 
-      {/* ── チェーン連鎖図 ── */}
-      <div
-        className="pixel-box p-6"
-        style={{ background: "#0f1628" }}
-      >
+      {/* ── CHAIN HOP REWARDS ── */}
+      <div className="pixel-box p-6" style={{ background: "#0f1628" }}>
         <p className="font-pixel text-[0.5rem] mb-6 text-center" style={{ color: "#0052FF" }}>
           CHAIN HOP REWARDS
         </p>
 
-        {/* ノード列 */}
-        <div className="flex items-center justify-center flex-wrap gap-0">
-          {nodes.map((node, i) => (
-            <div key={node.id} className="flex items-center">
-
-              {/* ノード */}
+        {/* キャラクター列 */}
+        <div className="flex items-end justify-center gap-1 flex-wrap">
+          {CHAIN.map((node, i) => (
+            <div key={node.role + i} className="flex items-end gap-1">
               <div className="flex flex-col items-center gap-1">
-                {/* 報酬バッジ（上） */}
+                {/* 報酬バッジ */}
                 <div
-                  className="font-pixel text-[0.42rem] px-2 py-0.5"
+                  className="font-pixel text-[0.38rem] px-1.5 py-0.5 mb-1"
                   style={{
-                    background: node.id === "A" ? "#0052FF22" : `${node.accent}22`,
+                    background: `${node.accent}22`,
                     border: `2px solid ${node.accent}`,
                     color: node.accent,
                     boxShadow: `2px 2px 0 ${node.accent}`,
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {node.id === "A" ? "+5 ON / hop" : node.id === "D" ? "+1 ON" : "+2 ON"}
+                  {node.reward}
                 </div>
-
-                {/* キャラクターボックス */}
-                <div
-                  className="w-14 h-14 flex flex-col items-center justify-center"
-                  style={{
-                    background: node.bg,
-                    border: `3px solid ${node.accent}`,
-                    boxShadow: `3px 3px 0 ${node.accent}`,
-                  }}
-                >
-                  <span className="font-pixel text-lg" style={{ color: node.text }}>
-                    {node.id}
-                  </span>
-                  <span className="font-pixel text-[0.32rem]" style={{ color: node.accent, opacity: 0.8 }}>
-                    {node.sub}
-                  </span>
-                </div>
-
-                {/* ラベル（下） */}
-                <span className="font-ja text-[0.6rem]" style={{ color: "#607080" }}>
-                  {node.label}
-                </span>
+                {/* キャラクター */}
+                <PixelChar type={node.char} scale={4} />
+                {/* ラベル */}
+                <p className="font-pixel text-[0.35rem]" style={{ color: node.accent }}>{node.role}</p>
+                <p className="font-ja text-[0.6rem]" style={{ color: "#607080" }}>{node.label}</p>
               </div>
 
               {/* 矢印 */}
-              {i < nodes.length - 1 && (
-                <div className="flex flex-col items-center px-1 mb-5">
-                  <span className="font-pixel text-[0.6rem]" style={{ color: "#1e3a5f" }}>
-                    ▶▶
-                  </span>
-                </div>
-              )}
+              {i < CHAIN.length - 1 && <Arrow color="#1e3a5f" />}
             </div>
           ))}
-
-          {/* 「続く...」 */}
-          <div className="flex items-center mb-5 ml-1">
-            <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#1e3a5f" }}>
-              ▶▶▶
-            </span>
+          {/* 続く… */}
+          <div className="flex items-center" style={{ paddingBottom: "2.5rem" }}>
+            <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#1e3a5f" }}>▶▶</span>
           </div>
         </div>
 
-        {/* ループ矢印（下） */}
-        <div className="relative mt-2 mx-4">
-          <div
-            className="font-pixel text-[0.38rem] text-center py-2 px-4"
-            style={{ border: "2px dashed #1e3a5f", color: "#2a4a6a" }}
-          >
-            ↩ 連鎖が起点 A に戻るとループ完成！
-          </div>
-        </div>
-
-        {/* 仕組み説明 */}
-        <div className="mt-4 grid grid-cols-3 gap-2">
+        {/* 役割説明 */}
+        <div className="mt-5 grid grid-cols-3 gap-2">
           {[
-            { color: "#0052FF", label: "起点者 A", desc: "チェーンが1つ伸びるたびに+5 ON獲得。一番多く溜まる。" },
-            { color: "#52b788", label: "中継者 B・C…", desc: "受け取り次の人へ渡したとき+2 ON獲得。" },
-            { color: "#90e0ef", label: "新受取人", desc: "恩送りを受け取ったとき+1 ON獲得。" },
+            { color: "#0052FF", label: "起点者",   desc: "チェーンが伸びるたびに+5 ON累積。最も多く稼げる。" },
+            { color: "#e63946", label: "中継者",   desc: "次の人へ渡したとき+2 ON獲得。" },
+            { color: "#52b788", label: "新受取人", desc: "恩送りを受け取ったとき+1 ON獲得。" },
           ].map((r) => (
-            <div
-              key={r.label}
-              className="p-2"
-              style={{ background: "#0a0a1a", border: `2px solid ${r.color}22` }}
-            >
-              <p className="font-pixel text-[0.38rem] mb-1" style={{ color: r.color }}>{r.label}</p>
+            <div key={r.label} className="p-2" style={{ background: "#0a0a1a", border: `2px solid ${r.color}33` }}>
+              <p className="font-pixel text-[0.35rem] mb-1" style={{ color: r.color }}>{r.label}</p>
               <p className="font-ja text-[0.6rem] leading-relaxed" style={{ color: "#607080" }}>{r.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── ループ完成ボーナス ── */}
+      {/* ── LOOP COMPLETE BONUS ── */}
       <div
         className="pixel-box p-6"
-        style={{
-          background: "#0f1420",
-          borderColor: "#aa8800",
-          boxShadow: "4px 4px 0 #aa8800",
-        }}
+        style={{ background: "#0f1420", borderColor: "#aa8800", boxShadow: "4px 4px 0 #aa8800" }}
       >
         <p className="font-pixel text-[0.5rem] mb-6 text-center" style={{ color: "#ffcc00" }}>
           🎉 LOOP COMPLETE BONUS
         </p>
 
-        {/* ビジュアル: ループ図 (A→B→C→D→A) */}
-        <div className="relative px-2 mb-6">
+        {/* ループ図：上段(A→B→C→D) + 下段の帰還矢印 + 起点者Aに戻る */}
+        <div className="relative">
 
-          {/* 上段: ノード列 */}
-          <div className="flex items-center justify-between">
-            {/* A（起点・左） */}
+          {/* 上段：前進チェーン */}
+          <div className="flex items-end justify-between px-2">
+
+            {/* 起点者A（出発） */}
             <div className="flex flex-col items-center gap-1">
               <div
-                className="w-12 h-12 flex items-center justify-center font-pixel text-base"
-                style={{
-                  background: "#0052FF",
-                  border: "3px solid #ffcc00",
-                  boxShadow: "3px 3px 0 #ffcc00",
-                  color: "#fff",
-                }}
-              >A</div>
-              <span className="font-pixel text-[0.36rem]" style={{ color: "#ffcc00" }}>N×10 ON</span>
-              <span className="font-pixel text-[0.32rem]" style={{ color: "#0052FF" }}>ORIGIN</span>
+                className="font-pixel text-[0.35rem] px-1.5 py-0.5"
+                style={{ border: "2px solid #0052FF", color: "#0052FF", background: "#0052FF22" }}
+              >出発</div>
+              <PixelChar type="hero" scale={4} />
+              <p className="font-pixel text-[0.35rem]" style={{ color: "#0052FF" }}>ORIGIN A</p>
             </div>
 
-            {/* 上の矢印ライン (A→B→C→D) */}
-            <div className="flex-1 flex items-center justify-center gap-1 px-1">
-              {["B", "C", "D"].map((id, i) => (
-                <div key={id} className="flex items-center gap-1">
-                  <span className="font-pixel text-[0.5rem]" style={{ color: "#aa8800" }}>▶</span>
-                  <div className="flex flex-col items-center gap-0.5">
-                    <div
-                      className="w-10 h-10 flex items-center justify-center font-pixel text-sm"
-                      style={{
-                        background: "#1b3a2d",
-                        border: "2px solid #52b788",
-                        boxShadow: "2px 2px 0 #52b788",
-                        color: "#52b788",
-                      }}
-                    >{id}</div>
-                    <span className="font-pixel text-[0.32rem]" style={{ color: "#52b788" }}>N×5 ON</span>
-                  </div>
-                </div>
-              ))}
-              {/* 「...」 */}
-              <span className="font-pixel text-[0.5rem] pixel-blink ml-1" style={{ color: "#554400" }}>▶</span>
+            {/* 中間ノード (B→C→D→...) */}
+            <div className="flex-1 flex items-center justify-center gap-1 px-2">
+              <span className="font-pixel text-[0.5rem]" style={{ color: "#aa8800" }}>▶▶</span>
+              <div className="flex gap-2">
+                {(["warrior","mage","villager"] as const).map((c, i) => (
+                  <PixelChar key={i} type={c} scale={3} />
+                ))}
+              </div>
+              <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#554400" }}>▶▶</span>
+            </div>
+
+            {/* 最後のノード（折返し） */}
+            <div className="flex flex-col items-center gap-1">
+              <div
+                className="font-pixel text-[0.35rem] px-1.5 py-0.5"
+                style={{ border: "2px solid #aa8800", color: "#aa8800", background: "#aa880022" }}
+              >折返し</div>
+              <PixelChar type="villager" scale={4} />
+              <p className="font-pixel text-[0.35rem]" style={{ color: "#aa8800" }}>LAST</p>
             </div>
           </div>
 
-          {/* ループ矢印（下のU字ライン） */}
-          <div
-            className="mt-3 mx-6 relative flex items-center justify-center"
-            style={{
-              height: 32,
-              borderLeft: "3px solid #aa8800",
-              borderRight: "3px solid #aa8800",
-              borderBottom: "3px solid #aa8800",
-            }}
-          >
-            {/* 真ん中のテキスト */}
-            <span
-              className="font-pixel text-[0.42rem] px-3 py-0.5"
-              style={{ background: "#0f1420", color: "#ffcc00", position: "relative", zIndex: 1 }}
+          {/* ↓帰還ライン */}
+          <div className="relative flex items-stretch mx-6 mt-1" style={{ height: 48 }}>
+            {/* 左端の↓→（Aの下） */}
+            <div
+              className="w-1/2"
+              style={{
+                borderLeft: "3px solid #ffcc00",
+                borderBottom: "3px solid #ffcc00",
+              }}
+            />
+            {/* 右端の↓（Lastの下） */}
+            <div
+              className="w-1/2"
+              style={{
+                borderRight: "3px solid #ffcc00",
+                borderBottom: "3px solid #ffcc00",
+              }}
+            />
+            {/* 中央ラベル */}
+            <div
+              className="absolute inset-x-0 bottom-0 flex justify-center"
+              style={{ transform: "translateY(50%)" }}
             >
-              🎉 LOOP COMPLETE!
-            </span>
-            {/* 左の矢印（Aへの帰還） */}
-            <span
-              className="font-pixel text-[0.6rem] absolute left-0 -bottom-3"
-              style={{ color: "#ffcc00", transform: "translateX(-50%)" }}
-            >▲</span>
+              <span
+                className="font-pixel text-[0.42rem] px-3 py-1"
+                style={{ background: "#0f1420", color: "#ffcc00", border: "2px solid #aa8800", whiteSpace: "nowrap" }}
+              >
+                🎉 LOOP COMPLETE!
+              </span>
+            </div>
+          </div>
+
+          {/* 起点者A（帰還・ボーナス受取） */}
+          <div className="flex flex-col items-center gap-1 mt-8">
+            {/* ▲ 矢印 */}
+            <span className="font-pixel text-[0.7rem]" style={{ color: "#ffcc00" }}>▲</span>
+
+            {/* ボーナスバッジ */}
+            <div
+              className="font-pixel text-[0.45rem] px-3 py-1 pixel-blink"
+              style={{
+                background: "#ffcc0033",
+                border: "3px solid #ffcc00",
+                boxShadow: "3px 3px 0 #ffcc00",
+                color: "#ffcc00",
+              }}
+            >
+              N × 10 ON GET!!
+            </div>
+
+            {/* キャラ（起点者・ボーナス受取） */}
+            <PixelChar type="hero" scale={5} />
+            <p className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>ORIGIN A</p>
+            <p className="font-ja text-xs" style={{ color: "#aa8800" }}>起点者は2倍のボーナス！</p>
           </div>
         </div>
 
-        {/* Nの説明 */}
+        {/* 参加者全員も受け取る */}
         <div
-          className="text-center py-3 font-ja text-sm"
-          style={{ border: "2px dashed #554400", color: "#aa8800" }}
+          className="mt-6 p-3 text-center"
+          style={{ border: "2px solid #554400", background: "#0a0a0f" }}
         >
-          <span className="font-pixel text-[0.55rem]" style={{ color: "#ffcc00" }}>N</span>
-          {" "}= ループに参加した人数が多いほど、全員の報酬が大きくなる
+          <p className="font-ja text-sm mb-1" style={{ color: "#aa8800" }}>
+            ループに参加した全員も <span className="font-pixel text-[0.5rem]" style={{ color: "#ffcc00" }}>N × 5 ON</span> 獲得
+          </p>
+          <p className="font-ja text-xs" style={{ color: "#605040" }}>
+            N = ループ参加人数（大きいほど報酬UP）
+          </p>
         </div>
 
-        {/* 例 */}
+        {/* 具体例 */}
         <div className="mt-4 grid grid-cols-3 gap-2">
           {[
-            { n: 5, origin: 50, others: 25 },
-            { n: 10, origin: 100, others: 50 },
+            { n: 5,  origin: 50,  others: 25  },
+            { n: 10, origin: 100, others: 50  },
             { n: 20, origin: 200, others: 100 },
           ].map((ex) => (
             <div
               key={ex.n}
-              className="p-3 text-center"
+              className="p-2 text-center"
               style={{ background: "#0a0a0f", border: "2px solid #554400" }}
             >
-              <p className="font-pixel text-[0.42rem] mb-2" style={{ color: "#aa8800" }}>
-                N = {ex.n}人
-              </p>
-              <p className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>
-                起点: {ex.origin} ON
-              </p>
-              <p className="font-pixel text-[0.38rem]" style={{ color: "#52b788" }}>
-                他員: {ex.others} ON
-              </p>
+              <p className="font-pixel text-[0.4rem] mb-1" style={{ color: "#aa8800" }}>N={ex.n}人</p>
+              <p className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>起点 {ex.origin}ON</p>
+              <p className="font-pixel text-[0.35rem]" style={{ color: "#52b788" }}>他員 {ex.others}ON</p>
             </div>
           ))}
         </div>
