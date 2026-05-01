@@ -16,7 +16,7 @@ export function Header() {
         <Link
           href="/"
           className="font-pixel"
-          style={{ fontSize: "0.7rem", color: "#fff", textShadow: "2px 2px 0 #0052FF" }}
+          style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
         >
           <span style={{ color: "#0052FF", textShadow: "2px 2px 0 #ffffff" }}>ON</span>LOOP
         </Link>
