@@ -24,8 +24,8 @@ export default function Home() {
           style={{ background: "rgba(6, 6, 18, 0.78)" }}
         />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+        <div className="relative z-10 max-w-5xl mx-auto px-4 pt-10 pb-16 md:pt-12 md:pb-24">
+          <div className="flex flex-col md:flex-row items-start gap-10 md:gap-16">
 
             {/* テキスト */}
             <div className="flex-1 text-center md:text-left">
