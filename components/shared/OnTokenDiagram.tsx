@@ -1,4 +1,5 @@
 import { PixelChar } from "./PixelChar"
+import { PixelIcon } from "./PixelIcon"
 import { STAGES } from "@/lib/stages"
 
 // ── チェーンノードの定義 ──
@@ -83,7 +84,7 @@ export function OnTokenDiagram() {
         style={{ background: "#0f1420", borderColor: "#aa8800", boxShadow: "4px 4px 0 #aa8800" }}
       >
         <p className="font-pixel text-[0.5rem] mb-6 text-center" style={{ color: "#ffcc00" }}>
-          🎉 LOOP COMPLETE BONUS
+          <PixelIcon type="party" scale={3} /> LOOP COMPLETE BONUS
         </p>
 
         {/* ループ図：上段(A→B→C→D) + 下段の帰還矢印 + 起点者Aに戻る */}
@@ -151,7 +152,7 @@ export function OnTokenDiagram() {
                 className="font-pixel text-[0.42rem] px-3 py-1"
                 style={{ background: "#0f1420", color: "#ffcc00", border: "2px solid #aa8800", whiteSpace: "nowrap" }}
               >
-                🎉 LOOP COMPLETE!
+                <PixelIcon type="party" scale={2} /> LOOP COMPLETE!
               </span>
             </div>
           </div>
@@ -206,7 +207,7 @@ export function OnTokenDiagram() {
                 className="p-2 flex flex-col items-center gap-1"
                 style={{ background: s.bgDark, border: `2px solid ${s.accent}`, boxShadow: `2px 2px 0 ${s.accent}` }}
               >
-                <span className="text-lg">{s.emoji}</span>
+                <PixelIcon type={s.pixelIcon} scale={3} />
                 <p className="font-pixel text-[0.45rem]" style={{ color: s.accent }}>{s.nameEn}</p>
                 <div
                   className="font-pixel text-[0.42rem] px-1"

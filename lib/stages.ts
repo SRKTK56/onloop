@@ -1,9 +1,12 @@
+import type { IconType } from "@/components/shared/PixelIcon"
+
 export type Stage = {
   id: string
   level: number
   name: string
   nameEn: string
   emoji: string
+  pixelIcon: IconType
   min: number
   max: number
   accent: string
@@ -21,7 +24,7 @@ export const STAGES: Stage[] = [
     level: 1,
     name: "村",
     nameEn: "VILLAGE",
-    emoji: "🌱",
+    emoji: "🌱", pixelIcon: "sprout" as const,
     min: 1,
     max: 4,
     accent: "#52b788",
@@ -37,7 +40,7 @@ export const STAGES: Stage[] = [
     level: 2,
     name: "街",
     nameEn: "TOWN",
-    emoji: "🏘️",
+    emoji: "🏘️", pixelIcon: "house" as const,
     min: 5,
     max: 9,
     accent: "#f4a261",
@@ -53,7 +56,7 @@ export const STAGES: Stage[] = [
     level: 3,
     name: "日本",
     nameEn: "JAPAN",
-    emoji: "🗼",
+    emoji: "🗼", pixelIcon: "torii" as const,
     min: 10,
     max: 19,
     accent: "#e63946",
@@ -69,7 +72,7 @@ export const STAGES: Stage[] = [
     level: 4,
     name: "アジア",
     nameEn: "ASIA",
-    emoji: "🌏",
+    emoji: "🌏", pixelIcon: "globe_asia" as const,
     min: 20,
     max: 34,
     accent: "#f9c74f",
@@ -85,7 +88,7 @@ export const STAGES: Stage[] = [
     level: 5,
     name: "欧米",
     nameEn: "THE WEST",
-    emoji: "🗽",
+    emoji: "🗽", pixelIcon: "tower" as const,
     min: 35,
     max: 49,
     accent: "#90e0ef",
@@ -101,7 +104,7 @@ export const STAGES: Stage[] = [
     level: 6,
     name: "世界",
     nameEn: "WORLD",
-    emoji: "🌍",
+    emoji: "🌍", pixelIcon: "world_globe" as const,
     min: 50,
     max: 74,
     accent: "#4361ee",
@@ -117,7 +120,7 @@ export const STAGES: Stage[] = [
     level: 7,
     name: "地球",
     nameEn: "EARTH",
-    emoji: "🌐",
+    emoji: "🌐", pixelIcon: "earth_grid" as const,
     min: 75,
     max: 99,
     accent: "#48cae4",
@@ -133,7 +136,7 @@ export const STAGES: Stage[] = [
     level: 8,
     name: "宇宙",
     nameEn: "SPACE",
-    emoji: "🚀",
+    emoji: "🚀", pixelIcon: "rocket" as const,
     min: 100,
     max: Infinity,
     accent: "#9b5de5",

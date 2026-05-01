@@ -1,5 +1,6 @@
 import { getStage } from "@/lib/stages"
 import { PixelChar } from "./PixelChar"
+import { PixelIcon } from "./PixelIcon"
 
 const DEMO_CHAIN_LENGTH = 12
 
@@ -67,8 +68,8 @@ export function PhoneMockup() {
               }}
             >
               <span className="font-pixel text-[0.6rem]" style={{ color: stage.accent }}>ONLOOP</span>
-              <span className="font-pixel text-[0.55rem]" style={{ color: "#fff" }}>
-                {stage.emoji} {stage.nameEn}
+              <span className="font-pixel text-[0.55rem] flex items-center gap-1" style={{ color: "#fff" }}>
+                <PixelIcon type={stage.pixelIcon} scale={2} /> {stage.nameEn}
               </span>
             </div>
 
@@ -157,7 +158,7 @@ export function PhoneMockup() {
               style={{ background: "rgba(0,0,0,0.75)", border: `2px solid ${stage.accent}88` }}
             >
               <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
-                {stage.emoji} {stage.nameEn} LOOP ×{stage.loopMultiplier}
+                <PixelIcon type={stage.pixelIcon} scale={2} /> {stage.nameEn} LOOP ×{stage.loopMultiplier}
               </p>
               <p className="font-ja text-[0.65rem] mt-0.5" style={{ color: "#c0d0e0" }}>
                 🎉 起点者に N×{10 * stage.loopMultiplier} ON
