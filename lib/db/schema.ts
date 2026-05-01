@@ -68,4 +68,5 @@ export const interviews = pgTable("interviews", {
   requestedAt: timestamp("requested_at").notNull().defaultNow(),
   scheduledAt: timestamp("scheduled_at"),
   status: text("status").notNull().default("requested"), // requested | confirmed | completed
+  notes: text("notes"),  // 面談URL・メモ
 })

@@ -131,7 +131,6 @@ export function ProviderApplyForm() {
     bio: "",
     serviceTitle: "",
     serviceDescription: "",
-    interviewRequested: false,
   })
 
   // ユーザー名を取得
@@ -295,24 +294,6 @@ export function ProviderApplyForm() {
             className={`font-ja ${focusStyle}`}
             style={inputStyle}
           />
-        </div>
-
-        {/* 面談希望 */}
-        <div
-          className="flex items-center gap-3 p-4"
-          style={{ background: "#060610", border: "2px solid #1a2a3a" }}
-        >
-          <input
-            type="checkbox"
-            id="interview"
-            checked={form.interviewRequested}
-            onChange={(e) => setForm({ ...form, interviewRequested: e.target.checked })}
-            className="w-4 h-4 cursor-pointer"
-            style={{ accentColor: "#0052FF" }}
-          />
-          <Label htmlFor="interview" className="cursor-pointer font-ja font-normal text-sm" style={{ color: "#90a0b8" }}>
-            運営との面談を希望する（任意）
-          </Label>
         </div>
 
         {/* 送信 */}
