@@ -16,7 +16,17 @@ export function WalletButton() {
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [connectError, setConnectError] = useState<string | null>(null)
+  const [displayName, setDisplayName] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+
+  // 接続後にユーザー名を取得
+  useEffect(() => {
+    if (!address) { setDisplayName(null); return }
+    fetch(`/api/profile?wallet=${address}`)
+      .then((r) => r.json())
+      .then((d) => setDisplayName(d.profile?.displayName ?? null))
+      .catch(() => setDisplayName(null))
+  }, [address])
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -52,7 +62,9 @@ export function WalletButton() {
           )}
         >
           <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
-          <span className="font-mono">{shortAddr(address)}</span>
+          <span className={displayName ? "font-ja" : "font-mono"}>
+            {displayName ?? shortAddr(address)}
+          </span>
         </button>
         {open && (
           <div className="absolute right-0 mt-1 w-48 rounded-xl border bg-background shadow-lg py-1 z-50">
@@ -108,7 +120,7 @@ export function WalletButton() {
           isPending && "opacity-60 cursor-not-allowed"
         )}
       >
-        {isPending ? "接続中..." : "ウォレット接続"}
+        {isPending ? "接続中..." : "参加する"}
       </button>
       {connectError && (
         <p className="text-xs text-destructive max-w-48 text-right leading-tight">
