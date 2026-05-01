@@ -103,14 +103,14 @@ export function OnTokenDiagram() {
             </div>
 
             {/* 中間ノード (B→C→D→...) */}
-            <div className="flex-1 flex items-center justify-center gap-1 px-2">
-              <span className="font-pixel text-[0.5rem]" style={{ color: "#aa8800" }}>▶▶</span>
-              <div className="flex gap-2">
+            <div className="flex-1 flex items-center justify-center gap-2 px-2">
+              <span className="font-pixel text-[0.6rem]" style={{ color: "#aa8800" }}>▶▶</span>
+              <div className="flex gap-3 items-end">
                 {(["warrior","mage","villager"] as const).map((c, i) => (
-                  <PixelChar key={i} type={c} scale={3} />
+                  <PixelChar key={i} type={c} scale={5} />
                 ))}
               </div>
-              <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#806600" }}>▶▶</span>
+              <span className="font-pixel text-[0.6rem] pixel-blink" style={{ color: "#806600" }}>▶▶</span>
             </div>
 
             {/* 最後のノード（折返し） */}

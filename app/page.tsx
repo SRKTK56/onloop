@@ -36,14 +36,14 @@ export default function Home() {
                 textShadow: "4px 4px 0 #0052FF",
               }}
             >
-              <span style={{ color: "#0052FF" }}>ON</span>LOOP
+              <span style={{ color: "#0052FF", textShadow: "4px 4px 0 #ffffff" }}>ON</span>LOOP
             </h1>
 
-            <p className="font-ja text-xl mb-4 leading-relaxed" style={{ color: "#c0d0e8" }}>
+            <p className="font-ja text-2xl mb-4 leading-relaxed" style={{ color: "#c0d0e8" }}>
               恩送りが繋がり、<br />
               <span style={{ color: "#4d8aff" }}>ループ</span>して戻ってくる。
             </p>
-            <p className="font-ja text-base mb-8 leading-relaxed" style={{ color: "#8095aa" }}>
+            <p className="font-ja text-lg mb-8 leading-relaxed" style={{ color: "#8095aa" }}>
               写真・企画・料理——お金なしで好意が連鎖し、<br />
               チェーンが長くなるほど全員の報酬が増える。
             </p>

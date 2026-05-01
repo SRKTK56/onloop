@@ -17,7 +17,7 @@ export function Header() {
           className="font-pixel"
           style={{ fontSize: "0.7rem", color: "#fff", textShadow: "2px 2px 0 #0052FF" }}
         >
-          <span style={{ color: "#0052FF" }}>ON</span>LOOP
+          <span style={{ color: "#0052FF", textShadow: "2px 2px 0 #ffffff" }}>ON</span>LOOP
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/menu" className="nav-link font-ja text-sm">
