@@ -9,66 +9,94 @@ export default function Home() {
     <div className="min-h-[calc(100vh-3.5rem)]" style={{ background: "#0a0a1a" }}>
 
       {/* ── HERO ── */}
-      <section className="max-w-5xl mx-auto px-4 py-12 md:py-20">
-        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+      <section
+        className="relative overflow-hidden"
+        style={{
+          backgroundImage: "url(/stages/1_village.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* 透かしオーバーレイ */}
+        <div
+          className="absolute inset-0"
+          style={{ background: "rgba(6, 6, 18, 0.78)" }}
+        />
 
-          {/* テキスト */}
-          <div className="flex-1 text-center md:text-left">
-            {/* タイトルバー */}
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.6rem]"
-              style={{
-                background: "#0052FF22",
-                border: "2px solid #0052FF",
-                color: "#0052FF",
-                boxShadow: "3px 3px 0 #0052FF",
-              }}
-            >
-              ▸ BUILT ON BASE BLOCKCHAIN
+        <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 md:py-24">
+          <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+
+            {/* テキスト */}
+            <div className="flex-1 text-center md:text-left">
+              {/* タイトルバー */}
+              <div
+                className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.6rem]"
+                style={{
+                  background: "rgba(0, 82, 255, 0.25)",
+                  border: "2px solid #0052FF",
+                  color: "#7ab0ff",
+                  boxShadow: "3px 3px 0 #0052FF",
+                }}
+              >
+                ▸ BUILT ON BASE BLOCKCHAIN
+              </div>
+
+              {/* メインタイトル */}
+              <h1
+                className="font-pixel mb-6 leading-loose"
+                style={{
+                  fontSize: "clamp(1.4rem, 4vw, 2.2rem)",
+                  color: "#ffffff",
+                  textShadow: "4px 4px 0 #0052FF",
+                }}
+              >
+                <span style={{ color: "#0052FF", textShadow: "4px 4px 0 #ffffff" }}>ON</span>LOOP
+              </h1>
+
+              <p className="font-ja text-2xl mb-4 leading-relaxed" style={{ color: "#e8f0ff" }}>
+                恩送りが繋がり、<br />
+                <span style={{ color: "#7ab0ff" }}>ループ</span>して戻ってくる。
+              </p>
+              <p className="font-ja text-lg mb-10 leading-relaxed" style={{ color: "#a8c0d8" }}>
+                写真・企画・料理——お金なしで好意が連鎖し、<br />
+                チェーンが長くなるほど全員の報酬が増える。
+              </p>
+
+              <div className="flex gap-5 flex-wrap justify-center md:justify-start">
+                <Link
+                  href="/menu"
+                  className="pixel-btn font-pixel"
+                  style={{
+                    background: "#0052FF",
+                    color: "#fff",
+                    borderColor: "#000",
+                    padding: "1rem 2rem",
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  ▸ メニューを見る
+                </Link>
+                <Link
+                  href="/provider/apply"
+                  className="pixel-btn font-pixel"
+                  style={{
+                    background: "rgba(0,0,0,0.6)",
+                    color: "#7ab0ff",
+                    borderColor: "#0052FF",
+                    boxShadow: "4px 4px 0 #0052FF",
+                    padding: "1rem 2rem",
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  ▸ ギバー登録
+                </Link>
+              </div>
             </div>
 
-            {/* メインタイトル */}
-            <h1
-              className="font-pixel mb-6 leading-loose"
-              style={{
-                fontSize: "clamp(1.4rem, 4vw, 2.2rem)",
-                color: "#ffffff",
-                textShadow: "4px 4px 0 #0052FF",
-              }}
-            >
-              <span style={{ color: "#0052FF", textShadow: "4px 4px 0 #ffffff" }}>ON</span>LOOP
-            </h1>
-
-            <p className="font-ja text-2xl mb-4 leading-relaxed" style={{ color: "#c0d0e8" }}>
-              恩送りが繋がり、<br />
-              <span style={{ color: "#4d8aff" }}>ループ</span>して戻ってくる。
-            </p>
-            <p className="font-ja text-lg mb-8 leading-relaxed" style={{ color: "#8095aa" }}>
-              写真・企画・料理——お金なしで好意が連鎖し、<br />
-              チェーンが長くなるほど全員の報酬が増える。
-            </p>
-
-            <div className="flex gap-4 flex-wrap justify-center md:justify-start">
-              <Link
-                href="/menu"
-                className="pixel-btn px-6 py-3 font-pixel text-[0.65rem]"
-                style={{ background: "#0052FF", color: "#fff", borderColor: "#000" }}
-              >
-                ▸ メニューを見る
-              </Link>
-              <Link
-                href="/provider/apply"
-                className="pixel-btn px-6 py-3 font-pixel text-[0.65rem]"
-                style={{ background: "#0a0a1a", color: "#0052FF", borderColor: "#0052FF", boxShadow: "4px 4px 0 #0052FF" }}
-              >
-                ▸ ギバー登録
-              </Link>
+            {/* スマホモックアップ */}
+            <div className="shrink-0">
+              <PhoneMockup />
             </div>
-          </div>
-
-          {/* スマホモックアップ（アニメーションなし） */}
-          <div className="shrink-0">
-            <PhoneMockup />
           </div>
         </div>
       </section>
