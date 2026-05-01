@@ -55,9 +55,9 @@ const HERO: Grid = [
 const MAGE: Grid = [
   [null,null,"#6a0dad","#6a0dad","#6a0dad",null,null,null],
   [null,"#8b5cf6","#8b5cf6","#8b5cf6","#8b5cf6","#8b5cf6",null,null],
-  [null,null,sk,sk,sk,sk,null,null],
-  [null,null,sk,ey,ey,sk,null,null],
-  [null,null,sk,sk,mo,sk,null,null],
+  [null,sk,sk,sk,sk,sk,sk,null],
+  [null,sk,ey,sk,sk,ey,sk,null],   // 目を2つ・間隔あり
+  [null,sk,sk,mo,mo,sk,sk,null],   // 口を中央に
   [null,"#6a0dad","#6a0dad","#6a0dad","#6a0dad","#6a0dad","#6a0dad",null],
   ["#6a0dad","#6a0dad","#9333ea","#6a0dad","#6a0dad","#9333ea","#6a0dad","#6a0dad"],
   ["#6a0dad","#9333ea","#9333ea","#9333ea","#9333ea","#9333ea","#9333ea","#6a0dad"],
@@ -87,9 +87,9 @@ const WARRIOR: Grid = [
 const VILLAGER: Grid = [
   [null,null,"#5d3010","#5d3010","#5d3010",null,null,null],
   [null,"#5d3010","#5d3010","#5d3010","#5d3010","#5d3010",null,null],
-  [null,sk,sk,sk,sk,sk,null,null],
-  [null,sk,ey,sk,sk,ey,null,null],
-  [null,sk,sk,sk,mo,sk,null,null],
+  [null,sk,sk,sk,sk,sk,sk,null],
+  [null,sk,ey,sk,sk,ey,sk,null],   // 目を2つ・勇者と同じ配置
+  [null,sk,sk,mo,mo,sk,sk,null],   // 口を中央に
   [null,"#2d6a4f","#2d6a4f","#2d6a4f","#2d6a4f","#2d6a4f","#2d6a4f",null],
   ["#2d6a4f","#2d6a4f","#52b788","#2d6a4f","#2d6a4f","#52b788","#2d6a4f","#2d6a4f"],
   ["#2d6a4f","#52b788","#52b788","#52b788","#52b788","#52b788","#52b788","#2d6a4f"],

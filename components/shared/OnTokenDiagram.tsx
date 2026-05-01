@@ -1,4 +1,5 @@
 import { PixelChar } from "./PixelChar"
+import { STAGES } from "@/lib/stages"
 
 // ── チェーンノードの定義 ──
 const CHAIN = [
@@ -189,27 +190,39 @@ export function OnTokenDiagram() {
             ループに参加した全員も <span className="font-pixel text-[0.5rem]" style={{ color: "#ffcc00" }}>N × 5 ON</span> 獲得
           </p>
           <p className="font-ja text-xs" style={{ color: "#605040" }}>
-            N = ループ参加人数（大きいほど報酬UP）
+            N = ループ参加人数 ／ ステージが上がるほど倍率UP！
           </p>
         </div>
 
-        {/* 具体例 */}
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          {[
-            { n: 5,  origin: 50,  others: 25  },
-            { n: 10, origin: 100, others: 50  },
-            { n: 20, origin: 200, others: 100 },
-          ].map((ex) => (
-            <div
-              key={ex.n}
-              className="p-2 text-center"
-              style={{ background: "#0a0a0f", border: "2px solid #554400" }}
-            >
-              <p className="font-pixel text-[0.4rem] mb-1" style={{ color: "#aa8800" }}>N={ex.n}人</p>
-              <p className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>起点 {ex.origin}ON</p>
-              <p className="font-pixel text-[0.35rem]" style={{ color: "#52b788" }}>他員 {ex.others}ON</p>
-            </div>
-          ))}
+        {/* ── ステージ別ループ倍率テーブル ── */}
+        <div className="mt-4">
+          <p className="font-pixel text-[0.45rem] mb-3 text-center" style={{ color: "#aa8800" }}>
+            STAGE LOOP MULTIPLIER
+          </p>
+          <div className="grid grid-cols-4 gap-1.5">
+            {STAGES.map((s) => (
+              <div
+                key={s.id}
+                className="p-2 flex flex-col items-center gap-1"
+                style={{ background: s.bgDark, border: `2px solid ${s.accent}`, boxShadow: `2px 2px 0 ${s.accent}` }}
+              >
+                <span className="text-lg">{s.emoji}</span>
+                <p className="font-pixel text-[0.32rem]" style={{ color: s.accent }}>{s.nameEn}</p>
+                <div
+                  className="font-pixel text-[0.42rem] px-1"
+                  style={{ background: `${s.accent}22`, color: "#ffcc00" }}
+                >
+                  ×{s.loopMultiplier}
+                </div>
+                <p className="font-pixel text-[0.28rem] text-center leading-relaxed" style={{ color: s.accent }}>
+                  起点<br />{10 * s.loopMultiplier}N ON
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="font-ja text-center text-xs mt-3" style={{ color: "#405060" }}>
+            宇宙ステージでは起点者が <span className="font-pixel text-[0.45rem]" style={{ color: "#9b5de5" }}>N×200 ON</span> を獲得！
+          </p>
         </div>
       </div>
     </div>
