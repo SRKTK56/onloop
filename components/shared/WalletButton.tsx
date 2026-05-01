@@ -10,15 +10,15 @@ function shortAddr(addr: string) {
 
 export function WalletButton() {
   const { address, isConnected } = useAccount()
-  const { connect, connectors, isPending } = useConnect()
+  const { connect, connectors, isPending, error } = useConnect()
   const { disconnect } = useDisconnect()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
+  const [connectError, setConnectError] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setMounted(true) }, [])
 
-  // クリック外でドロップダウンを閉じる
   useEffect(() => {
     if (!open) return
     function handler(e: MouseEvent) {
@@ -30,7 +30,11 @@ export function WalletButton() {
     return () => document.removeEventListener("mousedown", handler)
   }, [open])
 
-  // SSR中はスペースを確保するだけ（レイアウトシフト防止）
+  // wagmiのerrorも表示
+  useEffect(() => {
+    if (error) setConnectError(error.message)
+  }, [error])
+
   if (!mounted) {
     return <div className="h-8 w-28 rounded-lg" />
   }
@@ -66,18 +70,45 @@ export function WalletButton() {
     )
   }
 
+  // 利用可能なコネクターを全て表示できるよう準備
+  const availableConnectors = connectors.filter(Boolean)
+
+  function handleConnect() {
+    setConnectError(null)
+    if (availableConnectors.length === 0) {
+      setConnectError("利用可能なウォレットが見つかりません")
+      return
+    }
+    connect(
+      { connector: availableConnectors[0] },
+      {
+        onError: (err) => {
+          console.error("[WalletButton] connect error:", err)
+          setConnectError(err.message)
+        },
+      }
+    )
+  }
+
   // 未接続
   return (
-    <button
-      onClick={() => connect({ connector: connectors[0] })}
-      disabled={isPending}
-      className={cn(
-        "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
-        "bg-primary text-primary-foreground hover:bg-primary/90",
-        isPending && "opacity-60 cursor-not-allowed"
+    <div className="flex flex-col items-end gap-1">
+      <button
+        onClick={handleConnect}
+        disabled={isPending}
+        className={cn(
+          "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
+          "bg-primary text-primary-foreground hover:bg-primary/90",
+          isPending && "opacity-60 cursor-not-allowed"
+        )}
+      >
+        {isPending ? "接続中..." : "ウォレット接続"}
+      </button>
+      {connectError && (
+        <p className="text-xs text-destructive max-w-48 text-right leading-tight">
+          {connectError}
+        </p>
       )}
-    >
-      {isPending ? "接続中..." : "ウォレット接続"}
-    </button>
+    </div>
   )
 }
