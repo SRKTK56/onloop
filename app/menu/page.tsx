@@ -2,16 +2,10 @@ import { db } from "@/lib/db"
 import { providers, userProfiles } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import Link from "next/link"
-import { PixelChar, type CharType } from "@/components/shared/PixelChar"
+import { MenuGrid } from "@/components/provider/MenuGrid"
+
 
 export const dynamic = "force-dynamic"
-
-// ウォレットアドレスから毎回同じキャラを返す（ランダムだが一意）
-const CHARS: CharType[] = ["hero", "warrior", "mage", "villager"]
-function charForWallet(wallet: string): CharType {
-  const sum = wallet.toLowerCase().split("").reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  return CHARS[sum % CHARS.length]
-}
 
 async function getApprovedProviders() {
   return db
@@ -19,11 +13,11 @@ async function getApprovedProviders() {
       id: providers.id,
       walletAddress: providers.walletAddress,
       name: providers.name,
-      serviceImageUrl: providers.avatarUrl,      // サービス画像
+      serviceImageUrl: providers.avatarUrl,
       serviceTitle: providers.serviceTitle,
       serviceDescription: providers.serviceDescription,
       status: providers.status,
-      profileAvatarUrl: userProfiles.avatarUrl,  // プロフィールアイコン
+      profileAvatarUrl: userProfiles.avatarUrl,
     })
     .from(providers)
     .leftJoin(userProfiles, eq(providers.walletAddress, userProfiles.walletAddress))
@@ -111,111 +105,7 @@ export default async function MenuPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {approvedProviders.map((provider) => {
-              const charType = charForWallet(provider.walletAddress)
-
-              return (
-                <div
-                  key={provider.id}
-                  className="pixel-box flex flex-col overflow-hidden"
-                  style={{ background: "#0f1628" }}
-                >
-                  {/* サービス画像エリア（overflow-hiddenなし → アバターが見切れない） */}
-                  <div
-                    className="h-32 flex items-center justify-center relative"
-                    style={{ background: "#060610" }}
-                  >
-                    {/* 画像だけを別コンテナでクリップ */}
-                    <div className="absolute inset-0 overflow-hidden">
-                      {provider.serviceImageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={provider.serviceImageUrl}
-                          alt={provider.name ?? ""}
-                          className="w-full h-full object-cover"
-                          style={{ imageRendering: "pixelated" }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-5xl opacity-20">🙌</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* プロフィールアイコン（カバー外にはみ出してOK） */}
-                    <div
-                      className="absolute -bottom-6 left-4 w-12 h-12 flex items-center justify-center overflow-hidden z-10"
-                      style={{
-                        border: "3px solid #0052FF",
-                        boxShadow: "3px 3px 0 #0052FF",
-                        background: "#0a0a1a",
-                      }}
-                    >
-                      {provider.profileAvatarUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={provider.profileAvatarUrl}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <PixelChar type={charType} scale={4} />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* 情報 */}
-                  <div className="pt-8 px-4 pb-4 flex flex-col gap-3 flex-1">
-                    <div>
-                      <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
-                        {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
-                      </p>
-                      <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>
-                        {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
-                      </p>
-                    </div>
-
-                    <div>
-                      <span
-                        className="font-pixel text-[0.72rem] px-2 py-0.5 mb-1.5 inline-block"
-                        style={{
-                          background: "#0052FF22",
-                          border: "2px solid #0052FF",
-                          color: "#7ab0ff",
-                        }}
-                      >
-                        提供できること
-                      </span>
-                      <p className="font-ja font-medium text-sm" style={{ color: "#c0d0e8" }}>
-                        {provider.serviceTitle}
-                      </p>
-                    </div>
-
-                    <p className="font-ja text-sm leading-relaxed line-clamp-3" style={{ color: "#607080" }}>
-                      {provider.serviceDescription}
-                    </p>
-
-                    <Link
-                      href={`/offer/${provider.id}`}
-                      className="pixel-btn font-pixel text-center mt-auto"
-                      style={{
-                        background: "#0a0a1a",
-                        color: "#7ab0ff",
-                        borderColor: "#0052FF",
-                        boxShadow: "3px 3px 0 #0052FF",
-                        padding: "0.6rem 1rem",
-                        fontSize: "0.72rem",
-                        display: "block",
-                      }}
-                    >
-                      ▸ 恩送りをお願いする
-                    </Link>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+          <MenuGrid providers={approvedProviders} />
         )}
       </div>
     </div>
