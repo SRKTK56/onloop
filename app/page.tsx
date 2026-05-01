@@ -59,8 +59,7 @@ export default function Home() {
                 <span style={{ color: "#7ab0ff" }}>ループ</span>して戻ってくる。
               </p>
               <p className="font-ja text-lg mb-10 leading-relaxed" style={{ color: "#a8c0d8" }}>
-                写真・企画・料理——お金なしで好意が連鎖し、<br />
-                チェーンが長くなるほど全員の報酬が増える。
+                写真を撮る・企画を手伝う・料理を振る舞う——など、金銭を介さない好意（GIVE）の連鎖をゲームのように楽しむアプリ。連鎖を長くすること、連鎖をループさせることで獲得できるON（恩）トークンがUP！
               </p>
 
               <div className="flex gap-5 flex-wrap justify-center md:justify-start">
@@ -75,37 +74,9 @@ export default function Home() {
                     fontSize: "0.85rem",
                   }}
                 >
-                  ▸ メニューを見る
-                </Link>
-                <Link
-                  href="/provider/apply"
-                  className="pixel-btn font-pixel"
-                  style={{
-                    background: "rgba(0,0,0,0.6)",
-                    color: "#7ab0ff",
-                    borderColor: "#0052FF",
-                    boxShadow: "4px 4px 0 #0052FF",
-                    padding: "1rem 2rem",
-                    fontSize: "0.85rem",
-                  }}
-                >
-                  ▸ ギバー登録
+                  ▸ 恩送りメニューを見る
                 </Link>
               </div>
-
-              {/* ウォレット未所持ユーザー向け */}
-              <p className="font-ja text-sm mt-5" style={{ color: "#506070" }}>
-                ウォレットをお持ちでない方は
-                <a
-                  href="https://base.app/invite/onloop/6JY26BX1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "#7ab0ff", textDecoration: "underline", textUnderlineOffset: "3px" }}
-                >
-                  こちらから無料作成
-                </a>
-                できます
-              </p>
             </div>
 
             {/* スマホモックアップ */}
