@@ -31,7 +31,7 @@ export default function Home() {
             <div className="flex-1 text-center md:text-left">
               {/* タイトルバー */}
               <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.6rem]"
+                className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.82rem]"
                 style={{
                   background: "rgba(0, 82, 255, 0.25)",
                   border: "2px solid #0052FF",
@@ -118,7 +118,7 @@ export default function Home() {
               { step: "03", icon: "🎉", title: "ループ完成",   desc: "連鎖が起点に戻ったとき、全員にONトークンのボーナスが降り注ぐ。" },
             ].map((item) => (
               <div key={item.step} className="pixel-box p-6" style={{ background: "#0f1628" }}>
-                <div className="font-pixel text-[0.6rem] mb-3" style={{ color: "#0052FF" }}>
+                <div className="font-pixel text-[0.82rem] mb-3" style={{ color: "#0052FF" }}>
                   STEP {item.step}
                 </div>
                 <div className="text-3xl mb-3">{item.icon}</div>
@@ -175,13 +175,13 @@ export default function Home() {
                   }}
                 />
                 <div className="p-3 flex flex-col gap-1.5" style={{ background: stage.bgDark }}>
-                  <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
+                  <p className="font-pixel text-[0.72rem]" style={{ color: stage.accent }}>
                     STAGE {stage.level} · {stage.nameEn}
                   </p>
                   <p className="font-ja font-bold text-sm" style={{ color: "#e8eeff" }}>
                     {stage.emoji} {stage.name}
                   </p>
-                  <p className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
+                  <p className="font-pixel text-[0.85rem]" style={{ color: stage.accent }}>
                     {stage.max === Infinity ? `${stage.min}+ 連鎖` : `${stage.min}〜${stage.max} 連鎖`}
                   </p>
                 </div>
@@ -207,7 +207,7 @@ export default function Home() {
         </p>
         <Link
           href="/menu"
-          className="pixel-btn inline-flex px-7 py-3.5 font-pixel text-[0.65rem]"
+          className="pixel-btn inline-flex px-7 py-3.5 font-pixel text-[0.85rem]"
           style={{ background: "#fff", color: "#0052FF", borderColor: "#000" }}
         >
           ▸ START GAME →

@@ -43,7 +43,7 @@ function PixelTabs({ tabs, active, onChange }: {
           onClick={() => onChange(tab.key)}
           className="flex-1 font-pixel py-3 transition-colors"
           style={{
-            fontSize: "0.5rem",
+            fontSize: "0.72rem",
             color: active === tab.key ? "#0052FF" : "#506070",
             background: active === tab.key ? "#0a1628" : "transparent",
             borderBottom: active === tab.key ? "3px solid #0052FF" : "3px solid transparent",
@@ -61,7 +61,7 @@ function PixelTabs({ tabs, active, onChange }: {
 function StatusBadge({ confirmed }: { confirmed: boolean }) {
   return (
     <span
-      className="font-pixel text-[0.42rem] px-2 py-0.5 shrink-0"
+      className="font-pixel text-[0.85rem] px-2 py-0.5 shrink-0"
       style={{
         background: confirmed ? "#052a10" : "#2a1a00",
         border: `2px solid ${confirmed ? "#52b788" : "#aa8800"}`,
@@ -119,7 +119,7 @@ export function ProfileView() {
         className="pixel-box text-center py-16 space-y-6"
         style={{ background: "#0f1628" }}
       >
-        <p className="font-pixel text-[0.6rem]" style={{ color: "#3a6080" }}>
+        <p className="font-pixel text-[0.82rem]" style={{ color: "#3a6080" }}>
           WALLET NOT CONNECTED
         </p>
         <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
@@ -167,7 +167,7 @@ export function ProfileView() {
           {/* 名前・アドレス */}
           <div className="flex-1 space-y-3 min-w-48">
             <div className="space-y-1.5">
-              <p className="font-pixel text-[0.45rem]" style={{ color: "#506070" }}>DISPLAY NAME</p>
+              <p className="font-pixel text-[0.85rem]" style={{ color: "#506070" }}>DISPLAY NAME</p>
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
@@ -191,7 +191,7 @@ export function ProfileView() {
                 color: "#fff",
                 borderColor: "#000",
                 padding: "0.5rem 1rem",
-                fontSize: "0.5rem",
+                fontSize: "0.72rem",
                 opacity: saving ? 0.6 : 1,
               }}
             >
@@ -204,15 +204,15 @@ export function ProfileView() {
             className="pixel-box p-4 text-right"
             style={{ background: "#060610", borderColor: "#0052FF", boxShadow: "3px 3px 0 #0052FF" }}
           >
-            <p className="font-pixel text-[0.45rem] mb-1" style={{ color: "#506070" }}>ON BALANCE</p>
+            <p className="font-pixel text-[0.85rem] mb-1" style={{ color: "#506070" }}>ON BALANCE</p>
             <p className="font-pixel" style={{ fontSize: "1.8rem", color: "#0052FF", textShadow: "3px 3px 0 #ffffff" }}>
               {data.balance}
             </p>
-            <p className="font-pixel text-[0.5rem]" style={{ color: "#3a6080" }}>ON TOKEN</p>
+            <p className="font-pixel text-[0.72rem]" style={{ color: "#3a6080" }}>ON TOKEN</p>
             <div className="mt-3 space-y-1">
-              <p className="font-pixel text-[0.4rem]" style={{ color: "#405060" }}>送った恩: {sentNodes.length}</p>
-              <p className="font-pixel text-[0.4rem]" style={{ color: "#405060" }}>受けた恩: {receivedNodes.length}</p>
-              <p className="font-pixel text-[0.4rem]" style={{ color: "#405060" }}>起点: {data.originChains.length}</p>
+              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>送った恩: {sentNodes.length}</p>
+              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>受けた恩: {receivedNodes.length}</p>
+              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>起点: {data.originChains.length}</p>
             </div>
           </div>
         </div>
@@ -224,7 +224,7 @@ export function ProfileView() {
           className="pixel-box p-4 space-y-3"
           style={{ background: "#1a1000", borderColor: "#aa8800", boxShadow: "4px 4px 0 #aa8800" }}
         >
-          <p className="font-pixel text-[0.55rem]" style={{ color: "#ffcc00" }}>
+          <p className="font-pixel text-[0.9rem]" style={{ color: "#ffcc00" }}>
             ⚡ 承認待ち {pendingNodes.length} 件
           </p>
           {pendingNodes.map((node) => (
@@ -274,7 +274,7 @@ export function ProfileView() {
           {activeTab === "chains" && (
             data.nodes.length === 0 ? (
               <div className="text-center py-10 space-y-4">
-                <p className="font-pixel text-[0.5rem]" style={{ color: "#304050" }}>NO CHAIN HISTORY</p>
+                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO CHAIN HISTORY</p>
                 <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ恩送りに参加していません。</p>
                 <Link href="/menu" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "font-ja")}>
                   メニューから始める
@@ -295,14 +295,14 @@ export function ProfileView() {
                       {node.description}
                     </p>
                     <div className="flex items-center gap-2">
-                      <span className="font-pixel text-[0.4rem]" style={{ color: "#3a5a7a" }}>
+                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
                         CHAIN #{node.chainId}
                       </span>
-                      <span className="font-pixel text-[0.4rem]" style={{ color: "#3a5a7a" }}>·</span>
+                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>·</span>
                       <span className="font-ja text-xs" style={{ color: "#506070" }}>
                         {node.giverWallet === address ? "🌱 送った" : "🤝 受けた"}
                       </span>
-                      <span className="font-pixel text-[0.4rem]" style={{ color: "#3a5a7a" }}>
+                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
                         POS.{node.position + 1}
                       </span>
                     </div>
@@ -317,7 +317,7 @@ export function ProfileView() {
           {activeTab === "origin" && (
             data.originChains.length === 0 ? (
               <div className="text-center py-10 space-y-4">
-                <p className="font-pixel text-[0.5rem]" style={{ color: "#304050" }}>NO ORIGIN CHAINS</p>
+                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO ORIGIN CHAINS</p>
                 <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ連鎖を起こしていません。</p>
                 <Link href="/menu" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "font-ja")}>
                   恩送りを始める
@@ -337,7 +337,7 @@ export function ProfileView() {
                     onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#0a1a4a")}
                   >
                     <div className="space-y-1">
-                      <p className="font-pixel text-[0.5rem]" style={{ color: "#7ab0ff" }}>
+                      <p className="font-pixel text-[0.72rem]" style={{ color: "#7ab0ff" }}>
                         CHAIN #{chain.id}
                       </p>
                       <p className="font-ja text-xs" style={{ color: "#506070" }}>
@@ -345,7 +345,7 @@ export function ProfileView() {
                       </p>
                     </div>
                     <span
-                      className="font-pixel text-[0.42rem] px-2 py-0.5"
+                      className="font-pixel text-[0.85rem] px-2 py-0.5"
                       style={{ background: "#0a1628", border: "2px solid #0052FF", color: "#0052FF" }}
                     >
                       🌱 起点
@@ -375,17 +375,17 @@ export function ProfileView() {
                     </p>
                     <div className="flex gap-3">
                       {tx.chainId && (
-                        <p className="font-pixel text-[0.4rem]" style={{ color: "#3a5a7a" }}>
+                        <p className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
                           CHAIN #{tx.chainId}
                         </p>
                       )}
-                      <p className="font-pixel text-[0.4rem]" style={{ color: "#3a5a7a" }}>
+                      <p className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
                         {new Date(tx.createdAt).toLocaleDateString("ja-JP")}
                       </p>
                     </div>
                   </div>
                   <span
-                    className="font-pixel text-[0.55rem] shrink-0"
+                    className="font-pixel text-[0.9rem] shrink-0"
                     style={{ color: "#0052FF", textShadow: "2px 2px 0 #ffffff" }}
                   >
                     +{tx.amount} ON

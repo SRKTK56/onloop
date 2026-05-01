@@ -67,8 +67,8 @@ export function PhoneMockup() {
                 backdropFilter: "blur(4px)",
               }}
             >
-              <span className="font-pixel text-[0.6rem]" style={{ color: stage.accent }}>ONLOOP</span>
-              <span className="font-pixel text-[0.55rem]" style={{ color: "#fff" }}>
+              <span className="font-pixel text-[0.82rem]" style={{ color: stage.accent }}>ONLOOP</span>
+              <span className="font-pixel text-[0.9rem]" style={{ color: "#fff" }}>
                 {stage.emoji} {stage.nameEn}
               </span>
             </div>
@@ -78,7 +78,7 @@ export function PhoneMockup() {
               className="flex items-center gap-1.5 px-2 py-1"
               style={{ background: "rgba(0,0,0,0.6)" }}
             >
-              <span className="font-pixel text-[0.45rem]" style={{ color: "#90a0b0" }}>EXP</span>
+              <span className="font-pixel text-[0.85rem]" style={{ color: "#90a0b0" }}>EXP</span>
               <div className="flex-1 h-2.5 border border-gray-600" style={{ background: "#111" }}>
                 <div
                   className="h-full"
@@ -88,7 +88,7 @@ export function PhoneMockup() {
                   }}
                 />
               </div>
-              <span className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
+              <span className="font-pixel text-[0.85rem]" style={{ color: stage.accent }}>
                 {DEMO_CHAIN_LENGTH}/{stage.max}
               </span>
             </div>
@@ -119,24 +119,24 @@ export function PhoneMockup() {
                     <p className="font-ja text-xs font-bold truncate" style={{ color: "#ffffff" }}>
                       {node.label}
                       {node.origin && (
-                        <span className="font-pixel text-[0.4rem] ml-1" style={{ color: stage.accent }}>
+                        <span className="font-pixel text-[0.82rem] ml-1" style={{ color: stage.accent }}>
                           ★
                         </span>
                       )}
                     </p>
-                    <p className="font-ja text-[0.65rem] truncate" style={{ color: "#b0c4d8" }}>
+                    <p className="font-ja text-[0.85rem] truncate" style={{ color: "#b0c4d8" }}>
                       {node.act}
                     </p>
                   </div>
 
-                  <span className="font-pixel text-[0.5rem] shrink-0" style={{ color: stage.accent }}>
+                  <span className="font-pixel text-[0.72rem] shrink-0" style={{ color: stage.accent }}>
                     +{node.on}ON
                   </span>
                 </div>
 
                 {i < nodes.length - 1 && (
                   <div className="flex justify-center my-0.5">
-                    <span className="font-pixel text-[0.55rem]" style={{ color: stage.accent }}>▼</span>
+                    <span className="font-pixel text-[0.9rem]" style={{ color: stage.accent }}>▼</span>
                   </div>
                 )}
               </div>
@@ -147,7 +147,7 @@ export function PhoneMockup() {
               className="px-2 py-2 text-center"
               style={{ background: "rgba(0,0,0,0.65)", border: "2px dashed rgba(255,255,255,0.15)" }}
             >
-              <p className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#7090b0" }}>
+              <p className="font-pixel text-[0.72rem] pixel-blink" style={{ color: "#7090b0" }}>
                 ▸ NEXT PLAYER...
               </p>
             </div>
@@ -157,10 +157,10 @@ export function PhoneMockup() {
               className="px-2 py-2"
               style={{ background: "rgba(0,0,0,0.75)", border: `2px solid ${stage.accent}88` }}
             >
-              <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
+              <p className="font-pixel text-[0.72rem]" style={{ color: stage.accent }}>
                 {stage.emoji} {stage.nameEn} LOOP ×{stage.loopMultiplier}
               </p>
-              <p className="font-ja text-[0.65rem] mt-0.5" style={{ color: "#c0d0e0" }}>
+              <p className="font-ja text-[0.85rem] mt-0.5" style={{ color: "#c0d0e0" }}>
                 🎉 起点者に N×{10 * stage.loopMultiplier} ON
               </p>
             </div>

@@ -39,7 +39,7 @@ export default async function MenuPage() {
                 borderColor: "#0052FF",
                 boxShadow: "3px 3px 0 #0052FF",
                 padding: "0.5rem 1rem",
-                fontSize: "0.55rem",
+                fontSize: "0.75rem",
               }}
             >
               ▸ こんなギバーが欲しい
@@ -52,7 +52,7 @@ export default async function MenuPage() {
                 color: "#fff",
                 borderColor: "#000",
                 padding: "0.5rem 1rem",
-                fontSize: "0.55rem",
+                fontSize: "0.75rem",
               }}
             >
               ▸ ギバー登録
@@ -66,7 +66,7 @@ export default async function MenuPage() {
             className="pixel-box text-center py-20"
             style={{ background: "#0f1628" }}
           >
-            <p className="font-pixel text-[0.6rem] mb-4" style={{ color: "#3a6080" }}>
+            <p className="font-pixel text-[0.82rem] mb-4" style={{ color: "#3a6080" }}>
               NO GIVERS YET...
             </p>
             <p className="font-ja text-base mb-2" style={{ color: "#90a0b8" }}>
@@ -83,7 +83,7 @@ export default async function MenuPage() {
                 color: "#fff",
                 borderColor: "#000",
                 padding: "0.75rem 1.5rem",
-                fontSize: "0.6rem",
+                fontSize: "0.8rem",
               }}
             >
               ▸ ギバーとして登録する
@@ -149,7 +149,7 @@ export default async function MenuPage() {
 
                   <div>
                     <span
-                      className="font-pixel text-[0.45rem] px-2 py-0.5 mb-1.5 inline-block"
+                      className="font-pixel text-[0.85rem] px-2 py-0.5 mb-1.5 inline-block"
                       style={{
                         background: "#0052FF22",
                         border: "2px solid #0052FF",
@@ -176,7 +176,7 @@ export default async function MenuPage() {
                       borderColor: "#0052FF",
                       boxShadow: "3px 3px 0 #0052FF",
                       padding: "0.6rem 1rem",
-                      fontSize: "0.5rem",
+                      fontSize: "0.72rem",
                       display: "block",
                     }}
                   >

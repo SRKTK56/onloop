@@ -11,7 +11,7 @@ export function StageDisplay({ chainLength, showProgress = true, size = "md" }: 
   const progress = getProgressToNext(chainLength)
   const nextStage = STAGES.find((s) => s.level === stage.level + 1)
 
-  const textSize = size === "sm" ? "text-[0.45rem]" : size === "lg" ? "text-[0.7rem]" : "text-[0.55rem]"
+  const textSize = size === "sm" ? "text-[0.85rem]" : size === "lg" ? "text-[0.9rem]" : "text-[0.9rem]"
   const emojiSize = size === "sm" ? "text-base" : size === "lg" ? "text-3xl" : "text-xl"
 
   return (
@@ -43,7 +43,7 @@ export function StageDisplay({ chainLength, showProgress = true, size = "md" }: 
             />
           </div>
           <p
-            className="font-pixel text-[0.45rem] leading-relaxed"
+            className="font-pixel text-[0.85rem] leading-relaxed"
             style={{ color: stage.accent }}
           >
             {stage.nextMessage}（{chainLength}/{nextStage.min - 1}）
@@ -62,7 +62,7 @@ export function StageLadder({ currentLength }: { currentLength: number }) {
       {STAGES.map((s, i) => (
         <div key={s.id} className="flex items-center gap-1">
           <div
-            className={`pixel-box-sm flex items-center gap-1 px-2 py-1 text-[0.45rem] font-pixel transition-all`}
+            className={`pixel-box-sm flex items-center gap-1 px-2 py-1 text-[0.85rem] font-pixel transition-all`}
             style={{
               background: s.level <= current.level ? s.bgLight : "#e5e5e5",
               color: s.level <= current.level ? s.bgDark : "#999",
