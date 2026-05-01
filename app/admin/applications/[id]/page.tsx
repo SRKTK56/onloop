@@ -2,19 +2,11 @@ import { db } from "@/lib/db"
 import { providers, interviews } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import { notFound, redirect } from "next/navigation"
-import { headers } from "next/headers"
 import Link from "next/link"
-
-async function checkAdmin() {
-  const headersList = await headers()
-  const secret = headersList.get("x-admin-secret")
-  if (secret !== process.env.ADMIN_SECRET) redirect("/")
-}
 
 type Props = { params: Promise<{ id: string }> }
 
 export default async function ApplicationDetailPage({ params }: Props) {
-  await checkAdmin()
   const { id } = await params
   const providerId = parseInt(id)
 
