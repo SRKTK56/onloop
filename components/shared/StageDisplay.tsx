@@ -1,5 +1,4 @@
 import { getStage, getProgressToNext, STAGES } from "@/lib/stages"
-import { PixelIcon } from "./PixelIcon"
 
 type Props = {
   chainLength: number
@@ -13,7 +12,7 @@ export function StageDisplay({ chainLength, showProgress = true, size = "md" }: 
   const nextStage = STAGES.find((s) => s.level === stage.level + 1)
 
   const textSize = size === "sm" ? "text-[0.45rem]" : size === "lg" ? "text-[0.7rem]" : "text-[0.55rem]"
-  const iconScale = size === "sm" ? 2 : size === "lg" ? 5 : 3
+  const emojiSize = size === "sm" ? "text-base" : size === "lg" ? "text-3xl" : "text-xl"
 
   return (
     <div className="flex flex-col gap-2">
@@ -22,7 +21,7 @@ export function StageDisplay({ chainLength, showProgress = true, size = "md" }: 
         className={`stage-badge ${textSize}`}
         style={{ color: stage.accent, borderColor: stage.accent }}
       >
-        <PixelIcon type={stage.pixelIcon} scale={iconScale} />
+        <span className={emojiSize}>{stage.emoji}</span>
         <span>STAGE {stage.level}</span>
         <span style={{ color: stage.accent }}>{stage.nameEn}</span>
       </div>
@@ -72,7 +71,7 @@ export function StageLadder({ currentLength }: { currentLength: number }) {
               transform: s.id === current.id ? "scale(1.1)" : "scale(1)",
             }}
           >
-            <PixelIcon type={s.pixelIcon} scale={2} />
+            <span>{s.emoji}</span>
             <span>{s.name}</span>
           </div>
           {i < STAGES.length - 1 && (

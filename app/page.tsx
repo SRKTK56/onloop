@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 import { PhoneMockup } from "@/components/shared/PhoneMockup"
 import { OnTokenDiagram } from "@/components/shared/OnTokenDiagram"
 import { STAGES } from "@/lib/stages"
-import { PixelIcon } from "@/components/shared/PixelIcon"
+
 
 export default function Home() {
   return (
@@ -113,15 +113,15 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { step: "01", icon: "gift"       as const, title: "恩を届ける",   desc: "メニューからギバーを選んで依頼。または自分の好意をリンクにして誰かに送る。" },
-              { step: "02", icon: "chain_link" as const, title: "受け取り、繋ぐ", desc: "受け取った人は次の誰かへ恩を送ることを約束。連鎖が広がっていく。" },
-              { step: "03", icon: "party"      as const, title: "ループ完成",   desc: "連鎖が起点に戻ったとき、全員にONトークンのボーナスが降り注ぐ。" },
+              { step: "01", icon: "🎁", title: "恩を届ける",   desc: "メニューからギバーを選んで依頼。または自分の好意をリンクにして誰かに送る。" },
+              { step: "02", icon: "🔗", title: "受け取り、繋ぐ", desc: "受け取った人は次の誰かへ恩を送ることを約束。連鎖が広がっていく。" },
+              { step: "03", icon: "🎉", title: "ループ完成",   desc: "連鎖が起点に戻ったとき、全員にONトークンのボーナスが降り注ぐ。" },
             ].map((item) => (
               <div key={item.step} className="pixel-box p-6" style={{ background: "#0f1628" }}>
                 <div className="font-pixel text-[0.6rem] mb-3" style={{ color: "#0052FF" }}>
                   STEP {item.step}
                 </div>
-                <div className="mb-3"><PixelIcon type={item.icon} scale={6} /></div>
+                <div className="text-3xl mb-3">{item.icon}</div>
                 <h3 className="font-ja font-bold text-lg mb-2" style={{ color: "#e0e8ff" }}>
                   {item.title}
                 </h3>
@@ -178,9 +178,8 @@ export default function Home() {
                   <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
                     STAGE {stage.level} · {stage.nameEn}
                   </p>
-                  <p className="font-ja font-bold text-sm flex items-center gap-1.5" style={{ color: "#e8eeff" }}>
-                    <PixelIcon type={stage.pixelIcon} scale={3} />
-                    {stage.name}
+                  <p className="font-ja font-bold text-sm" style={{ color: "#e8eeff" }}>
+                    {stage.emoji} {stage.name}
                   </p>
                   <p className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
                     {stage.max === Infinity ? `${stage.min}+ 連鎖` : `${stage.min}〜${stage.max} 連鎖`}
