@@ -1,75 +1,84 @@
 import { getStage } from "@/lib/stages"
 import { PixelChar } from "./PixelChar"
 
-const DEMO_CHAIN_LENGTH = 12  // Japanステージ (10-19)
+const DEMO_CHAIN_LENGTH = 12
 
 export function PhoneMockup() {
   const stage = getStage(DEMO_CHAIN_LENGTH)
 
   const nodes = [
-    { char: "hero"     as const, label: "たかはしA", act: "写真を撮ってあげた",      on: 5, origin: true  },
-    { char: "warrior"  as const, label: "やまださん", act: "企画を一緒に考えた",      on: 2, origin: false },
-    { char: "mage"     as const, label: "すずきさん", act: "料理を振る舞った",        on: 2, origin: false },
-    { char: "villager" as const, label: "たなかさん", act: "次の人に繋いでいる...",   on: 1, origin: false },
+    { char: "hero"     as const, label: "たかはしA", act: "写真を撮ってあげた",    on: 5, origin: true  },
+    { char: "warrior"  as const, label: "やまださん", act: "企画を一緒に考えた",    on: 2, origin: false },
+    { char: "mage"     as const, label: "すずきさん", act: "料理を振る舞った",      on: 2, origin: false },
+    { char: "villager" as const, label: "たなかさん", act: "次の人に繋いでいる...", on: 1, origin: false },
   ]
 
   return (
     <div className="relative flex justify-center select-none">
-      {/* 背景グロー（ステージカラー） */}
+      {/* 背景グロー */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
-        style={{ filter: "blur(40px)", opacity: 0.25 }}
+        style={{ filter: "blur(50px)", opacity: 0.3 }}
       >
         <div className="w-48 h-48 rounded-full" style={{ background: stage.accent }} />
       </div>
 
-      {/* スマホ本体 */}
+      {/* スマホ本体 ─ 本物のスマホ形状 */}
       <div
-        className="relative w-[260px]"
+        className="relative w-[260px] overflow-hidden"
         style={{
-          background: "#111",
-          border: "4px solid #000",
-          boxShadow: "6px 6px 0 #000",
-          imageRendering: "pixelated",
+          background: "#0a0a14",
+          border: "6px solid #1a1a2a",
+          borderRadius: "2.5rem",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.06)",
         }}
       >
-        {/* ノッチ */}
-        <div className="flex justify-center py-2" style={{ background: "#000" }}>
-          <div className="w-16 h-2" style={{ background: "#222" }} />
+        {/* ダイナミックアイランド風ノッチ */}
+        <div className="flex justify-center pt-3 pb-1" style={{ background: "#0a0a14" }}>
+          <div
+            className="w-20 h-5 flex items-center justify-center gap-1.5"
+            style={{ background: "#000", borderRadius: "0.75rem" }}
+          >
+            <div className="w-2 h-2 rounded-full" style={{ background: "#222" }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: "#181818" }} />
+          </div>
         </div>
 
-        {/* 画面 */}
-        <div className="relative" style={{ minHeight: 500 }}>
-          {/* ステージ背景画像 */}
-          <div
-            className="absolute inset-0 opacity-25"
-            style={{
-              backgroundImage: `url(${stage.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              imageRendering: "pixelated",
-            }}
-          />
-          <div className="absolute inset-0" style={{ background: "rgba(8,5,20,0.72)" }} />
-
-          {/* コンテンツ */}
-          <div className="relative z-10 px-3 py-3 flex flex-col gap-2">
+        {/* 画面 ─ 背景画像そのまま表示（オーバーレイなし） */}
+        <div
+          className="relative"
+          style={{
+            minHeight: 490,
+            backgroundImage: `url(${stage.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* コンテンツ：各要素に個別の背景を設定して視認性を確保 */}
+          <div className="px-3 py-3 flex flex-col gap-2">
 
             {/* ゲームヘッダー */}
             <div
-              className="flex items-center justify-between px-2 py-1"
-              style={{ background: stage.bgDark, border: `2px solid ${stage.accent}` }}
+              className="flex items-center justify-between px-3 py-1.5"
+              style={{
+                background: "rgba(0,0,0,0.75)",
+                border: `2px solid ${stage.accent}`,
+                backdropFilter: "blur(4px)",
+              }}
             >
-              <span className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>ONLOOP</span>
-              <span className="font-pixel text-[0.4rem]" style={{ color: stage.accent }}>
+              <span className="font-pixel text-[0.6rem]" style={{ color: stage.accent }}>ONLOOP</span>
+              <span className="font-pixel text-[0.55rem]" style={{ color: "#fff" }}>
                 {stage.emoji} {stage.nameEn}
               </span>
             </div>
 
             {/* EXPバー */}
-            <div className="flex items-center gap-1">
-              <span className="font-pixel text-[0.32rem]" style={{ color: "#405060" }}>EXP</span>
-              <div className="flex-1 h-2 border border-gray-800" style={{ background: "#111" }}>
+            <div
+              className="flex items-center gap-1.5 px-2 py-1"
+              style={{ background: "rgba(0,0,0,0.6)" }}
+            >
+              <span className="font-pixel text-[0.45rem]" style={{ color: "#90a0b0" }}>EXP</span>
+              <div className="flex-1 h-2.5 border border-gray-600" style={{ background: "#111" }}>
                 <div
                   className="h-full"
                   style={{
@@ -78,7 +87,7 @@ export function PhoneMockup() {
                   }}
                 />
               </div>
-              <span className="font-pixel text-[0.32rem]" style={{ color: stage.accent }}>
+              <span className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
                 {DEMO_CHAIN_LENGTH}/{stage.max}
               </span>
             </div>
@@ -89,46 +98,44 @@ export function PhoneMockup() {
                 <div
                   className="px-2 py-2 flex items-center gap-2"
                   style={{
-                    background: node.origin ? `${stage.bgDark}dd` : "#0a0f20cc",
-                    border: `2px solid ${node.origin ? stage.accent : "#1e3a5f"}`,
-                    boxShadow: node.origin ? `3px 3px 0 ${stage.accent}` : "3px 3px 0 #1e3a5f",
+                    background: node.origin ? `rgba(0,0,0,0.82)` : "rgba(0,0,0,0.7)",
+                    border: `2px solid ${node.origin ? stage.accent : "rgba(255,255,255,0.15)"}`,
+                    boxShadow: node.origin ? `3px 3px 0 ${stage.accent}` : "none",
                   }}
                 >
-                  {/* ピクセルキャラアイコン */}
                   <div
                     className="shrink-0 flex items-center justify-center"
                     style={{
-                      width: 36,
-                      height: 36,
-                      background: node.origin ? `${stage.accent}33` : "#0a1628",
-                      border: `2px solid ${node.origin ? stage.accent : "#1e3a5f"}`,
+                      width: 36, height: 36,
+                      background: node.origin ? `${stage.accent}44` : "rgba(0,0,0,0.5)",
+                      border: `2px solid ${node.origin ? stage.accent : "rgba(255,255,255,0.2)"}`,
                     }}
                   >
                     <PixelChar type={node.char} scale={3} />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <p className="font-ja text-[0.58rem] font-bold truncate" style={{ color: "#dde8ff" }}>
+                    <p className="font-ja text-xs font-bold truncate" style={{ color: "#ffffff" }}>
                       {node.label}
                       {node.origin && (
-                        <span className="font-pixel text-[0.32rem] ml-1 opacity-70" style={{ color: stage.accent }}>
-                          ★ORIGIN
+                        <span className="font-pixel text-[0.4rem] ml-1" style={{ color: stage.accent }}>
+                          ★
                         </span>
                       )}
                     </p>
-                    <p className="font-ja text-[0.5rem] truncate" style={{ color: "#4a6a8a" }}>
+                    <p className="font-ja text-[0.65rem] truncate" style={{ color: "#b0c4d8" }}>
                       {node.act}
                     </p>
                   </div>
 
-                  <span className="font-pixel text-[0.38rem] shrink-0" style={{ color: stage.accent }}>
+                  <span className="font-pixel text-[0.5rem] shrink-0" style={{ color: stage.accent }}>
                     +{node.on}ON
                   </span>
                 </div>
 
                 {i < nodes.length - 1 && (
                   <div className="flex justify-center my-0.5">
-                    <span className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>▼</span>
+                    <span className="font-pixel text-[0.55rem]" style={{ color: stage.accent }}>▼</span>
                   </div>
                 )}
               </div>
@@ -137,31 +144,31 @@ export function PhoneMockup() {
             {/* 次の人待ち */}
             <div
               className="px-2 py-2 text-center"
-              style={{ background: "#0a0f20", border: "2px dashed #1e3a5f" }}
+              style={{ background: "rgba(0,0,0,0.65)", border: "2px dashed rgba(255,255,255,0.15)" }}
             >
-              <p className="font-pixel text-[0.38rem] pixel-blink" style={{ color: "#304050" }}>
+              <p className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#7090b0" }}>
                 ▸ NEXT PLAYER...
               </p>
             </div>
 
-            {/* ステージボーナス表示 */}
+            {/* ステージボーナス */}
             <div
-              className="px-2 py-1.5"
-              style={{ background: "rgba(230,57,70,0.08)", border: `2px solid ${stage.accent}44` }}
+              className="px-2 py-2"
+              style={{ background: "rgba(0,0,0,0.75)", border: `2px solid ${stage.accent}88` }}
             >
-              <p className="font-pixel text-[0.36rem] leading-relaxed" style={{ color: stage.accent }}>
-                {stage.emoji} {stage.nameEn} LOOP ×{stage.loopMultiplier} BONUS
+              <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
+                {stage.emoji} {stage.nameEn} LOOP ×{stage.loopMultiplier}
               </p>
-              <p className="font-pixel text-[0.32rem]" style={{ color: "#404050" }}>
-                🎉 N×{10 * stage.loopMultiplier} ON FOR ORIGIN ON LOOP
+              <p className="font-ja text-[0.65rem] mt-0.5" style={{ color: "#c0d0e0" }}>
+                🎉 起点者に N×{10 * stage.loopMultiplier} ON
               </p>
             </div>
           </div>
         </div>
 
         {/* ホームバー */}
-        <div className="flex justify-center py-2" style={{ background: "#000" }}>
-          <div className="w-20 h-1" style={{ background: "#333" }} />
+        <div className="flex justify-center py-3" style={{ background: "#0a0a14" }}>
+          <div className="w-24 h-1.5" style={{ background: "#333", borderRadius: "1rem" }} />
         </div>
       </div>
     </div>

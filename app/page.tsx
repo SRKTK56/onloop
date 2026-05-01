@@ -14,9 +14,9 @@ export default function Home() {
 
           {/* テキスト */}
           <div className="flex-1 text-center md:text-left">
-            {/* タイトルバー（ゲーム風） */}
+            {/* タイトルバー */}
             <div
-              className="inline-flex items-center gap-2 px-3 py-1 mb-6 font-pixel text-[0.5rem]"
+              className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.6rem]"
               style={{
                 background: "#0052FF22",
                 border: "2px solid #0052FF",
@@ -31,7 +31,7 @@ export default function Home() {
             <h1
               className="font-pixel mb-6 leading-loose"
               style={{
-                fontSize: "clamp(1.1rem, 3.5vw, 2rem)",
+                fontSize: "clamp(1.4rem, 4vw, 2.2rem)",
                 color: "#ffffff",
                 textShadow: "4px 4px 0 #0052FF",
               }}
@@ -39,34 +39,26 @@ export default function Home() {
               <span style={{ color: "#0052FF" }}>ON</span>LOOP
             </h1>
 
-            {/* サブタイトル（日本語） */}
-            <p
-              className="font-ja text-lg mb-4 leading-relaxed"
-              style={{ color: "#a0b4d0" }}
-            >
+            <p className="font-ja text-xl mb-4 leading-relaxed" style={{ color: "#c0d0e8" }}>
               恩送りが繋がり、<br />
-              <span style={{ color: "#0052FF" }}>ループ</span>して戻ってくる。
+              <span style={{ color: "#4d8aff" }}>ループ</span>して戻ってくる。
             </p>
-            <p
-              className="font-ja text-sm mb-8 leading-relaxed"
-              style={{ color: "#607080" }}
-            >
+            <p className="font-ja text-base mb-8 leading-relaxed" style={{ color: "#8095aa" }}>
               写真・企画・料理——お金なしで好意が連鎖し、<br />
               チェーンが長くなるほど全員の報酬が増える。
             </p>
 
-            {/* ボタン群 */}
             <div className="flex gap-4 flex-wrap justify-center md:justify-start">
               <Link
                 href="/menu"
-                className="pixel-btn px-5 py-3 font-pixel text-[0.55rem]"
+                className="pixel-btn px-6 py-3 font-pixel text-[0.65rem]"
                 style={{ background: "#0052FF", color: "#fff", borderColor: "#000" }}
               >
                 ▸ メニューを見る
               </Link>
               <Link
                 href="/provider/apply"
-                className="pixel-btn px-5 py-3 font-pixel text-[0.55rem]"
+                className="pixel-btn px-6 py-3 font-pixel text-[0.65rem]"
                 style={{ background: "#0a0a1a", color: "#0052FF", borderColor: "#0052FF", boxShadow: "4px 4px 0 #0052FF" }}
               >
                 ▸ ギバー登録
@@ -74,8 +66,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* スマホモックアップ */}
-          <div className="shrink-0 pixel-float">
+          {/* スマホモックアップ（アニメーションなし） */}
+          <div className="shrink-0">
             <PhoneMockup />
           </div>
         </div>
@@ -86,29 +78,25 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4">
           <h2
             className="font-pixel text-center mb-10"
-            style={{ fontSize: "0.75rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
+            style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
           >
             HOW IT WORKS
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { step: "01", icon: "🎁", title: "恩を届ける", desc: "メニューからギバーを選んで依頼。または自分の好意をリンクにして誰かに送る。" },
+              { step: "01", icon: "🎁", title: "恩を届ける",   desc: "メニューからギバーを選んで依頼。または自分の好意をリンクにして誰かに送る。" },
               { step: "02", icon: "🔗", title: "受け取り、繋ぐ", desc: "受け取った人は次の誰かへ恩を送ることを約束。連鎖が広がっていく。" },
-              { step: "03", icon: "🎉", title: "ループ完成", desc: "連鎖が起点に戻ったとき、全員にONトークンのボーナスが降り注ぐ。" },
+              { step: "03", icon: "🎉", title: "ループ完成",   desc: "連鎖が起点に戻ったとき、全員にONトークンのボーナスが降り注ぐ。" },
             ].map((item) => (
-              <div
-                key={item.step}
-                className="pixel-box p-6"
-                style={{ background: "#0f1628" }}
-              >
-                <div className="font-pixel text-[0.5rem] mb-3" style={{ color: "#0052FF" }}>
+              <div key={item.step} className="pixel-box p-6" style={{ background: "#0f1628" }}>
+                <div className="font-pixel text-[0.6rem] mb-3" style={{ color: "#0052FF" }}>
                   STEP {item.step}
                 </div>
                 <div className="text-3xl mb-3">{item.icon}</div>
-                <h3 className="font-ja font-bold text-base mb-2" style={{ color: "#e0e8ff" }}>
+                <h3 className="font-ja font-bold text-lg mb-2" style={{ color: "#e0e8ff" }}>
                   {item.title}
                 </h3>
-                <p className="font-ja text-sm leading-relaxed" style={{ color: "#607080" }}>
+                <p className="font-ja text-sm leading-relaxed" style={{ color: "#90a0b8" }}>
                   {item.desc}
                 </p>
               </div>
@@ -122,7 +110,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-4">
           <h2
             className="font-pixel text-center mb-10"
-            style={{ fontSize: "0.75rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
+            style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
           >
             ON TOKEN REWARDS
           </h2>
@@ -135,11 +123,11 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-4">
           <h2
             className="font-pixel text-center mb-2"
-            style={{ fontSize: "0.75rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
+            style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
           >
             WORLD STAGES
           </h2>
-          <p className="font-ja text-center text-sm mb-10" style={{ color: "#607080" }}>
+          <p className="font-ja text-center text-base mb-10" style={{ color: "#8095aa" }}>
             連鎖が長くなるほど世界が進化していく
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -149,25 +137,22 @@ export default function Home() {
                 className="pixel-box flex flex-col overflow-hidden"
                 style={{ borderColor: stage.accent, boxShadow: `4px 4px 0 ${stage.accent}` }}
               >
-                {/* 背景画像 */}
                 <div
                   className="w-full aspect-video"
                   style={{
                     backgroundImage: `url(${stage.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    imageRendering: "pixelated",
                   }}
                 />
-                {/* 情報 */}
-                <div className="p-3 flex flex-col gap-1" style={{ background: stage.bgDark }}>
-                  <p className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
+                <div className="p-3 flex flex-col gap-1.5" style={{ background: stage.bgDark }}>
+                  <p className="font-pixel text-[0.5rem]" style={{ color: stage.accent }}>
                     STAGE {stage.level} · {stage.nameEn}
                   </p>
-                  <p className="font-ja font-bold text-sm" style={{ color: "#e0e8ff" }}>
+                  <p className="font-ja font-bold text-sm" style={{ color: "#e8eeff" }}>
                     {stage.emoji} {stage.name}
                   </p>
-                  <p className="font-pixel text-[0.38rem]" style={{ color: stage.accent }}>
+                  <p className="font-pixel text-[0.45rem]" style={{ color: stage.accent }}>
                     {stage.max === Infinity ? `${stage.min}+ 連鎖` : `${stage.min}〜${stage.max} 連鎖`}
                   </p>
                 </div>
@@ -184,16 +169,16 @@ export default function Home() {
       >
         <h2
           className="font-pixel mb-4"
-          style={{ fontSize: "0.75rem", color: "#fff", textShadow: "3px 3px 0 #0030aa" }}
+          style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0030aa" }}
         >
           READY PLAYER ONE?
         </h2>
-        <p className="font-ja text-sm mb-8" style={{ color: "#cce0ff" }}>
+        <p className="font-ja text-base mb-8" style={{ color: "#cce0ff" }}>
           ウォレット不要でメニューを閲覧できます
         </p>
         <Link
           href="/menu"
-          className="pixel-btn inline-flex px-6 py-3 font-pixel text-[0.55rem]"
+          className="pixel-btn inline-flex px-7 py-3.5 font-pixel text-[0.65rem]"
           style={{ background: "#fff", color: "#0052FF", borderColor: "#000" }}
         >
           ▸ START GAME →

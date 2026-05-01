@@ -34,7 +34,7 @@ export function OnTokenDiagram() {
               <div className="flex flex-col items-center gap-1">
                 {/* 報酬バッジ */}
                 <div
-                  className="font-pixel text-[0.38rem] px-1.5 py-0.5 mb-1"
+                  className="font-pixel text-[0.5rem] px-1.5 py-0.5 mb-1"
                   style={{
                     background: `${node.accent}22`,
                     border: `2px solid ${node.accent}`,
@@ -48,8 +48,8 @@ export function OnTokenDiagram() {
                 {/* キャラクター */}
                 <PixelChar type={node.char} scale={4} />
                 {/* ラベル */}
-                <p className="font-pixel text-[0.35rem]" style={{ color: node.accent }}>{node.role}</p>
-                <p className="font-ja text-[0.6rem]" style={{ color: "#607080" }}>{node.label}</p>
+                <p className="font-pixel text-[0.5rem]" style={{ color: node.accent }}>{node.role}</p>
+                <p className="font-ja text-xs" style={{ color: "#90a0b8" }}>{node.label}</p>
               </div>
 
               {/* 矢印 */}
@@ -58,7 +58,7 @@ export function OnTokenDiagram() {
           ))}
           {/* 続く… */}
           <div className="flex items-center" style={{ paddingBottom: "2.5rem" }}>
-            <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#1e3a5f" }}>▶▶</span>
+            <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#3a6080" }}>▶▶</span>
           </div>
         </div>
 
@@ -70,8 +70,8 @@ export function OnTokenDiagram() {
             { color: "#52b788", label: "新受取人", desc: "恩送りを受け取ったとき+1 ON獲得。" },
           ].map((r) => (
             <div key={r.label} className="p-2" style={{ background: "#0a0a1a", border: `2px solid ${r.color}33` }}>
-              <p className="font-pixel text-[0.35rem] mb-1" style={{ color: r.color }}>{r.label}</p>
-              <p className="font-ja text-[0.6rem] leading-relaxed" style={{ color: "#607080" }}>{r.desc}</p>
+              <p className="font-pixel text-[0.5rem] mb-1" style={{ color: r.color }}>{r.label}</p>
+              <p className="font-ja text-xs leading-relaxed" style={{ color: "#90a0b8" }}>{r.desc}</p>
             </div>
           ))}
         </div>
@@ -95,11 +95,11 @@ export function OnTokenDiagram() {
             {/* 起点者A（出発） */}
             <div className="flex flex-col items-center gap-1">
               <div
-                className="font-pixel text-[0.35rem] px-1.5 py-0.5"
+                className="font-pixel text-[0.5rem] px-1.5 py-0.5"
                 style={{ border: "2px solid #0052FF", color: "#0052FF", background: "#0052FF22" }}
               >出発</div>
               <PixelChar type="hero" scale={4} />
-              <p className="font-pixel text-[0.35rem]" style={{ color: "#0052FF" }}>ORIGIN A</p>
+              <p className="font-pixel text-[0.5rem]" style={{ color: "#0052FF" }}>ORIGIN A</p>
             </div>
 
             {/* 中間ノード (B→C→D→...) */}
@@ -110,17 +110,17 @@ export function OnTokenDiagram() {
                   <PixelChar key={i} type={c} scale={3} />
                 ))}
               </div>
-              <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#554400" }}>▶▶</span>
+              <span className="font-pixel text-[0.5rem] pixel-blink" style={{ color: "#806600" }}>▶▶</span>
             </div>
 
             {/* 最後のノード（折返し） */}
             <div className="flex flex-col items-center gap-1">
               <div
-                className="font-pixel text-[0.35rem] px-1.5 py-0.5"
+                className="font-pixel text-[0.5rem] px-1.5 py-0.5"
                 style={{ border: "2px solid #aa8800", color: "#aa8800", background: "#aa880022" }}
               >折返し</div>
               <PixelChar type="villager" scale={4} />
-              <p className="font-pixel text-[0.35rem]" style={{ color: "#aa8800" }}>LAST</p>
+              <p className="font-pixel text-[0.5rem]" style={{ color: "#aa8800" }}>LAST</p>
             </div>
           </div>
 
@@ -176,7 +176,7 @@ export function OnTokenDiagram() {
 
             {/* キャラ（起点者・ボーナス受取） */}
             <PixelChar type="hero" scale={5} />
-            <p className="font-pixel text-[0.38rem]" style={{ color: "#ffcc00" }}>ORIGIN A</p>
+            <p className="font-pixel text-[0.5rem]" style={{ color: "#ffcc00" }}>ORIGIN A</p>
             <p className="font-ja text-xs" style={{ color: "#aa8800" }}>起点者は2倍のボーナス！</p>
           </div>
         </div>
@@ -207,14 +207,14 @@ export function OnTokenDiagram() {
                 style={{ background: s.bgDark, border: `2px solid ${s.accent}`, boxShadow: `2px 2px 0 ${s.accent}` }}
               >
                 <span className="text-lg">{s.emoji}</span>
-                <p className="font-pixel text-[0.32rem]" style={{ color: s.accent }}>{s.nameEn}</p>
+                <p className="font-pixel text-[0.45rem]" style={{ color: s.accent }}>{s.nameEn}</p>
                 <div
                   className="font-pixel text-[0.42rem] px-1"
                   style={{ background: `${s.accent}22`, color: "#ffcc00" }}
                 >
                   ×{s.loopMultiplier}
                 </div>
-                <p className="font-pixel text-[0.28rem] text-center leading-relaxed" style={{ color: s.accent }}>
+                <p className="font-pixel text-[0.42rem] text-center leading-relaxed" style={{ color: s.accent }}>
                   起点<br />{10 * s.loopMultiplier}N ON
                 </p>
               </div>
