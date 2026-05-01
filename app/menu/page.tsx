@@ -13,6 +13,7 @@ async function getApprovedProviders() {
       id: providers.id,
       walletAddress: providers.walletAddress,
       name: providers.name,
+      bio: providers.bio,
       serviceImageUrl: providers.avatarUrl,
       serviceTitle: providers.serviceTitle,
       serviceDescription: providers.serviceDescription,

@@ -8,6 +8,7 @@ export type ProviderItem = {
   id: number
   walletAddress: string
   name: string | null
+  bio: string | null
   serviceImageUrl: string | null
   serviceTitle: string
   serviceDescription: string
@@ -35,20 +36,19 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
         style={{ background: "#0f1628" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* サービス画像 */}
-        <div className="relative h-48 overflow-hidden" style={{ background: "#060610" }}>
-          {provider.serviceImageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={provider.serviceImageUrl}
-              alt=""
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-6xl opacity-20">🙌</span>
-            </div>
-          )}
+        {/* サービス画像 + アバター */}
+        <div className="relative">
+          {/* 画像エリア */}
+          <div className="h-48 overflow-hidden" style={{ background: "#060610" }}>
+            {provider.serviceImageUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={provider.serviceImageUrl} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-6xl opacity-20">🙌</span>
+              </div>
+            )}
+          </div>
 
           {/* 閉じるボタン */}
           <button
@@ -64,12 +64,13 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             ✕
           </button>
 
-          {/* プロフィールアイコン */}
+          {/* プロフィールアイコン ─ 画像エリアの外に出す */}
           <div
-            className="absolute -bottom-6 left-5 w-14 h-14 flex items-center justify-center overflow-hidden z-10"
+            className="absolute left-5 w-16 h-16 flex items-center justify-center overflow-hidden z-10"
             style={{
+              bottom: "-2rem",
               border: "3px solid #0052FF",
-              boxShadow: "3px 3px 0 #0052FF",
+              boxShadow: "4px 4px 0 #0052FF",
               background: "#0a0a1a",
             }}
           >
@@ -83,16 +84,28 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
         </div>
 
         {/* コンテンツ */}
-        <div className="pt-10 px-6 pb-6 space-y-5">
-          {/* 名前・アドレス */}
+        <div className="pt-12 px-6 pb-6 space-y-5">
+          {/* 名前 */}
           <div>
             <p className="font-ja font-bold text-xl" style={{ color: "#e0e8ff" }}>
               {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
             </p>
-            <p className="font-mono text-xs mt-1" style={{ color: "#3a5a7a" }}>
-              {provider.walletAddress}
-            </p>
           </div>
+
+          {/* 自己紹介 */}
+          {provider.bio && (
+            <div
+              className="p-4"
+              style={{ background: "#060a14", border: "2px solid #1a2a3a" }}
+            >
+              <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>
+                プロフィール
+              </p>
+              <p className="font-ja text-sm leading-relaxed" style={{ color: "#90a0b8" }}>
+                {provider.bio}
+              </p>
+            </div>
+          )}
 
           {/* サービスタイトル */}
           <div>
@@ -111,13 +124,13 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             </p>
           </div>
 
-          {/* 詳細説明（全文） */}
+          {/* 内容（全文） */}
           <div
             className="p-4"
             style={{ background: "#060610", border: "2px solid #1a2a3a" }}
           >
             <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>
-              DESCRIPTION
+              内容
             </p>
             <p className="font-ja text-sm leading-relaxed whitespace-pre-wrap" style={{ color: "#90a0b8" }}>
               {provider.serviceDescription}
@@ -156,8 +169,8 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
           return (
             <div
               key={provider.id}
-              className="pixel-box flex flex-col overflow-visible cursor-pointer"
-              style={{ background: "#0f1628" }}
+              className="pixel-box flex flex-col cursor-pointer"
+              style={{ background: "#0f1628", overflow: "visible" }}
               onClick={() => setSelected(provider)}
             >
               {/* サービス画像エリア */}
@@ -165,6 +178,7 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
                 className="h-32 flex items-center justify-center relative"
                 style={{ background: "#060610" }}
               >
+                {/* 画像だけをクリップ */}
                 <div className="absolute inset-0 overflow-hidden">
                   {provider.serviceImageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -201,14 +215,9 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
 
               {/* 情報 */}
               <div className="pt-8 px-4 pb-4 flex flex-col gap-3 flex-1">
-                <div>
-                  <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
-                    {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
-                  </p>
-                  <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>
-                    {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
-                  </p>
-                </div>
+                <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
+                  {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
+                </p>
 
                 <div>
                   <span
@@ -230,7 +239,6 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
                   {provider.serviceDescription}
                 </p>
 
-                {/* クリック誘導 */}
                 <div
                   className="font-pixel text-center py-2 mt-auto"
                   style={{
@@ -248,7 +256,6 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
         })}
       </div>
 
-      {/* モーダル */}
       {selected && (
         <ProviderModal provider={selected} onClose={() => setSelected(null)} />
       )}
