@@ -29,19 +29,6 @@ export default function Home() {
 
             {/* テキスト */}
             <div className="flex-1 text-center md:text-left">
-              {/* タイトルバー */}
-              <div
-                className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 font-pixel text-[0.82rem]"
-                style={{
-                  background: "rgba(0, 82, 255, 0.25)",
-                  border: "2px solid #0052FF",
-                  color: "#7ab0ff",
-                  boxShadow: "3px 3px 0 #0052FF",
-                }}
-              >
-                ▸ BUILT ON BASE BLOCKCHAIN
-              </div>
-
               {/* メインタイトル */}
               <h1
                 className="font-pixel mb-6 leading-loose"
@@ -54,9 +41,8 @@ export default function Home() {
                 <span style={{ color: "#0052FF", textShadow: "4px 4px 0 #ffffff" }}>ON</span>LOOP
               </h1>
 
-              <p className="font-ja text-2xl mb-4 leading-relaxed" style={{ color: "#e8f0ff" }}>
-                恩送りが繋がり、<br />
-                <span style={{ color: "#7ab0ff" }}>ループ</span>して戻ってくる。
+              <p className="font-ja text-3xl mb-4 font-bold leading-relaxed" style={{ color: "#e8f0ff" }}>
+                恩送りが繋がり、<span style={{ color: "#7ab0ff" }}>ループ</span>して戻ってくる。
               </p>
               <p className="font-ja text-lg mb-10 leading-relaxed" style={{ color: "#a8c0d8" }}>
                 写真を撮る・企画を手伝う・料理を振る舞う——など、金銭を介さない好意（GIVE）の連鎖をゲームのように楽しむアプリ。連鎖を長くすること、連鎖をループさせることで獲得できるON（恩）トークンがUP！

@@ -7,11 +7,11 @@ const DEMO_CHAIN_LENGTH = 12
 export function PhoneMockup() {
   const stage = getStage(DEMO_CHAIN_LENGTH)
 
+  // 表示ノードを3件に絞って縦を圧縮
   const nodes = [
     { char: "hero"     as const, label: "たかはしA", act: "写真を撮ってあげた",    on: 5, origin: true  },
-    { char: "warrior"  as const, label: "やまださん", act: "企画を一緒に考えた",    on: 2, origin: false },
+    { char: "warrior"  as const, label: "やまださん", act: "企画を手伝った",        on: 2, origin: false },
     { char: "mage"     as const, label: "すずきさん", act: "料理を振る舞った",      on: 2, origin: false },
-    { char: "villager" as const, label: "たなかさん", act: "次の人に繋いでいる...", on: 1, origin: false },
   ]
 
   return (
@@ -49,7 +49,7 @@ export function PhoneMockup() {
         <div
           className="relative"
           style={{
-            minHeight: 490,
+            minHeight: 340,
             backgroundImage: `url(${stage.image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -142,26 +142,13 @@ export function PhoneMockup() {
               </div>
             ))}
 
-            {/* 次の人待ち */}
+            {/* ループボーナス（コンパクト） */}
             <div
-              className="px-2 py-2 text-center"
-              style={{ background: "rgba(0,0,0,0.65)", border: "2px dashed rgba(255,255,255,0.15)" }}
-            >
-              <p className="font-pixel text-[0.72rem] pixel-blink" style={{ color: "#7090b0" }}>
-                ▸ NEXT PLAYER...
-              </p>
-            </div>
-
-            {/* ステージボーナス */}
-            <div
-              className="px-2 py-2"
+              className="px-2 py-1.5"
               style={{ background: "rgba(0,0,0,0.75)", border: `2px solid ${stage.accent}88` }}
             >
               <p className="font-pixel text-[0.72rem]" style={{ color: stage.accent }}>
-                {stage.emoji} {stage.nameEn} LOOP ×{stage.loopMultiplier}
-              </p>
-              <p className="font-ja text-[0.85rem] mt-0.5" style={{ color: "#c0d0e0" }}>
-                🎉 起点者に N×{10 * stage.loopMultiplier} ON
+                {stage.emoji} {stage.nameEn} · LOOP ×{stage.loopMultiplier}
               </p>
             </div>
           </div>
