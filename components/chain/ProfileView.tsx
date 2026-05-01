@@ -10,6 +10,11 @@ import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
 
 type Profile = { walletAddress: string; displayName: string | null; avatarUrl: string | null }
+type Provider = {
+  id: number; walletAddress: string; serviceTitle: string
+  serviceDescription: string; status: string; createdAt: string
+  avatarUrl: string | null
+}
 type ChainNode = {
   id: number; chainId: number; position: number
   giverWallet: string; receiverWallet: string
@@ -76,6 +81,7 @@ function StatusBadge({ confirmed }: { confirmed: boolean }) {
 export function ProfileView() {
   const { address, isConnected } = useAccount()
   const [data, setData] = useState<ProfileData | null>(null)
+  const [providers, setProviders] = useState<Provider[]>([])
   const [loading, setLoading] = useState(false)
   const [editName, setEditName] = useState("")
   const [saving, setSaving] = useState(false)
@@ -86,9 +92,14 @@ export function ProfileView() {
     if (!address) return
     setLoading(true)
     try {
-      const res = await fetch(`/api/profile?wallet=${address}`)
-      const json = await res.json()
+      const [profileRes, providersRes] = await Promise.all([
+        fetch(`/api/profile?wallet=${address}`),
+        fetch(`/api/providers?wallet=${address}`),
+      ])
+      const json = await profileRes.json()
+      const provs = await providersRes.json()
       setData(json)
+      setProviders(Array.isArray(provs) ? provs : [])
       setEditName(json.profile?.displayName ?? "")
       setAvatarUrl(json.profile?.avatarUrl ?? "")
     } finally {
@@ -285,6 +296,7 @@ export function ProfileView() {
             { key: "chains", label: "チェーン履歴" },
             { key: "origin", label: "起点チェーン" },
             { key: "tokens", label: "ON獲得履歴" },
+            { key: "giver", label: "ギバー登録" },
           ]}
           active={activeTab}
           onChange={setActiveTab}
@@ -414,6 +426,80 @@ export function ProfileView() {
                 </div>
               ))
             )
+          )}
+
+          {/* ギバー登録 */}
+          {activeTab === "giver" && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>
+                  あなたのギバー申請状況
+                </p>
+                <Link
+                  href="/provider/apply"
+                  className="pixel-btn font-pixel"
+                  style={{
+                    background: "#0052FF",
+                    color: "#fff",
+                    borderColor: "#000",
+                    padding: "0.4rem 0.8rem",
+                    fontSize: "0.65rem",
+                  }}
+                >
+                  ▸ 新規申請
+                </Link>
+              </div>
+
+              {providers.length === 0 ? (
+                <div className="text-center py-10 space-y-4">
+                  <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO APPLICATIONS</p>
+                  <p className="font-ja text-sm" style={{ color: "#506070" }}>
+                    まだギバー申請をしていません。
+                  </p>
+                </div>
+              ) : (
+                providers.map((prov) => {
+                  const sc: Record<string, string> = {
+                    pending: "#aa8800", approved: "#52b788", rejected: "#e63946",
+                  }
+                  const sl: Record<string, string> = {
+                    pending: "審査待ち", approved: "承認済み・掲載中", rejected: "却下",
+                  }
+                  return (
+                    <div
+                      key={prov.id}
+                      className="p-4 space-y-3"
+                      style={{
+                        background: "#060610",
+                        border: `2px solid ${sc[prov.status] ?? "#1a2a3a"}`,
+                      }}
+                    >
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <p className="font-ja font-bold text-base" style={{ color: "#c0d0e8" }}>
+                          {prov.serviceTitle}
+                        </p>
+                        <span
+                          className="font-pixel text-[0.62rem] px-2 py-0.5 shrink-0"
+                          style={{
+                            background: `${sc[prov.status] ?? "#506070"}22`,
+                            border: `2px solid ${sc[prov.status] ?? "#506070"}`,
+                            color: sc[prov.status] ?? "#506070",
+                          }}
+                        >
+                          {sl[prov.status] ?? prov.status}
+                        </span>
+                      </div>
+                      <p className="font-ja text-sm line-clamp-2 leading-relaxed" style={{ color: "#607080" }}>
+                        {prov.serviceDescription}
+                      </p>
+                      <p className="font-pixel text-[0.62rem]" style={{ color: "#304050" }}>
+                        申請日: {new Date(prov.createdAt).toLocaleDateString("ja-JP")}
+                      </p>
+                    </div>
+                  )
+                })
+              )}
+            </div>
           )}
         </div>
       </div>

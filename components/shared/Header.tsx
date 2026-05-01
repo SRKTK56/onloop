@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { WalletButton } from "./WalletButton"
+import { AdminButton } from "./AdminButton"
 
 export function Header() {
   return (
@@ -27,7 +28,10 @@ export function Header() {
             マイページ
           </Link>
         </nav>
-        <WalletButton />
+        <div className="flex items-center gap-3">
+          <AdminButton />
+          <WalletButton />
+        </div>
       </div>
     </header>
   )

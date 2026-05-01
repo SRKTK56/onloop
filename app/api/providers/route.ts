@@ -1,6 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { providers } from "@/lib/db/schema"
+import { eq } from "drizzle-orm"
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url)
+    const wallet = searchParams.get("wallet")
+    if (!wallet) return NextResponse.json({ error: "wallet required" }, { status: 400 })
+
+    const rows = await db.select().from(providers).where(eq(providers.walletAddress, wallet))
+    return NextResponse.json(rows)
+  } catch (err) {
+    console.error("[providers] GET error:", err)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+  }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
