@@ -28,6 +28,7 @@ export function OfferForm({ provider }: { provider: Provider }) {
   const { address, isConnected } = useAccount()
   const router = useRouter()
   const [description, setDescription] = useState("")
+  const [agreed, setAgreed] = useState(false)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -161,18 +162,32 @@ export function OfferForm({ provider }: { provider: Provider }) {
               />
             </div>
 
-            {/* 恩の連鎖の説明 */}
-            <div
-              className="p-3"
-              style={{ background: "#060a14", border: "2px solid #0a1a4a" }}
+            {/* 恩の連鎖の約束（チェックボックス） */}
+            <label
+              className="flex items-start gap-3 p-4 cursor-pointer"
+              style={{
+                background: agreed ? "#060a18" : "#080810",
+                border: `2px solid ${agreed ? "#0052FF" : "#1a2a3a"}`,
+                boxShadow: agreed ? "3px 3px 0 #0052FF" : "3px 3px 0 #1a2a3a",
+                transition: "border-color 0.15s, box-shadow 0.15s",
+              }}
             >
-              <p className="font-pixel text-[0.65rem] mb-1" style={{ color: "#3a5a7a" }}>
-                ▸ 恩送りの約束
-              </p>
-              <p className="font-ja text-sm leading-relaxed" style={{ color: "#4a6080" }}>
-                恩送りを受け取ったら、あなたも次の誰かへ恩を繋ぐことを約束します。連鎖が続くほど、全員のONトークン報酬が増えます。
-              </p>
-            </div>
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-1 w-5 h-5 shrink-0 cursor-pointer"
+                style={{ accentColor: "#0052FF" }}
+              />
+              <div>
+                <p className="font-pixel text-[0.65rem] mb-1.5" style={{ color: agreed ? "#0052FF" : "#3a5a7a" }}>
+                  ▸ 恩送りの約束
+                </p>
+                <p className="font-ja text-sm leading-relaxed" style={{ color: agreed ? "#90a0b8" : "#4a6080" }}>
+                  恩送りを受け取ったら、あなたも次の誰かへ恩を繋ぐことを約束します。連鎖が続くほど、全員のONトークン報酬が増えます。
+                </p>
+              </div>
+            </label>
           </div>
 
           {error && (
@@ -186,15 +201,16 @@ export function OfferForm({ provider }: { provider: Provider }) {
 
           <button
             type="submit"
-            disabled={pending || !description.trim()}
-            className="pixel-btn font-pixel w-full cursor-pointer"
+            disabled={pending || !description.trim() || !agreed}
+            className="pixel-btn font-pixel w-full"
             style={{
-              background: pending || !description.trim() ? "#1a2a3a" : "#0052FF",
-              color: pending || !description.trim() ? "#3a5a7a" : "#fff",
-              borderColor: pending || !description.trim() ? "#1a2a3a" : "#000",
+              background: pending || !description.trim() || !agreed ? "#1a2a3a" : "#0052FF",
+              color: pending || !description.trim() || !agreed ? "#3a5a7a" : "#fff",
+              borderColor: pending || !description.trim() || !agreed ? "#1a2a3a" : "#000",
+              boxShadow: pending || !description.trim() || !agreed ? "4px 4px 0 #1a2a3a" : "4px 4px 0 #000",
               padding: "1rem",
               fontSize: "0.78rem",
-              cursor: pending ? "not-allowed" : "pointer",
+              cursor: pending || !agreed ? "not-allowed" : "pointer",
             }}
           >
             {pending ? "送信中..." : "▸ 恩送りを依頼する"}
