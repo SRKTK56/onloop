@@ -38,6 +38,14 @@ export const chainNodes = pgTable("chain_nodes", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 })
 
+export const chainMessages = pgTable("chain_messages", {
+  id: serial("id").primaryKey(),
+  nodeId: integer("node_id").notNull(),
+  senderWallet: text("sender_wallet").notNull(),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+})
+
 export const onBalances = pgTable("on_balances", {
   walletAddress: text("wallet_address").primaryKey(),
   balance: integer("balance").notNull().default(0),
