@@ -1,12 +1,33 @@
 import { db } from "@/lib/db"
-import { providers } from "@/lib/db/schema"
+import { providers, userProfiles } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import Link from "next/link"
+import { PixelChar, type CharType } from "@/components/shared/PixelChar"
 
 export const dynamic = "force-dynamic"
 
+// ウォレットアドレスから毎回同じキャラを返す（ランダムだが一意）
+const CHARS: CharType[] = ["hero", "warrior", "mage", "villager"]
+function charForWallet(wallet: string): CharType {
+  const sum = wallet.toLowerCase().split("").reduce((acc, c) => acc + c.charCodeAt(0), 0)
+  return CHARS[sum % CHARS.length]
+}
+
 async function getApprovedProviders() {
-  return db.select().from(providers).where(eq(providers.status, "approved"))
+  return db
+    .select({
+      id: providers.id,
+      walletAddress: providers.walletAddress,
+      name: providers.name,
+      serviceImageUrl: providers.avatarUrl,      // サービス画像
+      serviceTitle: providers.serviceTitle,
+      serviceDescription: providers.serviceDescription,
+      status: providers.status,
+      profileAvatarUrl: userProfiles.avatarUrl,  // プロフィールアイコン
+    })
+    .from(providers)
+    .leftJoin(userProfiles, eq(providers.walletAddress, userProfiles.walletAddress))
+    .where(eq(providers.status, "approved"))
 }
 
 export default async function MenuPage() {
@@ -91,100 +112,105 @@ export default async function MenuPage() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {approvedProviders.map((provider) => (
-              <div
-                key={provider.id}
-                className="pixel-box flex flex-col overflow-hidden"
-                style={{ background: "#0f1628" }}
-              >
-                {/* カバー画像 */}
+            {approvedProviders.map((provider) => {
+              const charType = charForWallet(provider.walletAddress)
+
+              return (
                 <div
-                  className="h-32 flex items-center justify-center relative overflow-hidden"
-                  style={{ background: "#060610" }}
+                  key={provider.id}
+                  className="pixel-box flex flex-col overflow-hidden"
+                  style={{ background: "#0f1628" }}
                 >
-                  {provider.avatarUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={provider.avatarUrl}
-                      alt={provider.name ?? ""}
-                      className="w-full h-full object-cover"
-                      style={{ imageRendering: "pixelated" }}
-                    />
-                  ) : (
-                    <span className="text-5xl opacity-20">🙌</span>
-                  )}
-                  {/* アバターアイコン */}
+                  {/* サービス画像エリア */}
                   <div
-                    className="absolute -bottom-5 left-4 w-12 h-12 overflow-hidden"
-                    style={{
-                      border: "3px solid #0052FF",
-                      boxShadow: "3px 3px 0 #0052FF",
-                      background: "#0a0a1a",
-                    }}
+                    className="h-32 flex items-center justify-center relative overflow-hidden"
+                    style={{ background: "#060610" }}
                   >
-                    {provider.avatarUrl ? (
+                    {provider.serviceImageUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={provider.avatarUrl} alt="" className="w-full h-full object-cover" />
+                      <img
+                        src={provider.serviceImageUrl}
+                        alt={provider.name ?? ""}
+                        className="w-full h-full object-cover"
+                        style={{ imageRendering: "pixelated" }}
+                      />
                     ) : (
-                      <div
-                        className="w-full h-full flex items-center justify-center font-pixel text-sm"
-                        style={{ background: "#0a1628", color: "#0052FF" }}
-                      >
-                        {(provider.name ?? "?")[0].toUpperCase()}
-                      </div>
+                      <span className="text-5xl opacity-20">🙌</span>
                     )}
-                  </div>
-                </div>
 
-                {/* 情報 */}
-                <div className="pt-8 px-4 pb-4 flex flex-col gap-3 flex-1">
-                  <div>
-                    <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
-                      {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
-                    </p>
-                    <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>
-                      {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
-                    </p>
-                  </div>
-
-                  <div>
-                    <span
-                      className="font-pixel text-[0.85rem] px-2 py-0.5 mb-1.5 inline-block"
+                    {/* プロフィールアイコン */}
+                    <div
+                      className="absolute -bottom-5 left-4 w-12 h-12 overflow-hidden flex items-center justify-center"
                       style={{
-                        background: "#0052FF22",
-                        border: "2px solid #0052FF",
-                        color: "#7ab0ff",
+                        border: "3px solid #0052FF",
+                        boxShadow: "3px 3px 0 #0052FF",
+                        background: "#0a0a1a",
                       }}
                     >
-                      提供できること
-                    </span>
-                    <p className="font-ja font-medium text-sm" style={{ color: "#c0d0e8" }}>
-                      {provider.serviceTitle}
-                    </p>
+                      {provider.profileAvatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={provider.profileAvatarUrl}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        /* プロフィール未設定 → PixelCharをランダム表示 */
+                        <PixelChar type={charType} scale={4} />
+                      )}
+                    </div>
                   </div>
 
-                  <p className="font-ja text-sm leading-relaxed line-clamp-3" style={{ color: "#607080" }}>
-                    {provider.serviceDescription}
-                  </p>
+                  {/* 情報 */}
+                  <div className="pt-8 px-4 pb-4 flex flex-col gap-3 flex-1">
+                    <div>
+                      <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
+                        {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
+                      </p>
+                      <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>
+                        {provider.walletAddress.slice(0, 6)}...{provider.walletAddress.slice(-4)}
+                      </p>
+                    </div>
 
-                  <Link
-                    href={`/offer/${provider.id}`}
-                    className="pixel-btn font-pixel text-center mt-auto"
-                    style={{
-                      background: "#0a0a1a",
-                      color: "#7ab0ff",
-                      borderColor: "#0052FF",
-                      boxShadow: "3px 3px 0 #0052FF",
-                      padding: "0.6rem 1rem",
-                      fontSize: "0.72rem",
-                      display: "block",
-                    }}
-                  >
-                    ▸ 恩送りをお願いする
-                  </Link>
+                    <div>
+                      <span
+                        className="font-pixel text-[0.72rem] px-2 py-0.5 mb-1.5 inline-block"
+                        style={{
+                          background: "#0052FF22",
+                          border: "2px solid #0052FF",
+                          color: "#7ab0ff",
+                        }}
+                      >
+                        提供できること
+                      </span>
+                      <p className="font-ja font-medium text-sm" style={{ color: "#c0d0e8" }}>
+                        {provider.serviceTitle}
+                      </p>
+                    </div>
+
+                    <p className="font-ja text-sm leading-relaxed line-clamp-3" style={{ color: "#607080" }}>
+                      {provider.serviceDescription}
+                    </p>
+
+                    <Link
+                      href={`/offer/${provider.id}`}
+                      className="pixel-btn font-pixel text-center mt-auto"
+                      style={{
+                        background: "#0a0a1a",
+                        color: "#7ab0ff",
+                        borderColor: "#0052FF",
+                        boxShadow: "3px 3px 0 #0052FF",
+                        padding: "0.6rem 1rem",
+                        fontSize: "0.72rem",
+                        display: "block",
+                      }}
+                    >
+                      ▸ 恩送りをお願いする
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
