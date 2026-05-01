@@ -108,34 +108,52 @@ export function WalletButton() {
     )
   }
 
-  // 未接続
+  // 未接続 → 2ボタン表示
   return (
-    <div className="flex flex-col items-end gap-1">
-      <div className="flex items-center gap-2">
-        {/* ウォレット未所持ユーザー向け招待リンク */}
+    <div className="flex flex-col items-end gap-1.5">
+      <div className="flex items-center gap-2 flex-wrap justify-end">
+        {/* 既存ウォレットを接続 */}
+        <button
+          onClick={handleConnect}
+          disabled={isPending}
+          className="pixel-btn font-pixel cursor-pointer"
+          style={{
+            background: "#0052FF",
+            color: "#fff",
+            borderColor: "#000",
+            padding: "0.4rem 0.75rem",
+            fontSize: "0.58rem",
+            whiteSpace: "nowrap",
+            opacity: isPending ? 0.6 : 1,
+            cursor: isPending ? "not-allowed" : "pointer",
+          }}
+        >
+          {isPending ? "接続中..." : "既存ウォレットで参加"}
+        </button>
+
+        {/* 新規ウォレットを作成（招待リンク） */}
         <a
           href="https://base.app/invite/onloop/6JY26BX1"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:block text-xs font-medium cursor-pointer"
-          style={{ color: "#7ab0ff", textDecoration: "underline", textUnderlineOffset: "2px" }}
+          className="pixel-btn font-pixel"
+          style={{
+            background: "#0a0a1a",
+            color: "#52b788",
+            borderColor: "#52b788",
+            boxShadow: "3px 3px 0 #52b788",
+            padding: "0.4rem 0.75rem",
+            fontSize: "0.58rem",
+            whiteSpace: "nowrap",
+            cursor: "pointer",
+            display: "inline-block",
+          }}
         >
-          ウォレット未所持の方
+          無料でウォレット作成
         </a>
-        <button
-          onClick={handleConnect}
-          disabled={isPending}
-          className={cn(
-            "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
-            "bg-primary text-primary-foreground hover:bg-primary/90",
-            isPending && "opacity-60 cursor-not-allowed"
-          )}
-        >
-          {isPending ? "接続中..." : "参加する"}
-        </button>
       </div>
       {connectError && (
-        <p className="text-xs text-destructive max-w-48 text-right leading-tight">
+        <p className="text-xs text-destructive max-w-xs text-right leading-tight">
           {connectError}
         </p>
       )}
