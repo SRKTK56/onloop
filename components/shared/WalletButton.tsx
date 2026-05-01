@@ -111,17 +111,29 @@ export function WalletButton() {
   // 未接続
   return (
     <div className="flex flex-col items-end gap-1">
-      <button
-        onClick={handleConnect}
-        disabled={isPending}
-        className={cn(
-          "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
-          "bg-primary text-primary-foreground hover:bg-primary/90",
-          isPending && "opacity-60 cursor-not-allowed"
-        )}
-      >
-        {isPending ? "接続中..." : "参加する"}
-      </button>
+      <div className="flex items-center gap-2">
+        {/* ウォレット未所持ユーザー向け招待リンク */}
+        <a
+          href="https://base.app/invite/onloop/6JY26BX1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:block text-xs font-medium cursor-pointer"
+          style={{ color: "#7ab0ff", textDecoration: "underline", textUnderlineOffset: "2px" }}
+        >
+          ウォレット未所持の方
+        </a>
+        <button
+          onClick={handleConnect}
+          disabled={isPending}
+          className={cn(
+            "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
+            "bg-primary text-primary-foreground hover:bg-primary/90",
+            isPending && "opacity-60 cursor-not-allowed"
+          )}
+        >
+          {isPending ? "接続中..." : "参加する"}
+        </button>
+      </div>
       {connectError && (
         <p className="text-xs text-destructive max-w-48 text-right leading-tight">
           {connectError}

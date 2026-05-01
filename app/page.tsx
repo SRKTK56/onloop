@@ -92,6 +92,20 @@ export default function Home() {
                   ▸ ギバー登録
                 </Link>
               </div>
+
+              {/* ウォレット未所持ユーザー向け */}
+              <p className="font-ja text-sm mt-5" style={{ color: "#506070" }}>
+                ウォレットをお持ちでない方は
+                <a
+                  href="https://base.app/invite/onloop/6JY26BX1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "#7ab0ff", textDecoration: "underline", textUnderlineOffset: "3px" }}
+                >
+                  こちらから無料作成
+                </a>
+                できます
+              </p>
             </div>
 
             {/* スマホモックアップ */}
