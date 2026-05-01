@@ -42,7 +42,7 @@ export function WalletButton() {
         <button
           onClick={() => setOpen((v) => !v)}
           className={cn(
-            "flex items-center gap-2 h-8 px-3 rounded-lg text-sm font-medium",
+            "flex items-center gap-2 h-8 px-3 rounded-lg text-sm font-medium cursor-pointer",
             "bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
           )}
         >
@@ -56,7 +56,7 @@ export function WalletButton() {
             </div>
             <button
               onClick={() => { disconnect(); setOpen(false) }}
-              className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors text-destructive"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors text-destructive cursor-pointer"
             >
               切断する
             </button>
@@ -72,7 +72,7 @@ export function WalletButton() {
       onClick={() => connect({ connector: connectors[0] })}
       disabled={isPending}
       className={cn(
-        "h-8 px-4 rounded-lg text-sm font-medium transition-colors",
+        "h-8 px-4 rounded-lg text-sm font-medium transition-colors cursor-pointer",
         "bg-primary text-primary-foreground hover:bg-primary/90",
         isPending && "opacity-60 cursor-not-allowed"
       )}
