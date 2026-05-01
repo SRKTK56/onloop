@@ -13,7 +13,7 @@ export default function Home() {
       <section
         className="relative overflow-hidden"
         style={{
-          backgroundImage: "url(/stages/1_village.png)",
+          backgroundImage: "url(/onloop_baner.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
