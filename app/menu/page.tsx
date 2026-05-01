@@ -121,26 +121,31 @@ export default async function MenuPage() {
                   className="pixel-box flex flex-col overflow-hidden"
                   style={{ background: "#0f1628" }}
                 >
-                  {/* サービス画像エリア */}
+                  {/* サービス画像エリア（overflow-hiddenなし → アバターが見切れない） */}
                   <div
-                    className="h-32 flex items-center justify-center relative overflow-hidden"
+                    className="h-32 flex items-center justify-center relative"
                     style={{ background: "#060610" }}
                   >
-                    {provider.serviceImageUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={provider.serviceImageUrl}
-                        alt={provider.name ?? ""}
-                        className="w-full h-full object-cover"
-                        style={{ imageRendering: "pixelated" }}
-                      />
-                    ) : (
-                      <span className="text-5xl opacity-20">🙌</span>
-                    )}
+                    {/* 画像だけを別コンテナでクリップ */}
+                    <div className="absolute inset-0 overflow-hidden">
+                      {provider.serviceImageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={provider.serviceImageUrl}
+                          alt={provider.name ?? ""}
+                          className="w-full h-full object-cover"
+                          style={{ imageRendering: "pixelated" }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-5xl opacity-20">🙌</span>
+                        </div>
+                      )}
+                    </div>
 
-                    {/* プロフィールアイコン */}
+                    {/* プロフィールアイコン（カバー外にはみ出してOK） */}
                     <div
-                      className="absolute -bottom-5 left-4 w-12 h-12 overflow-hidden flex items-center justify-center"
+                      className="absolute -bottom-6 left-4 w-12 h-12 flex items-center justify-center overflow-hidden z-10"
                       style={{
                         border: "3px solid #0052FF",
                         boxShadow: "3px 3px 0 #0052FF",
@@ -155,7 +160,6 @@ export default async function MenuPage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        /* プロフィール未設定 → PixelCharをランダム表示 */
                         <PixelChar type={charType} scale={4} />
                       )}
                     </div>
