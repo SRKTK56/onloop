@@ -1,6 +1,6 @@
 "use client"
 
-import { useAccount, useConnect, useDisconnect } from "wagmi"
+import { useAccount, useConnect, useDisconnect, useReconnect } from "wagmi"
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 
@@ -12,6 +12,7 @@ export function WalletButton() {
   const { address, isConnected } = useAccount()
   const { connect, connectors, isPending, error } = useConnect()
   const { disconnect } = useDisconnect()
+  const { reconnect } = useReconnect()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
   const [connectError, setConnectError] = useState<string | null>(null)
@@ -84,7 +85,12 @@ export function WalletButton() {
       {
         onError: (err) => {
           console.error("[WalletButton] connect error:", err)
-          setConnectError(err.message)
+          // コネクターが既に内部的に接続済みの場合 → wagmiのReact状態に反映させる
+          if (err.message.toLowerCase().includes("already connected")) {
+            reconnect({ connectors: availableConnectors })
+          } else {
+            setConnectError(err.message)
+          }
         },
       }
     )
