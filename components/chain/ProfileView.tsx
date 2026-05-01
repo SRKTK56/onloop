@@ -216,6 +216,27 @@ export function ProfileView() {
             </div>
           </div>
         </div>
+
+        {/* ギバー登録ボタン */}
+        <div className="mt-5 pt-5" style={{ borderTop: "2px solid #1a2a3a" }}>
+          <Link
+            href="/provider/apply"
+            className="pixel-btn font-pixel inline-flex items-center gap-2"
+            style={{
+              background: "#0a0a1a",
+              color: "#7ab0ff",
+              borderColor: "#0052FF",
+              boxShadow: "4px 4px 0 #0052FF",
+              padding: "0.75rem 1.5rem",
+              fontSize: "0.72rem",
+            }}
+          >
+            ▸ ギバーとして登録する
+          </Link>
+          <p className="font-ja text-sm mt-2" style={{ color: "#405060" }}>
+            スキルや好意を提供してメニューに掲載されます
+          </p>
+        </div>
       </div>
 
       {/* 承認待ち */}
