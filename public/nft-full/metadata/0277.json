@@ -1,0 +1,36 @@
+{
+  "name": "ONLOOP #0277",
+  "description": "恩送りの連鎖から生まれたピクセルアートNFT。連鎖が長いほど、レアなキャラクターが宿る。",
+  "image": "ipfs://bafybeicccs2wttqedwfnuz7vnjqtwwc4luqxmtuwnwgecznxe4s5dvdazm/0277.png",
+  "external_url": "https://onloop-one.vercel.app",
+  "attributes": [
+    {
+      "trait_type": "Stage",
+      "value": "日本 JAPAN"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Uncommon"
+    },
+    {
+      "trait_type": "Class",
+      "value": "villager"
+    },
+    {
+      "trait_type": "Outfit",
+      "value": "Shadow"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "beanie"
+    },
+    {
+      "trait_type": "Item",
+      "value": "torch"
+    },
+    {
+      "trait_type": "Effect",
+      "value": "none"
+    }
+  ]
+}

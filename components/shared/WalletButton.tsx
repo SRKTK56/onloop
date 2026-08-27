@@ -108,11 +108,11 @@ export function WalletButton() {
     )
   }
 
-  // 未接続 → 2ボタン表示
+  // 未接続 → モバイル:1ボタン / デスクトップ:2ボタン
   return (
     <div className="flex flex-col items-end gap-1.5">
-      <div className="flex items-center gap-2 flex-wrap justify-end">
-        {/* 既存ウォレットを接続 */}
+      <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* 接続ボタン：モバイルは短縮テキスト */}
         <button
           onClick={handleConnect}
           disabled={isPending}
@@ -121,32 +121,38 @@ export function WalletButton() {
             background: "#0052FF",
             color: "#fff",
             borderColor: "#000",
-            padding: "0.6rem 1rem",
-            fontSize: "0.68rem",
+            padding: "0.45rem 0.7rem",
+            fontSize: "0.62rem",
             whiteSpace: "nowrap",
             opacity: isPending ? 0.6 : 1,
             cursor: isPending ? "not-allowed" : "pointer",
           }}
         >
-          {isPending ? "接続中..." : "既存ウォレットで参加"}
+          {isPending ? (
+            "接続中..."
+          ) : (
+            <>
+              <span className="sm:hidden">接続</span>
+              <span className="hidden sm:inline">既存ウォレットで参加</span>
+            </>
+          )}
         </button>
 
-        {/* 新規ウォレットを作成（招待リンク） */}
+        {/* 新規ウォレット：モバイルでは非表示 */}
         <a
           href="https://base.app/invite/onloop/6JY26BX1"
           target="_blank"
           rel="noopener noreferrer"
-          className="pixel-btn font-pixel"
+          className="pixel-btn font-pixel hidden sm:inline-block"
           style={{
             background: "#0a0a1a",
             color: "#7ab0ff",
             borderColor: "#0052FF",
             boxShadow: "3px 3px 0 #0052FF",
-            padding: "0.6rem 1rem",
-            fontSize: "0.68rem",
+            padding: "0.45rem 0.7rem",
+            fontSize: "0.62rem",
             whiteSpace: "nowrap",
             cursor: "pointer",
-            display: "inline-block",
           }}
         >
           無料でウォレット作成

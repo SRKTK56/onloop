@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { PixelChar, type CharType } from "@/components/shared/PixelChar"
+import { getStage } from "@/lib/stages"
 
 export type ProviderItem = {
   id: number
@@ -13,6 +14,19 @@ export type ProviderItem = {
   serviceTitle: string
   serviceDescription: string
   status: string
+  role: string        // "origin" | "relay"
+  chainId: number | null
+  chainNodeCount: number
+  profileAvatarUrl: string | null
+}
+
+type ChainMember = {
+  id: number
+  walletAddress: string
+  name: string | null
+  role: string
+  chainId: number | null
+  serviceTitle: string
   profileAvatarUrl: string | null
 }
 
@@ -20,6 +34,122 @@ const CHARS: CharType[] = ["hero", "warrior", "mage", "villager"]
 function charForWallet(wallet: string): CharType {
   const sum = wallet.toLowerCase().split("").reduce((acc, c) => acc + c.charCodeAt(0), 0)
   return CHARS[sum % CHARS.length]
+}
+
+function RoleBadge({ role }: { role: string }) {
+  const isOrigin = role === "origin"
+  return (
+    <span
+      className="font-pixel text-[0.7rem] px-2 py-0.5 inline-block"
+      style={{
+        background: isOrigin ? "#0052FF22" : "#f9730022",
+        border: `2px solid ${isOrigin ? "#0052FF" : "#f97316"}`,
+        color: isOrigin ? "#7ab0ff" : "#fb923c",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {isOrigin ? "★ 起点者" : "⇢ 中継者"}
+    </span>
+  )
+}
+
+function StageBadge({ chainNodeCount }: { chainNodeCount: number }) {
+  if (chainNodeCount === 0) return null
+  const stage = getStage(chainNodeCount)
+  return (
+    <span
+      className="font-pixel text-[0.7rem] px-2 py-0.5 inline-block"
+      style={{
+        background: `${stage.accent}22`,
+        border: `2px solid ${stage.accent}`,
+        color: stage.accent,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {stage.emoji} {stage.name} Lv.{stage.level}
+    </span>
+  )
+}
+
+function ChainSection({ provider }: { provider: ProviderItem }) {
+  const [members, setMembers] = useState<ChainMember[]>([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!provider.chainId) return
+    setLoading(true)
+    fetch(`/api/providers/chain-members?chainId=${provider.chainId}`)
+      .then((r) => r.json())
+      .then((data: ChainMember[]) => {
+        // origin first, then relays
+        const sorted = [...data].sort((a, b) =>
+          a.role === "origin" ? -1 : b.role === "origin" ? 1 : a.id - b.id
+        )
+        setMembers(sorted)
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [provider.chainId])
+
+  return (
+    <div
+      className="p-4"
+      style={{ background: "#060a14", border: "2px solid #1a2a3a" }}
+    >
+      <p className="font-pixel text-[0.7rem] mb-3" style={{ color: "#0052FF" }}>
+        🔗 このチェーンの繋がり
+      </p>
+
+      {!provider.chainId ? (
+        <p className="font-ja text-sm leading-relaxed" style={{ color: "#607080" }}>
+          このメニューは新しいチェーンの起点です。あなたが最初の受取人になれます。
+        </p>
+      ) : loading ? (
+        <p className="font-pixel text-[0.7rem]" style={{ color: "#3a5a7a" }}>LOADING...</p>
+      ) : members.length === 0 ? (
+        <p className="font-ja text-sm" style={{ color: "#506070" }}>チェーン情報を取得中...</p>
+      ) : (
+        <div className="flex flex-wrap items-center gap-2">
+          {members.map((m, i) => {
+            const charType = charForWallet(m.walletAddress)
+            const isOrigin = m.role === "origin"
+            return (
+              <div key={m.id} className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-1">
+                  <div
+                    className="w-10 h-10 flex items-center justify-center overflow-hidden"
+                    style={{
+                      border: `2px solid ${isOrigin ? "#0052FF" : "#f97316"}`,
+                      background: isOrigin ? "#001a66" : "#2a1000",
+                    }}
+                  >
+                    {m.profileAvatarUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={m.profileAvatarUrl} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <PixelChar type={charType} scale={3} />
+                    )}
+                  </div>
+                  <p className="font-ja text-xs text-center" style={{ color: "#90a0b8", maxWidth: 60 }}>
+                    {m.name ?? m.walletAddress.slice(0, 6) + "..."}
+                  </p>
+                  <RoleBadge role={m.role} />
+                </div>
+                {i < members.length - 1 && (
+                  <span className="font-pixel text-[0.7rem] mb-6" style={{ color: "#3a5a7a" }}>▶</span>
+                )}
+              </div>
+            )
+          })}
+          {provider.chainNodeCount > 0 && (
+            <div className="ml-1">
+              <StageBadge chainNodeCount={provider.chainNodeCount} />
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
 }
 
 function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose: () => void }) {
@@ -38,7 +168,6 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
       >
         {/* サービス画像 + アバター */}
         <div className="relative">
-          {/* 画像エリア */}
           <div className="h-48 overflow-hidden" style={{ background: "#060610" }}>
             {provider.serviceImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -50,7 +179,6 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             )}
           </div>
 
-          {/* 閉じるボタン */}
           <button
             onClick={onClose}
             className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center font-pixel cursor-pointer"
@@ -64,7 +192,6 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             ✕
           </button>
 
-          {/* プロフィールアイコン ─ 画像エリアの外に出す */}
           <div
             className="absolute left-5 w-16 h-16 flex items-center justify-center overflow-hidden z-10"
             style={{
@@ -85,37 +212,32 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
 
         {/* コンテンツ */}
         <div className="pt-12 px-6 pb-6 space-y-5">
-          {/* 名前 */}
-          <div>
+          {/* 名前 + バッジ */}
+          <div className="space-y-2">
             <p className="font-ja font-bold text-xl" style={{ color: "#e0e8ff" }}>
               {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
             </p>
+            <div className="flex flex-wrap gap-2">
+              <RoleBadge role={provider.role} />
+              {provider.chainNodeCount > 0 && <StageBadge chainNodeCount={provider.chainNodeCount} />}
+            </div>
           </div>
 
           {/* 自己紹介 */}
           {provider.bio && (
-            <div
-              className="p-4"
-              style={{ background: "#060a14", border: "2px solid #1a2a3a" }}
-            >
-              <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>
-                プロフィール
-              </p>
+            <div className="p-4" style={{ background: "#060a14", border: "2px solid #1a2a3a" }}>
+              <p className="font-pixel text-[0.7rem] mb-2" style={{ color: "#506070" }}>自己紹介</p>
               <p className="font-ja text-sm leading-relaxed" style={{ color: "#90a0b8" }}>
                 {provider.bio}
               </p>
             </div>
           )}
 
-          {/* サービスタイトル */}
+          {/* サービス */}
           <div>
             <span
-              className="font-pixel text-[0.72rem] px-2 py-0.5 inline-block mb-2"
-              style={{
-                background: "#0052FF22",
-                border: "2px solid #0052FF",
-                color: "#7ab0ff",
-              }}
+              className="font-pixel text-[0.7rem] px-2 py-0.5 mb-2 inline-block"
+              style={{ background: "#0052FF22", border: "2px solid #0052FF", color: "#7ab0ff" }}
             >
               提供できること
             </span>
@@ -124,18 +246,15 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             </p>
           </div>
 
-          {/* 内容（全文） */}
-          <div
-            className="p-4"
-            style={{ background: "#060610", border: "2px solid #1a2a3a" }}
-          >
-            <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>
-              内容
-            </p>
+          <div className="p-4" style={{ background: "#060610", border: "2px solid #1a2a3a" }}>
+            <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>内容</p>
             <p className="font-ja text-sm leading-relaxed whitespace-pre-wrap" style={{ color: "#90a0b8" }}>
               {provider.serviceDescription}
             </p>
           </div>
+
+          {/* チェーンの繋がり */}
+          <ChainSection provider={provider} />
 
           {/* 恩送りボタン */}
           <Link
@@ -173,12 +292,8 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
               style={{ background: "#0f1628", overflow: "visible" }}
               onClick={() => setSelected(provider)}
             >
-              {/* サービス画像エリア */}
-              <div
-                className="h-32 flex items-center justify-center relative"
-                style={{ background: "#060610" }}
-              >
-                {/* 画像だけをクリップ */}
+              {/* サービス画像 */}
+              <div className="h-32 flex items-center justify-center relative" style={{ background: "#060610" }}>
                 <div className="absolute inset-0 overflow-hidden">
                   {provider.serviceImageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -194,15 +309,9 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
                     </div>
                   )}
                 </div>
-
-                {/* プロフィールアイコン */}
                 <div
                   className="absolute -bottom-6 left-4 w-12 h-12 flex items-center justify-center overflow-hidden z-10"
-                  style={{
-                    border: "3px solid #0052FF",
-                    boxShadow: "3px 3px 0 #0052FF",
-                    background: "#0a0a1a",
-                  }}
+                  style={{ border: "3px solid #0052FF", boxShadow: "3px 3px 0 #0052FF", background: "#0a0a1a" }}
                 >
                   {provider.profileAvatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -219,14 +328,16 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
                   {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
                 </p>
 
+                {/* バッジ */}
+                <div className="flex flex-wrap gap-1.5">
+                  <RoleBadge role={provider.role} />
+                  {provider.chainNodeCount > 0 && <StageBadge chainNodeCount={provider.chainNodeCount} />}
+                </div>
+
                 <div>
                   <span
-                    className="font-pixel text-[0.72rem] px-2 py-0.5 mb-1.5 inline-block"
-                    style={{
-                      background: "#0052FF22",
-                      border: "2px solid #0052FF",
-                      color: "#7ab0ff",
-                    }}
+                    className="font-pixel text-[0.7rem] px-2 py-0.5 mb-1.5 inline-block"
+                    style={{ background: "#0052FF22", border: "2px solid #0052FF", color: "#7ab0ff" }}
                   >
                     提供できること
                   </span>
@@ -241,12 +352,7 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
 
                 <div
                   className="font-pixel text-center py-2 mt-auto"
-                  style={{
-                    background: "#060a18",
-                    border: "2px solid #1a2a3a",
-                    color: "#3a5a7a",
-                    fontSize: "0.65rem",
-                  }}
+                  style={{ background: "#060a18", border: "2px solid #1a2a3a", color: "#3a5a7a", fontSize: "0.65rem" }}
                 >
                   ▸ タップして詳細を見る
                 </div>

@@ -3,6 +3,7 @@ import "./globals.css";
 import "@coinbase/onchainkit/styles.css";
 import { Providers } from "@/components/shared/Providers";
 import { Header } from "@/components/shared/Header";
+import { LanguageProvider } from "@/lib/i18n/context";
 
 export const metadata: Metadata = {
   title: "ONLOOP｜恩ループ",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="ja" suppressHydrationWarning>
       <head>
+        <meta name="base:app_id" content="69f5dcfb7a671bc641dfdc93" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -26,8 +28,10 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <Header />
-          <main>{children}</main>
+          <LanguageProvider>
+            <Header />
+            <main>{children}</main>
+          </LanguageProvider>
         </Providers>
       </body>
     </html>

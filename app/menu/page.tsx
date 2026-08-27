@@ -1,14 +1,14 @@
 import { db } from "@/lib/db"
-import { providers, userProfiles } from "@/lib/db/schema"
-import { eq } from "drizzle-orm"
+import { providers, userProfiles, chainNodes } from "@/lib/db/schema"
+import { eq, and, inArray } from "drizzle-orm"
 import Link from "next/link"
 import { MenuGrid } from "@/components/provider/MenuGrid"
-
+import { getStage } from "@/lib/stages"
 
 export const dynamic = "force-dynamic"
 
 async function getApprovedProviders() {
-  return db
+  const rows = await db
     .select({
       id: providers.id,
       walletAddress: providers.walletAddress,
@@ -18,11 +18,32 @@ async function getApprovedProviders() {
       serviceTitle: providers.serviceTitle,
       serviceDescription: providers.serviceDescription,
       status: providers.status,
+      role: providers.role,
+      chainId: providers.chainId,
       profileAvatarUrl: userProfiles.avatarUrl,
     })
     .from(providers)
     .leftJoin(userProfiles, eq(providers.walletAddress, userProfiles.walletAddress))
     .where(eq(providers.status, "approved"))
+
+  // チェーンノード数を集計してステージを計算
+  const chainIds = [...new Set(rows.map((r) => r.chainId).filter((id): id is number => id !== null))]
+
+  const nodeCounts: Record<number, number> = {}
+  if (chainIds.length > 0) {
+    const nodes = await db
+      .select({ chainId: chainNodes.chainId })
+      .from(chainNodes)
+      .where(inArray(chainNodes.chainId, chainIds))
+    for (const n of nodes) {
+      nodeCounts[n.chainId] = (nodeCounts[n.chainId] ?? 0) + 1
+    }
+  }
+
+  return rows.map((r) => {
+    const chainNodeCount = r.chainId ? (nodeCounts[r.chainId] ?? 0) : 0
+    return { ...r, chainNodeCount }
+  })
 }
 
 export default async function MenuPage() {
@@ -42,10 +63,10 @@ export default async function MenuPage() {
               恩送りメニュー
             </h1>
             <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
-              審査済みのギバーが、スキルや好意を提供してくれます。
+              恩送りメニューに登録されたメンバーが、スキルや好意を提供してくれます。
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <Link
               href="/request"
               className="pixel-btn font-pixel"
@@ -58,7 +79,7 @@ export default async function MenuPage() {
                 fontSize: "0.75rem",
               }}
             >
-              ▸ こんなギバーが欲しい
+              ▸ こんな恩送りが欲しい
             </Link>
             <Link
               href="/provider/apply"
@@ -71,7 +92,7 @@ export default async function MenuPage() {
                 fontSize: "0.75rem",
               }}
             >
-              ▸ ギバー登録
+              ▸ 恩送りメニュー登録
             </Link>
           </div>
         </div>
@@ -83,13 +104,13 @@ export default async function MenuPage() {
             style={{ background: "#0f1628" }}
           >
             <p className="font-pixel text-[0.82rem] mb-4" style={{ color: "#3a6080" }}>
-              NO GIVERS YET...
+              NO MENU YET...
             </p>
             <p className="font-ja text-base mb-2" style={{ color: "#90a0b8" }}>
-              現在掲載中のギバーはいません。
+              現在掲載中の恩送りメニューはありません。
             </p>
             <p className="font-ja text-sm mb-8" style={{ color: "#506070" }}>
-              最初のギバーになりませんか？
+              最初に登録しませんか？
             </p>
             <Link
               href="/provider/apply"
@@ -102,7 +123,7 @@ export default async function MenuPage() {
                 fontSize: "0.8rem",
               }}
             >
-              ▸ ギバーとして登録する
+              ▸ 恩送りメニューに登録する
             </Link>
           </div>
         ) : (

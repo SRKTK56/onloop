@@ -9,9 +9,9 @@ export function PhoneMockup() {
 
   // 表示ノードを3件に絞って縦を圧縮
   const nodes = [
-    { char: "hero"     as const, label: "たかはしA", act: "写真を撮ってあげた",    on: 5, origin: true  },
-    { char: "warrior"  as const, label: "やまださん", act: "企画を手伝った",        on: 2, origin: false },
-    { char: "mage"     as const, label: "すずきさん", act: "料理を振る舞った",      on: 2, origin: false },
+    { char: "hero"     as const, label: "えぐちさん",   act: "写真を撮ってあげた",    on: 5, origin: true  },
+    { char: "warrior"  as const, label: "やまやさん",   act: "企画を手伝った",        on: 2, origin: false },
+    { char: "mage"     as const, label: "まつしたさん", act: "料理を振る舞った",      on: 2, origin: false },
   ]
 
   return (
@@ -58,38 +58,24 @@ export function PhoneMockup() {
           {/* コンテンツ：各要素に個別の背景を設定して視認性を確保 */}
           <div className="px-3 py-3 flex flex-col gap-2">
 
-            {/* ゲームヘッダー */}
-            <div
-              className="flex items-center justify-between px-3 py-1.5"
-              style={{
-                background: "rgba(0,0,0,0.75)",
-                border: `2px solid ${stage.accent}`,
-                backdropFilter: "blur(4px)",
-              }}
-            >
-              <span className="font-pixel text-[0.82rem]" style={{ color: stage.accent }}>ONLOOP</span>
-              <span className="font-pixel text-[0.9rem]" style={{ color: "#fff" }}>
-                {stage.emoji} {stage.nameEn}
+            {/* ロゴ - 左上 */}
+            <div>
+              <span className="font-pixel text-[0.82rem]" style={{ color: "#fff", textShadow: "2px 2px 0 #0052FF" }}>
+                <span style={{ color: "#fff", textShadow: "2px 2px 0 #0052FF" }}>ON</span>LOOP
               </span>
             </div>
 
-            {/* EXPバー */}
+            {/* ゲームヘッダー（ステージ情報のみ） */}
             <div
-              className="flex items-center gap-1.5 px-2 py-1"
-              style={{ background: "rgba(0,0,0,0.6)" }}
+              className="flex items-center justify-center px-3 py-1.5"
+              style={{
+                background: "rgba(0,0,0,0.75)",
+                border: "2px solid #ffffff",
+                backdropFilter: "blur(4px)",
+              }}
             >
-              <span className="font-pixel text-[0.85rem]" style={{ color: "#90a0b0" }}>EXP</span>
-              <div className="flex-1 h-2.5 border border-gray-600" style={{ background: "#111" }}>
-                <div
-                  className="h-full"
-                  style={{
-                    width: `${Math.round(((DEMO_CHAIN_LENGTH - stage.min) / (stage.max - stage.min)) * 100)}%`,
-                    background: stage.accent,
-                  }}
-                />
-              </div>
-              <span className="font-pixel text-[0.85rem]" style={{ color: stage.accent }}>
-                {DEMO_CHAIN_LENGTH}/{stage.max}
+              <span className="font-pixel text-[0.7rem]" style={{ color: "#fff" }}>
+                STAGE{stage.level} {stage.emoji}{stage.nameEn}
               </span>
             </div>
 
@@ -99,9 +85,9 @@ export function PhoneMockup() {
                 <div
                   className="px-2 py-2 flex items-center gap-2"
                   style={{
-                    background: node.origin ? `rgba(0,0,0,0.82)` : "rgba(0,0,0,0.7)",
-                    border: `2px solid ${node.origin ? stage.accent : "rgba(255,255,255,0.15)"}`,
-                    boxShadow: node.origin ? `3px 3px 0 ${stage.accent}` : "none",
+                    background: node.origin ? `rgba(0,0,0,0.85)` : "rgba(0,0,0,0.70)",
+                    border: "2px solid #ffffff",
+                    boxShadow: "none",
                   }}
                 >
                   <div
@@ -109,7 +95,7 @@ export function PhoneMockup() {
                     style={{
                       width: 36, height: 36,
                       background: node.origin ? `${stage.accent}44` : "rgba(0,0,0,0.5)",
-                      border: `2px solid ${node.origin ? stage.accent : "rgba(255,255,255,0.2)"}`,
+                      border: "2px solid rgba(255,255,255,0.7)",
                     }}
                   >
                     <PixelChar type={node.char} scale={3} />
@@ -145,10 +131,10 @@ export function PhoneMockup() {
             {/* ループボーナス（コンパクト） */}
             <div
               className="px-2 py-1.5"
-              style={{ background: "rgba(0,0,0,0.75)", border: `2px solid ${stage.accent}88` }}
+              style={{ background: "rgba(0,0,0,0.75)", border: "2px solid rgba(255,255,255,0.5)" }}
             >
-              <p className="font-pixel text-[0.72rem]" style={{ color: stage.accent }}>
-                {stage.emoji} {stage.nameEn} · LOOP ×{stage.loopMultiplier}
+              <p className="font-pixel" style={{ color: stage.accent, fontSize: "0.58rem", whiteSpace: "nowrap" }}>
+                {stage.emoji}{stage.nameEn} LOOPボーナス ×{stage.loopMultiplier}
               </p>
             </div>
           </div>

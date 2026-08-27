@@ -17,6 +17,8 @@ export const providers = pgTable("providers", {
   serviceTitle: text("service_title").notNull(),
   serviceDescription: text("service_description").notNull(),
   status: text("status").notNull().default("pending"), // pending | approved | rejected
+  role: text("role").notNull().default("origin"),      // origin | relay
+  chainId: integer("chain_id"),                        // nullable, links to chains.id
   createdAt: timestamp("created_at").notNull().defaultNow(),
 })
 

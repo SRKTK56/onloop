@@ -1,14 +1,35 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { providers } from "@/lib/db/schema"
-import { eq } from "drizzle-orm"
+import { providers, userProfiles } from "@/lib/db/schema"
+import { eq, and } from "drizzle-orm"
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
     const wallet = searchParams.get("wallet")
-    if (!wallet) return NextResponse.json({ error: "wallet required" }, { status: 400 })
+    const chainIdParam = searchParams.get("chainId")
 
+    if (chainIdParam) {
+      const chainId = parseInt(chainIdParam)
+      if (isNaN(chainId)) return NextResponse.json({ error: "invalid chainId" }, { status: 400 })
+      const rows = await db
+        .select({
+          id: providers.id,
+          walletAddress: providers.walletAddress,
+          name: providers.name,
+          role: providers.role,
+          chainId: providers.chainId,
+          serviceTitle: providers.serviceTitle,
+          profileAvatarUrl: userProfiles.avatarUrl,
+        })
+        .from(providers)
+        .leftJoin(userProfiles, eq(providers.walletAddress, userProfiles.walletAddress))
+        .where(and(eq(providers.chainId, chainId), eq(providers.status, "approved")))
+        .orderBy(providers.id)
+      return NextResponse.json(rows)
+    }
+
+    if (!wallet) return NextResponse.json({ error: "wallet required" }, { status: 400 })
     const rows = await db.select().from(providers).where(eq(providers.walletAddress, wallet))
     return NextResponse.json(rows)
   } catch (err) {
@@ -19,7 +40,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { walletAddress, name, avatarUrl, bio, serviceTitle, serviceDescription } = body
+  const { walletAddress, name, avatarUrl, bio, serviceTitle, serviceDescription, role, chainId } = body
 
   if (!walletAddress || !serviceTitle || !serviceDescription) {
     return NextResponse.json({ error: "必須項目が不足しています" }, { status: 400 })
@@ -33,6 +54,8 @@ export async function POST(req: NextRequest) {
     serviceTitle,
     serviceDescription,
     status: "pending",
+    role: role || "origin",
+    chainId: chainId ? parseInt(String(chainId)) : null,
   })
 
   return NextResponse.json({ ok: true })

@@ -8,6 +8,71 @@ import { Textarea } from "@/components/ui/textarea"
 import { WalletButton } from "@/components/shared/WalletButton"
 import { ImageUpload } from "@/components/shared/ImageUpload"
 
+// ── AI画像生成ボタン ──
+function AiImageGenerator({
+  title,
+  description,
+  onGenerated,
+}: {
+  title: string
+  description: string
+  onGenerated: (url: string) => void
+}) {
+  const [loading, setLoading] = useState(false)
+  const [error, setError]     = useState("")
+
+  async function handleGenerate() {
+    if (!title) return
+    setLoading(true)
+    setError("")
+    try {
+      const res = await fetch("/api/generate-image", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ title, description }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error ?? "生成失敗")
+      onGenerated(data.url)
+    } catch (e: any) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <button
+        type="button"
+        onClick={handleGenerate}
+        disabled={!title || loading}
+        className="pixel-btn font-pixel w-full"
+        style={{
+          background:  !title || loading ? "#0a1a2a" : "#060f2a",
+          color:       !title || loading ? "#2a4a6a" : "#7ab0ff",
+          borderColor: !title || loading ? "#1a2a3a" : "#0052FF",
+          boxShadow:   !title || loading ? "none" : "3px 3px 0 #0052FF",
+          padding:     "0.6rem 1rem",
+          fontSize:    "0.72rem",
+          cursor:      !title || loading ? "not-allowed" : "pointer",
+          opacity:     loading ? 0.7 : 1,
+        }}
+      >
+        {loading ? "✦ AI生成中... (最大30秒)" : "✦ AIで画像を自動生成"}
+      </button>
+      {!title && (
+        <p className="font-ja text-xs" style={{ color: "#3a5a7a" }}>
+          ※「提供できること」を入力すると生成できます
+        </p>
+      )}
+      {error && (
+        <p className="font-ja text-xs" style={{ color: "#e63946" }}>{error}</p>
+      )}
+    </div>
+  )
+}
+
 // ── リアルタイムプレビューカード ──
 function PreviewCard({
   serviceImageUrl,
@@ -126,6 +191,8 @@ export function ProviderApplyForm() {
   const [pending, setPending] = useState(false)
   const [done, setDone] = useState(false)
   const [displayName, setDisplayName] = useState("")
+  const [role, setRole] = useState<"origin" | "relay">("origin")
+  const [chainIdInput, setChainIdInput] = useState("")
   const [form, setForm] = useState({
     serviceImageUrl: "",
     bio: "",
@@ -190,6 +257,8 @@ export function ProviderApplyForm() {
           bio: form.bio || null,
           serviceTitle: form.serviceTitle,
           serviceDescription: form.serviceDescription,
+          role,
+          chainId: role === "relay" && chainIdInput ? parseInt(chainIdInput) : null,
         }),
       })
       setDone(true)
@@ -212,6 +281,66 @@ export function ProviderApplyForm() {
 
       {/* ── 左：入力フォーム ── */}
       <form onSubmit={handleSubmit} className="flex-1 space-y-6 min-w-0">
+
+        {/* ロール選択 */}
+        <div className="space-y-3">
+          <p className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
+            登録タイプを選んでください <span style={{ color: "#e63946" }}>*</span>
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* 起点者 */}
+            <button
+              type="button"
+              onClick={() => setRole("origin")}
+              className="pixel-box p-4 text-left transition-all"
+              style={{
+                background: role === "origin" ? "#001a66" : "#060610",
+                border: `2px solid ${role === "origin" ? "#0052FF" : "#1a2a3a"}`,
+                boxShadow: role === "origin" ? "4px 4px 0 #0052FF" : "none",
+                cursor: "pointer",
+              }}
+            >
+              <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#0052FF" }}>★ 起点者として登録</p>
+              <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>新しい恩送りチェーンを始める</p>
+            </button>
+            {/* 中継者 */}
+            <button
+              type="button"
+              onClick={() => setRole("relay")}
+              className="pixel-box p-4 text-left transition-all"
+              style={{
+                background: role === "relay" ? "#2a1000" : "#060610",
+                border: `2px solid ${role === "relay" ? "#f97316" : "#1a2a3a"}`,
+                boxShadow: role === "relay" ? "4px 4px 0 #f97316" : "none",
+                cursor: "pointer",
+              }}
+            >
+              <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#f97316" }}>⇢ 中継者として登録</p>
+              <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>既存のチェーンに参加してつなぐ</p>
+            </button>
+          </div>
+
+          {/* 中継者の場合：チェーンID入力 */}
+          {role === "relay" && (
+            <div className="space-y-2">
+              <Label className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
+                参加するチェーンID <span style={{ color: "#e63946" }}>*</span>
+              </Label>
+              <p className="font-ja text-sm" style={{ color: "#506070" }}>
+                参加したいチェーンのIDを入力してください（例：12）
+              </p>
+              <Input
+                type="number"
+                placeholder="チェーンIDを入力"
+                required={role === "relay"}
+                value={chainIdInput}
+                onChange={(e) => setChainIdInput(e.target.value)}
+                className="font-ja focus:border-primary"
+                style={{ background: "#060610", border: "2px solid #f9731655", color: "#e0e8ff", borderRadius: 0 }}
+              />
+            </div>
+          )}
+        </div>
 
         {/* ウォレット・ユーザー名 */}
         <div
@@ -237,13 +366,18 @@ export function ProviderApplyForm() {
             サービス画像（任意）
           </Label>
           <p className="font-ja text-xs" style={{ color: "#506070" }}>
-            提供するサービスの内容が伝わる画像をアップロードしてください
+            提供するサービスの内容が伝わる画像をアップロードするか、AIで自動生成できます
           </p>
           <ImageUpload
             value={form.serviceImageUrl}
             onChange={(url) => setForm({ ...form, serviceImageUrl: url })}
             size="lg"
             label="画像をアップロード（5MB以内）"
+          />
+          <AiImageGenerator
+            title={form.serviceTitle}
+            description={form.serviceDescription}
+            onGenerated={(url) => setForm({ ...form, serviceImageUrl: url })}
           />
         </div>
 

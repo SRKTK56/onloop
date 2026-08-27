@@ -1,0 +1,39 @@
+{
+  "name": "ONe #0108",
+  "description": "ONe (オーネ) — 恩送りの精霊。Baseチェーン上に宿る、kindnessの化身。",
+  "image": "ipfs://PLACEHOLDER_CID/images/0108.png",
+  "attributes": [
+    {
+      "trait_type": "Stage",
+      "value": "WORLD"
+    },
+    {
+      "trait_type": "World",
+      "value": "世界"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Round"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Neon Blue"
+    },
+    {
+      "trait_type": "Loop Rings",
+      "value": "2 ring(s)"
+    },
+    {
+      "trait_type": "Expression",
+      "value": "Serious"
+    },
+    {
+      "trait_type": "Accessory",
+      "value": "Flame"
+    }
+  ]
+}

@@ -1,7 +1,5 @@
 import { PixelChar } from "./PixelChar"
 
-import { STAGES } from "@/lib/stages"
-
 // ── チェーンノードの定義 ──
 const CHAIN = [
   { char: "hero" as const,     role: "ORIGIN",  label: "起点者",   reward: "+5 ON/hop", color: "#0052FF",  accent: "#0052FF" },
@@ -172,13 +170,13 @@ export function OnTokenDiagram() {
                 color: "#ffcc00",
               }}
             >
-              N × 10 ON GET!!
+              N × 20 ON GET!!
             </div>
 
             {/* キャラ（起点者・ボーナス受取） */}
             <PixelChar type="hero" scale={5} />
             <p className="font-pixel text-[0.72rem]" style={{ color: "#ffcc00" }}>ORIGIN A</p>
-            <p className="font-ja text-xs" style={{ color: "#aa8800" }}>起点者は2倍のボーナス！</p>
+            <p className="font-ja text-sm" style={{ color: "#aa8800" }}>起点者は最大4倍のボーナス！</p>
           </div>
         </div>
 
@@ -188,43 +186,43 @@ export function OnTokenDiagram() {
           style={{ border: "2px solid #554400", background: "#0a0a0f" }}
         >
           <p className="font-ja text-sm mb-1" style={{ color: "#aa8800" }}>
-            ループに参加した全員も <span className="font-pixel text-[0.72rem]" style={{ color: "#ffcc00" }}>N × 5 ON</span> 獲得
+            中継者も <span className="font-pixel text-[0.7rem]" style={{ color: "#ffcc00" }}>N × 5 ON</span> 獲得 ／ 起点者は <span className="font-pixel text-[0.7rem]" style={{ color: "#ffcc00" }}>N × 20 ON</span>
           </p>
-          <p className="font-ja text-xs" style={{ color: "#605040" }}>
-            N = ループ参加人数 ／ ステージが上がるほど倍率UP！
+          <p className="font-ja text-xs mt-1" style={{ color: "#605040" }}>
+            N = ループ参加人数 ／ ステージが上がるほど倍率UP
           </p>
         </div>
 
-        {/* ── ステージ別ループ倍率テーブル ── */}
-        <div className="mt-4">
-          <p className="font-pixel text-[0.85rem] mb-3 text-center" style={{ color: "#aa8800" }}>
-            STAGE LOOP MULTIPLIER
+        {/* 早期中継者ボーナス */}
+        <div
+          className="mt-3 p-3"
+          style={{ border: "2px solid #0052FF44", background: "#00091a" }}
+        >
+          <p className="font-pixel text-[0.7rem] mb-2" style={{ color: "#7ab0ff" }}>
+            ⚡ EARLY RELAY BONUS
           </p>
-          <div className="grid grid-cols-4 gap-1.5">
-            {STAGES.map((s) => (
-              <div
-                key={s.id}
-                className="p-2 flex flex-col items-center gap-1"
-                style={{ background: s.bgDark, border: `2px solid ${s.accent}`, boxShadow: `2px 2px 0 ${s.accent}` }}
-              >
-                <span className="text-lg">{s.emoji}</span>
-                <p className="font-pixel text-[0.85rem]" style={{ color: s.accent }}>{s.nameEn}</p>
-                <div
-                  className="font-pixel text-[0.85rem] px-1"
-                  style={{ background: `${s.accent}22`, color: "#ffcc00" }}
-                >
-                  ×{s.loopMultiplier}
-                </div>
-                <p className="font-pixel text-[0.85rem] text-center leading-relaxed" style={{ color: s.accent }}>
-                  起点<br />{10 * s.loopMultiplier}N ON
-                </p>
+          <div className="grid grid-cols-4 gap-1">
+            {[
+              { pos: "1番目", mult: "×3.0", on: "N×15" },
+              { pos: "2番目", mult: "×2.5", on: "N×12.5" },
+              { pos: "3番目", mult: "×2.0", on: "N×10" },
+              { pos: "4番目+", mult: "×1.0", on: "N×5" },
+            ].map((r) => (
+              <div key={r.pos} className="text-center p-1.5" style={{ background: "#060a14", border: "1px solid #1a2a4a" }}>
+                <p className="font-ja text-xs mb-0.5" style={{ color: "#506070" }}>{r.pos}</p>
+                <p className="font-pixel text-[0.7rem]" style={{ color: "#7ab0ff" }}>{r.mult}</p>
+                <p className="font-pixel text-[0.62rem]" style={{ color: "#3a5a7a" }}>{r.on}</p>
               </div>
             ))}
           </div>
-          <p className="font-ja text-center text-xs mt-3" style={{ color: "#405060" }}>
-            宇宙ステージでは起点者が <span className="font-pixel text-[0.85rem]" style={{ color: "#9b5de5" }}>N×200 ON</span> を獲得！
+          <p className="font-ja text-xs mt-2" style={{ color: "#3a5060" }}>
+            チェーンに早く参加するほど、ループ完成時のボーナスが大きくなります
           </p>
         </div>
+
+        <p className="font-ja text-center text-xs mt-4" style={{ color: "#605040" }}>
+          ステージが上がるほどループ倍率もUP（×1〜×20）— 詳細は下の WORLD STAGES へ
+        </p>
       </div>
     </div>
   )

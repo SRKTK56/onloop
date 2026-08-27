@@ -1,0 +1,36 @@
+{
+  "name": "ONLOOP #0431",
+  "description": "恩送りの連鎖から生まれたピクセルアートNFT。連鎖が長いほど、レアなキャラクターが宿る。",
+  "image": "ipfs://bafybeicccs2wttqedwfnuz7vnjqtwwc4luqxmtuwnwgecznxe4s5dvdazm/0431.png",
+  "external_url": "https://onloop-one.vercel.app",
+  "attributes": [
+    {
+      "trait_type": "Stage",
+      "value": "世界 WORLD"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Class",
+      "value": "sage"
+    },
+    {
+      "trait_type": "Outfit",
+      "value": "Crimson"
+    },
+    {
+      "trait_type": "Hat",
+      "value": "straw"
+    },
+    {
+      "trait_type": "Item",
+      "value": "scroll"
+    },
+    {
+      "trait_type": "Effect",
+      "value": "sparkle"
+    }
+  ]
+}

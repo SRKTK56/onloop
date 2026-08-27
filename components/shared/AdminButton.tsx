@@ -2,13 +2,12 @@
 
 import { useAccount } from "wagmi"
 import Link from "next/link"
+import { isAdminAddress } from "@/lib/admin"
 
 export function AdminButton() {
   const { address, isConnected } = useAccount()
-  const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET?.toLowerCase()
 
-  if (!isConnected || !address || !adminWallet) return null
-  if (address.toLowerCase() !== adminWallet) return null
+  if (!isConnected || !isAdminAddress(address)) return null
 
   return (
     <Link

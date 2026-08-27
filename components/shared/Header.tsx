@@ -1,15 +1,21 @@
+"use client"
+
 import Link from "next/link"
 import { WalletButton } from "./WalletButton"
 import { AdminButton } from "./AdminButton"
+import { LangToggle } from "./LangToggle"
+import { useLang } from "@/lib/i18n/context"
 
 export function Header() {
+  const { T } = useLang()
+
   return (
     <header
       className="sticky top-0 z-50"
       style={{
         background: "#060610",
-        borderBottom: "4px solid #0052FF",
-        boxShadow: "0 4px 0 #000",
+        borderBottom: "none",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.6)",
       }}
     >
       <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
@@ -18,17 +24,15 @@ export function Header() {
           className="font-pixel"
           style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
         >
-          <span style={{ color: "#0052FF", textShadow: "2px 2px 0 #ffffff" }}>ON</span>LOOP
+          <span style={{ color: "#ffffff", textShadow: "2px 2px 0 #0052FF" }}>ON</span>LOOP
         </Link>
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/menu" className="nav-link font-ja text-sm">
-            恩送りメニュー
-          </Link>
-          <Link href="/profile" className="nav-link font-ja text-sm">
-            マイページ
-          </Link>
+          <Link href="/menu" className="nav-link font-ja text-sm">{T.nav.menu}</Link>
+          <Link href="/mint" className="nav-link font-pixel text-[0.72rem]">{T.nav.mint}</Link>
+          <Link href="/profile" className="nav-link font-ja text-sm">{T.nav.mypage}</Link>
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <LangToggle />
           <AdminButton />
           <WalletButton />
         </div>

@@ -10,10 +10,10 @@ export default function ProviderApplyPage() {
             className="font-pixel mb-3 leading-loose"
             style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
           >
-            ギバー登録申請
+            恩送りメニュー登録
           </h1>
           <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
-            あなたのスキルや好意を、恩送りとして提供しましょう。
+            あなたのスキルや好意を、恩送りメニューに登録しましょう。
           </p>
         </div>
 

@@ -3,6 +3,7 @@
 import { useAccount } from "wagmi"
 import { useState, useEffect, type ReactNode } from "react"
 import { WalletButton } from "./WalletButton"
+import { isAdminAddress } from "@/lib/admin"
 
 export function AdminGate({ children }: { children: ReactNode }) {
   const { address, isConnected } = useAccount()
@@ -10,7 +11,7 @@ export function AdminGate({ children }: { children: ReactNode }) {
 
   useEffect(() => { setMounted(true) }, [])
 
-  const adminWallet = process.env.NEXT_PUBLIC_ADMIN_WALLET?.toLowerCase()
+  const isAdmin = isAdminAddress(address)
 
   if (!mounted) {
     return (
@@ -30,7 +31,7 @@ export function AdminGate({ children }: { children: ReactNode }) {
     )
   }
 
-  if (!adminWallet || address?.toLowerCase() !== adminWallet) {
+  if (!isAdmin) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#0a0a1a" }}>
         <p className="font-pixel text-[0.85rem]" style={{ color: "#e63946" }}>ACCESS DENIED</p>

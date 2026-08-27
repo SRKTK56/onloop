@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
+import { NFTGallery } from "@/components/nft/NFTGallery"
 
 type Profile = { walletAddress: string; displayName: string | null; avatarUrl: string | null }
 type Provider = {
@@ -22,9 +23,19 @@ type ChainNode = {
 }
 type OriginChain = { id: number; originWallet: string; createdAt: string }
 type OnTx = { id: number; amount: number; reason: string; chainId: number | null; createdAt: string }
+type MyChainSummary = {
+  id: number
+  originWallet: string
+  createdAt: string
+  myRole: "origin" | "giver" | "receiver"
+  totalNodes: number
+  confirmedNodes: number
+  stage: { level: number; name: string; nameEn: string; emoji: string; accent: string }
+}
 type ProfileData = {
   profile: Profile | null; balance: number; history: OnTx[]
   originChains: OriginChain[]; nodes: ChainNode[]
+  myChains: MyChainSummary[]
 }
 
 function shortAddr(addr: string) { return addr.slice(0, 6) + "..." + addr.slice(-4) }
@@ -136,7 +147,9 @@ export function ProfileView() {
         <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
           マイページを見るにはウォレットを接続してください。
         </p>
-        <WalletButton />
+        <div className="flex justify-center">
+          <WalletButton />
+        </div>
       </div>
     )
   }
@@ -293,100 +306,112 @@ export function ProfileView() {
       <div className="pixel-box overflow-hidden" style={{ background: "#0f1628" }}>
         <PixelTabs
           tabs={[
-            { key: "chains", label: "チェーン履歴" },
-            { key: "origin", label: "起点チェーン" },
+            { key: "chains", label: "参加チェーン" },
+            { key: "nft",    label: "NFT" },
             { key: "tokens", label: "ON獲得履歴" },
-            { key: "giver", label: "ギバー登録" },
+            { key: "giver",  label: "メニュー登録" },
           ]}
           active={activeTab}
           onChange={setActiveTab}
         />
 
         <div className="p-4 space-y-3">
-          {/* チェーン履歴 */}
+          {/* 参加チェーン一覧 */}
           {activeTab === "chains" && (
-            data.nodes.length === 0 ? (
+            !data.myChains || data.myChains.length === 0 ? (
               <div className="text-center py-10 space-y-4">
-                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO CHAIN HISTORY</p>
-                <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ恩送りに参加していません。</p>
+                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO CHAINS YET</p>
+                <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ恩送りのチェーンに参加していません。</p>
                 <Link href="/menu" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "font-ja")}>
                   メニューから始める
                 </Link>
               </div>
             ) : (
-              data.nodes.map((node) => (
-                <Link
-                  key={node.id}
-                  href={`/chain/${node.chainId}`}
-                  className="flex items-center justify-between p-3 transition-colors"
-                  style={{ background: "#060610", border: "2px solid #1a2a3a" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#0052FF")}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a2a3a")}
-                >
-                  <div className="space-y-1">
-                    <p className="font-ja text-sm font-medium" style={{ color: "#c0d0e8" }}>
-                      {node.description}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
-                        CHAIN #{node.chainId}
-                      </span>
-                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>·</span>
-                      <span className="font-ja text-xs" style={{ color: "#506070" }}>
-                        {node.giverWallet === address ? "🌱 送った" : "🤝 受けた"}
-                      </span>
-                      <span className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
-                        POS.{node.position + 1}
-                      </span>
-                    </div>
-                  </div>
-                  <StatusBadge confirmed={node.status === "confirmed"} />
-                </Link>
-              ))
-            )
-          )}
-
-          {/* 起点チェーン */}
-          {activeTab === "origin" && (
-            data.originChains.length === 0 ? (
-              <div className="text-center py-10 space-y-4">
-                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO ORIGIN CHAINS</p>
-                <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ連鎖を起こしていません。</p>
-                <Link href="/menu" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "font-ja")}>
-                  恩送りを始める
-                </Link>
-              </div>
-            ) : (
-              data.originChains.map((chain) => {
-                const chainNodeList = data.nodes.filter((n) => n.chainId === chain.id)
-                const confirmed = chainNodeList.filter((n) => n.status === "confirmed").length
+              data.myChains.map((chain) => {
+                const roleLabel  = chain.myRole === "origin"   ? "★ 起点者"
+                                 : chain.myRole === "giver"    ? "▸ 送り人"
+                                 : "✦ 受取人"
+                const roleColor  = chain.myRole === "origin"   ? "#0052FF"
+                                 : chain.myRole === "giver"    ? "#52b788"
+                                 : "#f9c74f"
+                const isLoop = chain.confirmedNodes >= 5
                 return (
                   <Link
                     key={chain.id}
                     href={`/chain/${chain.id}`}
-                    className="flex items-center justify-between p-3"
-                    style={{ background: "#060a18", border: "2px solid #0a1a4a" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#0052FF")}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#0a1a4a")}
+                    className="flex items-start justify-between gap-3 p-4 transition-colors"
+                    style={{ background: "#060610", border: `2px solid #1a2a3a` }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = chain.stage.accent)}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a2a3a")}
                   >
-                    <div className="space-y-1">
-                      <p className="font-pixel text-[0.72rem]" style={{ color: "#7ab0ff" }}>
-                        CHAIN #{chain.id}
-                      </p>
-                      <p className="font-ja text-xs" style={{ color: "#506070" }}>
-                        参加者 {chainNodeList.length} 人 · 確認済み {confirmed} 件
-                      </p>
+                    {/* 左：チェーン情報 */}
+                    <div className="space-y-2 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-pixel text-[0.7rem]" style={{ color: "#3a5a7a" }}>
+                          CHAIN #{chain.id}
+                        </span>
+                        {isLoop && (
+                          <span className="font-pixel text-[0.62rem] px-1.5 py-0.5"
+                            style={{ background: "#ffcc0022", border: "1px solid #aa8800", color: "#ffcc00" }}>
+                            🎉 LOOP
+                          </span>
+                        )}
+                      </div>
+
+                      {/* ステージ + 役割 バッジ行 */}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className="font-pixel text-[0.62rem] px-1.5 py-0.5"
+                          style={{
+                            background: `${chain.stage.accent}22`,
+                            border: `2px solid ${chain.stage.accent}`,
+                            color: chain.stage.accent,
+                          }}
+                        >
+                          {chain.stage.emoji} {chain.stage.name}
+                        </span>
+                        <span
+                          className="font-pixel text-[0.62rem] px-1.5 py-0.5"
+                          style={{
+                            background: `${roleColor}22`,
+                            border: `2px solid ${roleColor}`,
+                            color: roleColor,
+                          }}
+                        >
+                          {roleLabel}
+                        </span>
+                      </div>
+
+                      {/* ノード進捗バー */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1.5 max-w-[120px]" style={{ background: "#1a2a3a" }}>
+                          <div
+                            className="h-full"
+                            style={{
+                              width: chain.totalNodes > 0
+                                ? `${Math.round((chain.confirmedNodes / Math.max(chain.totalNodes, 1)) * 100)}%`
+                                : "0%",
+                              background: chain.stage.accent,
+                            }}
+                          />
+                        </div>
+                        <span className="font-pixel text-[0.62rem]" style={{ color: "#3a5a7a" }}>
+                          {chain.confirmedNodes}/{chain.totalNodes} 完了
+                        </span>
+                      </div>
                     </div>
-                    <span
-                      className="font-pixel text-[0.85rem] px-2 py-0.5"
-                      style={{ background: "#0a1628", border: "2px solid #0052FF", color: "#0052FF" }}
-                    >
-                      🌱 起点
-                    </span>
+
+                    {/* 右：矢印 */}
+                    <span className="font-pixel text-[0.7rem] shrink-0 mt-1" style={{ color: "#3a5a7a" }}>▸</span>
                   </Link>
                 )
               })
             )
+          )}
+
+          {/* NFTギャラリー */}
+          {activeTab === "nft" && address && (
+            <NFTGallery walletAddress={address} />
           )}
 
           {/* ON獲得履歴 */}

@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { providers, serviceRequests } from "@/lib/db/schema"
 import { eq, not } from "drizzle-orm"
 import Link from "next/link"
+import { MenuImageSeeder } from "@/components/admin/MenuImageSeeder"
 
 export const dynamic = "force-dynamic"
 
@@ -31,7 +32,7 @@ export default async function AdminPage() {
           className="font-pixel mb-10 leading-loose"
           style={{ fontSize: "1rem", color: "#ffcc00", textShadow: "3px 3px 0 #aa8800" }}
         >
-          ⚙ 管理ダッシュボード
+          ⚙ メニュー管理
         </h1>
 
         {/* サマリー */}
@@ -135,6 +136,23 @@ export default async function AdminPage() {
             )}
           </div>
         </div>
+
+        {/* メニュー画像管理 */}
+        <div className="mt-10">
+          <h2
+            className="font-pixel mb-2 leading-loose"
+            style={{ fontSize: "0.85rem", color: "#7ab0ff", textShadow: "3px 3px 0 #0052FF" }}
+          >
+            🖼 メニュー画像管理
+          </h2>
+          <p className="font-ja text-sm mb-4" style={{ color: "#506070" }}>
+            画像が未設定のメニューにSVG画像を自動生成してLighthouseに保存します
+          </p>
+          <div className="pixel-box p-5" style={{ background: "#0f1628" }}>
+            <MenuImageSeeder />
+          </div>
+        </div>
+
       </div>
     </div>
   )

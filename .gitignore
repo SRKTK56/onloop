@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Hardhat のビルド生成物（コンパイルで再生成される）
+artifacts/
+cache/
+typechain-types/
