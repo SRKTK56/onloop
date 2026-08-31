@@ -122,7 +122,7 @@ export default function Home() {
       </section>
 
       {/* ══ HOW IT WORKS ══ */}
-      <section className="band-paper relative overflow-hidden py-16 md:py-24">
+      <section className="band-concrete relative overflow-hidden py-16 md:py-24">
         <div
           aria-hidden
           className="absolute -left-24 -top-8 w-[420px] h-[420px] opacity-75 pointer-events-none"
@@ -146,51 +146,6 @@ export default function Home() {
                 <p className="font-ja text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══ ON TOKEN ══ */}
-      <section className="band-concrete relative overflow-hidden py-16 md:py-24">
-        <div
-          aria-hidden
-          className="absolute -right-10 -bottom-20 w-[360px] h-[360px] opacity-80 pointer-events-none"
-        >
-          <LoopRibbon variant="ring" className="w-full h-full" />
-        </div>
-        <div className="relative z-10 max-w-4xl mx-auto px-5">
-          {/* 定義を大きく、補足を小さく。「何であるか」を先に読ませる */}
-          <div className="mb-8 md:mb-12">
-            <h2 className="display-lg text-center">ON RECORD</h2>
-            <p className="h-ja text-center text-lg md:text-2xl mt-5">{T.token.lead}</p>
-            <p className="font-ja text-center text-sm md:text-base mt-3 max-w-2xl mx-auto">
-              {T.token.sub}
-            </p>
-          </div>
-          {/* 数字の前に、何が起きているかを絵で見せる */}
-          <div className="mb-5">
-            <OnDiagram labels={{ hop: T.token.fig_hop, loop: T.token.fig_loop }} />
-          </div>
-          <div className="mb-8">
-            <OnExample />
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-5 mb-8">
-            {T.token.cards.map((item: any, i: number) => (
-              <div
-                key={item.label}
-                className="slush-card p-6 text-center"
-                style={{ background: ["#ffffff", "#ffd731", "#e9ccff"][i] }}
-              >
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <p className="h-ja text-sm mb-2">{item.label}</p>
-                <p className="display-md mb-2">{item.value}</p>
-                <p className="font-ja text-sm">{item.note}</p>
-              </div>
-            ))}
-          </div>
-          <div className="slush-card-lg p-6 text-center">
-            <p className="font-ja text-sm leading-relaxed">{T.token.chain}</p>
           </div>
         </div>
       </section>
@@ -242,6 +197,51 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ON RECORD ══ ステージの説明を読んだ後に来るよう WORLD STAGES の後ろに置く */}
+      <section className="band-concrete relative overflow-hidden py-16 md:py-24">
+        <div
+          aria-hidden
+          className="absolute -right-10 -bottom-20 w-[360px] h-[360px] opacity-80 pointer-events-none"
+        >
+          <LoopRibbon variant="ring" className="w-full h-full" />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-5">
+          {/* 定義を大きく、補足を小さく。「何であるか」を先に読ませる */}
+          <div className="mb-8 md:mb-12">
+            <h2 className="display-lg text-center">ON RECORD</h2>
+            <p className="h-ja text-center text-lg md:text-2xl mt-5">{T.token.lead}</p>
+            <p className="font-ja text-center text-sm md:text-base mt-3 max-w-2xl mx-auto">
+              {T.token.sub}
+            </p>
+          </div>
+          {/* 数字の前に、何が起きているかを絵で見せる */}
+          <div className="mb-5">
+            <OnDiagram labels={{ hop: T.token.fig_hop, loop: T.token.fig_loop }} />
+          </div>
+          <div className="mb-8">
+            <OnExample />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5 mb-8">
+            {T.token.cards.map((item: any, i: number) => (
+              <div
+                key={item.label}
+                className="slush-card p-6 text-center"
+                style={{ background: ["#ffffff", "#ffd731", "#e9ccff"][i] }}
+              >
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <p className="h-ja text-sm mb-2">{item.label}</p>
+                <p className="display-md mb-2">{item.value}</p>
+                <p className="font-ja text-sm">{item.note}</p>
+              </div>
+            ))}
+          </div>
+          <div className="slush-card-lg p-6 text-center">
+            <p className="font-ja text-sm leading-relaxed">{T.token.chain}</p>
           </div>
         </div>
       </section>
