@@ -1,5 +1,7 @@
 "use client"
 
+import { useId } from "react"
+
 /**
  * ONLOOP の署名モチーフ — 膨らんだループリボン。
  *
@@ -19,8 +21,6 @@ type Props = {
   opacity?: number
 }
 
-let uid = 0
-
 export function LoopRibbon({
   color = "#4da2ff",
   shade = "#0052ff",
@@ -28,8 +28,9 @@ export function LoopRibbon({
   variant = "ring",
   opacity = 1,
 }: Props) {
-  const id = `ribbon-${uid++}`
-  const grain = `${id}-grain`
+  // モジュールスコープのカウンタだとSSRとクライアントで採番がずれ、
+  // ハイドレーション不整合になる（2026-08-31 に踏んだ）。useId を使う。
+  const grain = `ribbon-grain-${useId().replace(/[:]/g, "")}`
 
   /**
    * 管1本を3層のストロークで描く。

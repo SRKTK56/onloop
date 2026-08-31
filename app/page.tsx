@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { PhoneMockup } from "@/components/shared/PhoneMockup"
 import { LoopRibbon, Sticker } from "@/components/shared/LoopRibbon"
+import { LoopFeed } from "@/components/loops/LoopFeed"
 import { STAGES } from "@/lib/stages"
 import { useLang } from "@/lib/i18n/context"
 
@@ -96,6 +97,25 @@ export default function Home() {
               </div>
               <PhoneMockup />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ LIVE LOOPS ══ 初めて来た人が最初に見る「今、恩が動いている」 */}
+      <section className="band-paper relative overflow-hidden py-16 md:py-24">
+        <div
+          aria-hidden
+          className="absolute -right-24 -bottom-16 w-[340px] h-[340px] opacity-70 pointer-events-none"
+        >
+          <LoopRibbon variant="ring" className="w-full h-full" />
+        </div>
+        <div className="relative z-10 max-w-5xl mx-auto px-5">
+          <SectionHead en="LIVE LOOPS" sub="いま動いている恩送りと、閉じたループ。ウォレットなしで見られます。" />
+          <LoopFeed limit={4} columns={2} />
+          <div className="text-center mt-10">
+            <Link href="/loops" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+              ▸ すべてのループを見る
+            </Link>
           </div>
         </div>
       </section>

@@ -10,8 +10,8 @@ export type Stage = {
   min: number
   max: number
   accent: string
-  bgDark: string
-  bgLight: string
+  bgDark: string   // 旧ダーク様式の名残。現在は「濃いめの淡色パネル地」。文字色には使わない
+  bgLight: string  // より淡い面
   image: string
   description: string
   nextMessage: string

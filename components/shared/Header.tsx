@@ -25,6 +25,9 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-1.5">
+          <Link href="/loops" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
+            {T.nav.loops}
+          </Link>
           <Link href="/menu" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
             {T.nav.menu}
           </Link>

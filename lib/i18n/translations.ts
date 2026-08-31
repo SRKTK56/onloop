@@ -3,6 +3,7 @@ export type Lang = "ja" | "en"
 const t = {
   ja: {
     nav: {
+      loops:  "ループを見る",
       menu:   "恩送りメニュー",
       mypage: "マイページ",
     },
@@ -64,6 +65,7 @@ const t = {
 
   en: {
     nav: {
+      loops:  "Live Loops",
       menu:   "Kindness Menu",
       mypage: "My Page",
     },

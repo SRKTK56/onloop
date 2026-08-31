@@ -1,8 +1,9 @@
 import { db } from "@/lib/db"
 import { chains, chainNodes, userProfiles } from "@/lib/db/schema"
-import { eq } from "drizzle-orm"
+import { eq, inArray } from "drizzle-orm"
 import { notFound } from "next/navigation"
 import { ChainGraph } from "@/components/chain/ChainGraph"
+import { StageBanner } from "@/components/shared/StageDisplay"
 import { MessageThread } from "@/components/chain/MessageThread"
 import Link from "next/link"
 
@@ -19,17 +20,18 @@ export default async function ChainPage({ params }: Props) {
 
   const nodes = await db.select().from(chainNodes).where(eq(chainNodes.chainId, chainId))
 
-  const confirmedCount = nodes.filter((n) => n.status === "confirmed").length
+  const confirmed = nodes.filter((n) => n.status === "confirmed")
+  const confirmedCount = confirmed.length
   const isLoop = nodes.length >= 5 && nodes[nodes.length - 1]?.receiverWallet === chain.originWallet
+
+  // 報酬計算（lib/rewards.ts）と同じ数え方。ここがずれるとステージ表示と報酬が食い違う
+  const chainLength = [chain.originWallet, ...confirmed.map((n) => n.receiverWallet)]
+    .filter((w, i, arr) => arr.findIndex((x) => x.toLowerCase() === w.toLowerCase()) === i).length
 
   // 各ノードの参加者プロフィールを一括取得
   const wallets = [...new Set(nodes.flatMap((n) => [n.giverWallet, n.receiverWallet]))]
   const profiles = wallets.length
-    ? await db.select().from(userProfiles).where(
-        wallets.length === 1
-          ? eq(userProfiles.walletAddress, wallets[0])
-          : eq(userProfiles.walletAddress, wallets[0]) // 簡易: 後でIN句に変更可
-      )
+    ? await db.select().from(userProfiles).where(inArray(userProfiles.walletAddress, wallets))
     : []
   const profileMap = Object.fromEntries(profiles.map((p) => [p.walletAddress.toLowerCase(), p.displayName]))
 
@@ -59,9 +61,14 @@ export default async function ChainPage({ params }: Props) {
               )}
             </div>
             <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
-              参加者：{nodes.length} 人 · 確認済み：{confirmedCount} 件
+              参加者：{chainLength} 人 · 確認済み：{confirmedCount} 件
             </p>
           </div>
+        </div>
+
+        {/* ステージ ─ 連鎖が伸びるほど世界が育つ、という主軸 */}
+        <div className="mb-10">
+          <StageBanner chainLength={chainLength} isLoop={isLoop} />
         </div>
 
         {/* チェーン可視化 */}

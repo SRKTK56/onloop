@@ -200,6 +200,12 @@ export function ProfileView() {
                   color: "#000000",
                   borderRadius: "20px"}}
               />
+              {/* 公開範囲の明示。フィードは誰でも見られるため、登録前に必ず伝える */}
+              <p className="font-ja text-sm" style={{ opacity: 0.7 }}>
+                設定した名前は
+                <a href="/loops" className="underline">公開ループフィード</a>
+                に表示されます。空欄にするとウォレットアドレスの短縮表示になります。
+              </p>
             </div>
             <p className="font-mono text-xs" style={{ color: "#4a4a4a" }}>{address}</p>
             <button
