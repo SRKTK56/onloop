@@ -40,13 +40,12 @@ function RoleBadge({ role }: { role: string }) {
   const isOrigin = role === "origin"
   return (
     <span
-      className="font-pixel text-[0.7rem] px-2 py-0.5 inline-block"
+      className="font-display text-[0.7rem] px-2 py-0.5 inline-block"
       style={{
         background: isOrigin ? "#0052FF22" : "#f9730022",
-        border: `2px solid ${isOrigin ? "#0052FF" : "#f97316"}`,
-        color: isOrigin ? "#7ab0ff" : "#fb923c",
-        whiteSpace: "nowrap",
-      }}
+        border: `1px solid ${isOrigin ? "#0052FF" : "#fb4903"}`,
+        color: isOrigin ? "#4a4a4a" : "#fb4903",
+        whiteSpace: "nowrap", borderRadius: "1600px"}}
     >
       {isOrigin ? "★ 起点者" : "⇢ 中継者"}
     </span>
@@ -58,13 +57,12 @@ function StageBadge({ chainNodeCount }: { chainNodeCount: number }) {
   const stage = getStage(chainNodeCount)
   return (
     <span
-      className="font-pixel text-[0.7rem] px-2 py-0.5 inline-block"
+      className="font-display text-[0.7rem] px-2 py-0.5 inline-block"
       style={{
         background: `${stage.accent}22`,
-        border: `2px solid ${stage.accent}`,
-        color: stage.accent,
-        whiteSpace: "nowrap",
-      }}
+        border: `1px solid ${stage.accent}`,
+        color: "#000000",
+        whiteSpace: "nowrap", borderRadius: "1600px"}}
     >
       {stage.emoji} {stage.name} Lv.{stage.level}
     </span>
@@ -94,20 +92,20 @@ function ChainSection({ provider }: { provider: ProviderItem }) {
   return (
     <div
       className="p-4"
-      style={{ background: "#060a14", border: "2px solid #1a2a3a" }}
+      style={{ background: "#ffffff", border: "1px solid #000000" , borderRadius: "20px"}}
     >
-      <p className="font-pixel text-[0.7rem] mb-3" style={{ color: "#0052FF" }}>
+      <p className="font-display text-[0.7rem] mb-3" style={{ color: "#000000" }}>
         🔗 このチェーンの繋がり
       </p>
 
       {!provider.chainId ? (
-        <p className="font-ja text-sm leading-relaxed" style={{ color: "#607080" }}>
+        <p className="font-ja text-sm leading-relaxed" style={{ color: "#4a4a4a" }}>
           このメニューは新しいチェーンの起点です。あなたが最初の受取人になれます。
         </p>
       ) : loading ? (
-        <p className="font-pixel text-[0.7rem]" style={{ color: "#3a5a7a" }}>LOADING...</p>
+        <p className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>LOADING...</p>
       ) : members.length === 0 ? (
-        <p className="font-ja text-sm" style={{ color: "#506070" }}>チェーン情報を取得中...</p>
+        <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>チェーン情報を取得中...</p>
       ) : (
         <div className="flex flex-wrap items-center gap-2">
           {members.map((m, i) => {
@@ -119,9 +117,8 @@ function ChainSection({ provider }: { provider: ProviderItem }) {
                   <div
                     className="w-10 h-10 flex items-center justify-center overflow-hidden"
                     style={{
-                      border: `2px solid ${isOrigin ? "#0052FF" : "#f97316"}`,
-                      background: isOrigin ? "#001a66" : "#2a1000",
-                    }}
+                      border: `1px solid ${isOrigin ? "#0052FF" : "#fb4903"}`,
+                      background: isOrigin ? "#dceeff" : "#fff3cf", borderRadius: "20px"}}
                   >
                     {m.profileAvatarUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -130,13 +127,13 @@ function ChainSection({ provider }: { provider: ProviderItem }) {
                       <PixelChar type={charType} scale={3} />
                     )}
                   </div>
-                  <p className="font-ja text-xs text-center" style={{ color: "#90a0b8", maxWidth: 60 }}>
+                  <p className="font-ja text-sm text-center" style={{ color: "#4a4a4a", maxWidth: 60 }}>
                     {m.name ?? m.walletAddress.slice(0, 6) + "..."}
                   </p>
                   <RoleBadge role={m.role} />
                 </div>
                 {i < members.length - 1 && (
-                  <span className="font-pixel text-[0.7rem] mb-6" style={{ color: "#3a5a7a" }}>▶</span>
+                  <span className="font-display text-[0.7rem] mb-6" style={{ color: "#4a4a4a" }}>▶</span>
                 )}
               </div>
             )
@@ -158,17 +155,17 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.85)" }}
+      style={{ background: "#ffffff" }}
       onClick={onClose}
     >
       <div
-        className="pixel-box w-full max-w-lg max-h-[90vh] overflow-y-auto"
-        style={{ background: "#0f1628" }}
+        className="slush-card w-full max-w-lg max-h-[90vh] overflow-y-auto"
+        style={{ background: "#ffffff" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* サービス画像 + アバター */}
         <div className="relative">
-          <div className="h-48 overflow-hidden" style={{ background: "#060610" }}>
+          <div className="h-48 overflow-hidden" style={{ background: "#dceeff" }}>
             {provider.serviceImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={provider.serviceImageUrl} alt="" className="w-full h-full object-cover" />
@@ -181,13 +178,12 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
 
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center font-pixel cursor-pointer"
+            className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center font-display cursor-pointer"
             style={{
-              background: "rgba(0,0,0,0.8)",
-              border: "2px solid #506070",
-              color: "#90a0b8",
-              fontSize: "0.7rem",
-            }}
+              background: "#ffffff",
+              border: "1px solid #000000",
+              color: "#4a4a4a",
+              fontSize: "0.7rem", borderRadius: "1600px"}}
           >
             ✕
           </button>
@@ -196,10 +192,9 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
             className="absolute left-5 w-16 h-16 flex items-center justify-center overflow-hidden z-10"
             style={{
               bottom: "-2rem",
-              border: "3px solid #0052FF",
-              boxShadow: "4px 4px 0 #0052FF",
-              background: "#0a0a1a",
-            }}
+              border: "1px solid #000000",
+              boxShadow: "none",
+              background: "#ffffff", borderRadius: "20px"}}
           >
             {provider.profileAvatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -214,7 +209,7 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
         <div className="pt-12 px-6 pb-6 space-y-5">
           {/* 名前 + バッジ */}
           <div className="space-y-2">
-            <p className="font-ja font-bold text-xl" style={{ color: "#e0e8ff" }}>
+            <p className="font-ja font-bold text-xl" style={{ color: "#000000" }}>
               {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
             </p>
             <div className="flex flex-wrap gap-2">
@@ -225,9 +220,9 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
 
           {/* 自己紹介 */}
           {provider.bio && (
-            <div className="p-4" style={{ background: "#060a14", border: "2px solid #1a2a3a" }}>
-              <p className="font-pixel text-[0.7rem] mb-2" style={{ color: "#506070" }}>自己紹介</p>
-              <p className="font-ja text-sm leading-relaxed" style={{ color: "#90a0b8" }}>
+            <div className="p-4" style={{ background: "#ffffff", border: "1px solid #000000" , borderRadius: "20px"}}>
+              <p className="font-display text-[0.7rem] mb-2" style={{ color: "#4a4a4a" }}>自己紹介</p>
+              <p className="font-ja text-sm leading-relaxed" style={{ color: "#4a4a4a" }}>
                 {provider.bio}
               </p>
             </div>
@@ -236,19 +231,19 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
           {/* サービス */}
           <div>
             <span
-              className="font-pixel text-[0.7rem] px-2 py-0.5 mb-2 inline-block"
-              style={{ background: "#0052FF22", border: "2px solid #0052FF", color: "#7ab0ff" }}
+              className="font-display text-[0.7rem] px-2 py-0.5 mb-2 inline-block"
+              style={{ background: "#dceeff", border: "1px solid #000000", color: "#4a4a4a" , borderRadius: "1600px"}}
             >
               提供できること
             </span>
-            <p className="font-ja font-bold text-lg" style={{ color: "#c0d0e8" }}>
+            <p className="font-ja font-bold text-lg" style={{ color: "#000000" }}>
               {provider.serviceTitle}
             </p>
           </div>
 
-          <div className="p-4" style={{ background: "#060610", border: "2px solid #1a2a3a" }}>
-            <p className="font-pixel text-[0.65rem] mb-2" style={{ color: "#506070" }}>内容</p>
-            <p className="font-ja text-sm leading-relaxed whitespace-pre-wrap" style={{ color: "#90a0b8" }}>
+          <div className="p-4" style={{ background: "#dceeff", border: "1px solid #000000" , borderRadius: "20px"}}>
+            <p className="font-display text-[0.7rem] mb-2" style={{ color: "#4a4a4a" }}>内容</p>
+            <p className="font-ja text-sm leading-relaxed whitespace-pre-wrap" style={{ color: "#4a4a4a" }}>
               {provider.serviceDescription}
             </p>
           </div>
@@ -259,14 +254,13 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
           {/* 恩送りボタン */}
           <Link
             href={`/offer/${provider.id}`}
-            className="pixel-btn font-pixel block text-center"
+            className="slush-btn font-display block text-center"
             style={{
-              background: "#0052FF",
+              background: "#000000",
               color: "#fff",
-              borderColor: "#000",
+              borderColor: "#000000",
               padding: "0.9rem 1rem",
-              fontSize: "0.78rem",
-            }}
+              fontSize: "0.78rem", borderRadius: "1600px"}}
           >
             ▸ この人に恩送りをお願いする
           </Link>
@@ -288,12 +282,12 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
           return (
             <div
               key={provider.id}
-              className="pixel-box flex flex-col cursor-pointer"
-              style={{ background: "#0f1628", overflow: "visible" }}
+              className="slush-card flex flex-col cursor-pointer"
+              style={{ background: "#ffffff", overflow: "visible" }}
               onClick={() => setSelected(provider)}
             >
               {/* サービス画像 */}
-              <div className="h-32 flex items-center justify-center relative" style={{ background: "#060610" }}>
+              <div className="h-32 flex items-center justify-center relative" style={{ background: "#dceeff" }}>
                 <div className="absolute inset-0 overflow-hidden">
                   {provider.serviceImageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -311,7 +305,7 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
                 </div>
                 <div
                   className="absolute -bottom-6 left-4 w-12 h-12 flex items-center justify-center overflow-hidden z-10"
-                  style={{ border: "3px solid #0052FF", boxShadow: "3px 3px 0 #0052FF", background: "#0a0a1a" }}
+                  style={{ border: "1px solid #000000", boxShadow: "none", background: "#ffffff" , borderRadius: "20px"}}
                 >
                   {provider.profileAvatarUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -324,7 +318,7 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
 
               {/* 情報 */}
               <div className="pt-8 px-4 pb-4 flex flex-col gap-3 flex-1">
-                <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
+                <p className="font-ja font-bold text-base" style={{ color: "#000000" }}>
                   {provider.name ?? provider.walletAddress.slice(0, 8) + "..."}
                 </p>
 
@@ -336,23 +330,23 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
 
                 <div>
                   <span
-                    className="font-pixel text-[0.7rem] px-2 py-0.5 mb-1.5 inline-block"
-                    style={{ background: "#0052FF22", border: "2px solid #0052FF", color: "#7ab0ff" }}
+                    className="font-display text-[0.7rem] px-2 py-0.5 mb-1.5 inline-block"
+                    style={{ background: "#dceeff", border: "1px solid #000000", color: "#4a4a4a" , borderRadius: "1600px"}}
                   >
                     提供できること
                   </span>
-                  <p className="font-ja font-medium text-sm" style={{ color: "#c0d0e8" }}>
+                  <p className="font-ja font-medium text-sm" style={{ color: "#000000" }}>
                     {provider.serviceTitle}
                   </p>
                 </div>
 
-                <p className="font-ja text-sm leading-relaxed line-clamp-3" style={{ color: "#607080" }}>
+                <p className="font-ja text-sm leading-relaxed line-clamp-3" style={{ color: "#4a4a4a" }}>
                   {provider.serviceDescription}
                 </p>
 
                 <div
-                  className="font-pixel text-center py-2 mt-auto"
-                  style={{ background: "#060a18", border: "2px solid #1a2a3a", color: "#3a5a7a", fontSize: "0.65rem" }}
+                  className="font-display text-center py-2 mt-auto"
+                  style={{ background: "#ffffff", border: "1px solid #000000", color: "#4a4a4a", fontSize: "0.7rem" , borderRadius: "20px"}}
                 >
                   ▸ タップして詳細を見る
                 </div>

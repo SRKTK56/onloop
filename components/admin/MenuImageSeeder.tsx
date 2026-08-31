@@ -45,7 +45,7 @@ export function MenuImageSeeder() {
   }
 
   if (!loaded) {
-    return <p className="font-ja text-sm" style={{ color: "#506070" }}>読み込み中...</p>
+    return <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>読み込み中...</p>
   }
 
   const done = results.filter(r => r.status === "success").length
@@ -57,10 +57,10 @@ export function MenuImageSeeder() {
       {/* ステータス */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#506070" }}>
+          <p className="font-display text-[0.72rem] mb-1" style={{ color: "#4a4a4a" }}>
             IMAGE NOT SET
           </p>
-          <p className="font-ja text-base font-bold" style={{ color: "#e0e8ff" }}>
+          <p className="font-ja text-base font-bold" style={{ color: "#000000" }}>
             {targets.length === 0 && results.length === 0
               ? "全メニューに画像が設定済みです ✓"
               : `画像未設定 ${targets.length} 件`}
@@ -70,16 +70,15 @@ export function MenuImageSeeder() {
           <button
             onClick={handleRun}
             disabled={running}
-            className="pixel-btn font-pixel"
+            className="slush-btn font-display"
             style={{
               background:  running ? "#0a1a2a" : "#060f2a",
-              color:       running ? "#2a4a6a" : "#7ab0ff",
-              borderColor: running ? "#1a2a3a" : "#0052FF",
-              boxShadow:   running ? "none" : "3px 3px 0 #0052FF",
+              color:       running ? "#2a4a6a" : "#4a4a4a",
+              borderColor: running ? "#000000" : "#000000",
+              boxShadow:   "none",
               padding:     "0.6rem 1.2rem",
               fontSize:    "0.72rem",
-              cursor:      running ? "not-allowed" : "pointer",
-            }}
+              cursor:      running ? "not-allowed" : "pointer", borderRadius: "1600px"}}
           >
             {running ? `✦ 生成中... (${done}/${targets.length})` : "✦ 全件の画像を一括生成"}
           </button>
@@ -91,9 +90,9 @@ export function MenuImageSeeder() {
         <div className="space-y-1">
           {targets.map(t => (
             <div key={t.id} className="flex items-center gap-2 px-3 py-2"
-              style={{ background: "#060610", border: "1px solid #1a2a3a" }}>
-              <span className="font-mono text-xs" style={{ color: "#3a5a7a" }}>#{t.id}</span>
-              <span className="font-ja text-sm" style={{ color: "#90a0b8" }}>
+              style={{ background: "#dceeff", border: "1px solid #000000" , borderRadius: "20px"}}>
+              <span className="font-mono text-xs" style={{ color: "#4a4a4a" }}>#{t.id}</span>
+              <span className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
                 {t.name ?? "名前未設定"} — {t.serviceTitle}
               </span>
             </div>
@@ -108,24 +107,24 @@ export function MenuImageSeeder() {
             const t = targets.find(x => x.id === r.id)
             return (
               <div key={r.id} className="flex items-start gap-2 px-3 py-2"
-                style={{ background: "#060610", border: `1px solid ${r.status === "success" ? "#1a3a1a" : "#3a1a1a"}` }}>
-                <span style={{ color: r.status === "success" ? "#52b788" : "#e63946" }}>
+                style={{ background: "#dceeff", border: `1px solid ${r.status === "success" ? "#1a3a1a" : "#3a1a1a"}` , borderRadius: "20px"}}>
+                <span style={{ color: r.status === "success" ? "#000000" : "#fb4903" }}>
                   {r.status === "success" ? "✓" : "✗"}
                 </span>
                 <div className="min-w-0">
-                  <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>
+                  <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
                     #{r.id} {t?.name} — {t?.serviceTitle}
                   </p>
                   {r.status === "error" && (
-                    <p className="font-ja text-xs mt-0.5" style={{ color: "#e63946" }}>{r.error}</p>
+                    <p className="font-ja text-sm mt-0.5" style={{ color: "#fb4903" }}>{r.error}</p>
                   )}
                 </div>
               </div>
             )
           })}
           {!running && (
-            <p className="font-pixel text-[0.65rem] pt-1"
-              style={{ color: errCount > 0 ? "#aa8800" : "#52b788" }}>
+            <p className="font-display text-[0.7rem] pt-1"
+              style={{ color: errCount > 0 ? "#ffd731" : "#000000" }}>
               完了 — 成功: {done} / エラー: {errCount}
             </p>
           )}

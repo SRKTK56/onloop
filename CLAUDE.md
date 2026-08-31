@@ -15,6 +15,10 @@ Baseブロックチェーン上に構築する恩送りサービス。
 - Neon（serverless Postgres）+ Drizzle ORM
 - React Flow（チェーン可視化）
 
+## デザイン
+
+UIの様式は `STYLE.md` を必ず読んでから触ること（影禁止・グラデ禁止・青はCTAに使わない）。
+
 ## 注意点
 - Button コンポーネントは @base-ui/react ベースで `asChild` 非対応
   → Link に buttonVariants() クラスを直接適用すること

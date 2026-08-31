@@ -28,20 +28,19 @@ export function PhoneMockup() {
       <div
         className="relative w-[260px] overflow-hidden"
         style={{
-          background: "#0a0a14",
-          border: "6px solid #1a1a2a",
+          background: "#ffffff",
+          border: "1px solid #000000",
           borderRadius: "2.5rem",
-          boxShadow: "0 8px 40px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.06)",
-        }}
+          boxShadow: "none"}}
       >
         {/* ダイナミックアイランド風ノッチ */}
-        <div className="flex justify-center pt-3 pb-1" style={{ background: "#0a0a14" }}>
+        <div className="flex justify-center pt-3 pb-1" style={{ background: "#ffffff" }}>
           <div
             className="w-20 h-5 flex items-center justify-center gap-1.5"
-            style={{ background: "#000", borderRadius: "0.75rem" }}
+            style={{ background: "#000000", borderRadius: "1600px" }}
           >
-            <div className="w-2 h-2 rounded-full" style={{ background: "#222" }} />
-            <div className="w-3 h-3 rounded-full" style={{ background: "#181818" }} />
+            <div className="w-2 h-2 rounded-full" style={{ background: "#333333" }} />
+            <div className="w-3 h-3 rounded-full" style={{ background: "#333333" }} />
           </div>
         </div>
 
@@ -52,16 +51,15 @@ export function PhoneMockup() {
             minHeight: 340,
             backgroundImage: `url(${stage.image})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+            backgroundPosition: "center"}}
         >
           {/* コンテンツ：各要素に個別の背景を設定して視認性を確保 */}
           <div className="px-3 py-3 flex flex-col gap-2">
 
             {/* ロゴ - 左上 */}
             <div>
-              <span className="font-pixel text-[0.82rem]" style={{ color: "#fff", textShadow: "2px 2px 0 #0052FF" }}>
-                <span style={{ color: "#fff", textShadow: "2px 2px 0 #0052FF" }}>ON</span>LOOP
+              <span className="font-display text-[0.82rem]" style={{ color: "#000000", textShadow: "none"}}>
+                <span style={{ color: "#000000", textShadow: "none"}}>ON</span>LOOP
               </span>
             </div>
 
@@ -69,12 +67,11 @@ export function PhoneMockup() {
             <div
               className="flex items-center justify-center px-3 py-1.5"
               style={{
-                background: "rgba(0,0,0,0.75)",
-                border: "2px solid #ffffff",
-                backdropFilter: "blur(4px)",
-              }}
+                background: "#ffffff",
+                border: "1px solid #000000",
+                backdropFilter: "blur(4px)", borderRadius: "20px"}}
             >
-              <span className="font-pixel text-[0.7rem]" style={{ color: "#fff" }}>
+              <span className="font-display text-[0.7rem]" style={{ color: "#000000" }}>
                 STAGE{stage.level} {stage.emoji}{stage.nameEn}
               </span>
             </div>
@@ -85,44 +82,42 @@ export function PhoneMockup() {
                 <div
                   className="px-2 py-2 flex items-center gap-2"
                   style={{
-                    background: node.origin ? `rgba(0,0,0,0.85)` : "rgba(0,0,0,0.70)",
-                    border: "2px solid #ffffff",
-                    boxShadow: "none",
-                  }}
+                    background: "#ffffff",
+                    border: "1px solid #000000",
+                    boxShadow: "none", borderRadius: "20px"}}
                 >
                   <div
                     className="shrink-0 flex items-center justify-center"
                     style={{
                       width: 36, height: 36,
-                      background: node.origin ? `${stage.accent}44` : "rgba(0,0,0,0.5)",
-                      border: "2px solid rgba(255,255,255,0.7)",
-                    }}
+                      background: node.origin ? stage.accent : "#e9e9e9",
+                      border: "1px solid #000000", borderRadius: "20px"}}
                   >
                     <PixelChar type={node.char} scale={3} />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <p className="font-ja text-xs font-bold truncate" style={{ color: "#ffffff" }}>
+                    <p className="font-ja text-sm font-bold truncate" style={{ color: "#000000" }}>
                       {node.label}
                       {node.origin && (
-                        <span className="font-pixel text-[0.82rem] ml-1" style={{ color: stage.accent }}>
+                        <span className="font-display text-[0.82rem] ml-1" style={{ color: "#000000" }}>
                           ★
                         </span>
                       )}
                     </p>
-                    <p className="font-ja text-[0.85rem] truncate" style={{ color: "#b0c4d8" }}>
+                    <p className="font-ja text-[0.85rem] truncate" style={{ color: "#4a4a4a" }}>
                       {node.act}
                     </p>
                   </div>
 
-                  <span className="font-pixel text-[0.72rem] shrink-0" style={{ color: stage.accent }}>
+                  <span className="font-display text-[0.72rem] shrink-0" style={{ color: "#000000" }}>
                     +{node.on}ON
                   </span>
                 </div>
 
                 {i < nodes.length - 1 && (
                   <div className="flex justify-center my-0.5">
-                    <span className="font-pixel text-[0.9rem]" style={{ color: stage.accent }}>▼</span>
+                    <span className="font-display text-[0.9rem]" style={{ color: "#000000" }}>▼</span>
                   </div>
                 )}
               </div>
@@ -131,9 +126,9 @@ export function PhoneMockup() {
             {/* ループボーナス（コンパクト） */}
             <div
               className="px-2 py-1.5"
-              style={{ background: "rgba(0,0,0,0.75)", border: "2px solid rgba(255,255,255,0.5)" }}
+              style={{ background: "#ffffff", border: "1px solid #000000" , borderRadius: "20px"}}
             >
-              <p className="font-pixel" style={{ color: stage.accent, fontSize: "0.58rem", whiteSpace: "nowrap" }}>
+              <p className="font-display" style={{ color: "#000000", fontSize: "0.7rem", whiteSpace: "nowrap" }}>
                 {stage.emoji}{stage.nameEn} LOOPボーナス ×{stage.loopMultiplier}
               </p>
             </div>
@@ -141,8 +136,8 @@ export function PhoneMockup() {
         </div>
 
         {/* ホームバー */}
-        <div className="flex justify-center py-3" style={{ background: "#0a0a14" }}>
-          <div className="w-24 h-1.5" style={{ background: "#333", borderRadius: "1rem" }} />
+        <div className="flex justify-center py-3" style={{ background: "#ffffff" }}>
+          <div className="w-24 h-1.5" style={{ background: "#000000", borderRadius: "1600px" }} />
         </div>
       </div>
     </div>

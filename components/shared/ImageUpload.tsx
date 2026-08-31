@@ -46,7 +46,7 @@ export function ImageUpload({ value, onChange, className, size = "lg", label = "
         onClick={() => inputRef.current?.click()}
         className={cn(
           sizeClass,
-          "border-2 border-dashed border-border bg-muted/50 hover:bg-accent transition-colors overflow-hidden flex items-center justify-center relative cursor-pointer"
+          "border border-dashed border-border rounded-[20px] bg-muted/50 hover:bg-accent transition-colors overflow-hidden flex items-center justify-center relative cursor-pointer"
         )}
       >
         {value ? (

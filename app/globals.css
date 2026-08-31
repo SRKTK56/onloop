@@ -4,124 +4,102 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ═══════════════════════════════════════════════════════════════
+   ONLOOP — Style: インフレータブル・ステッカー（パステル紙面）
+   出典: ~/claude/_knowledge/design-refs/slush.md（Slush様式のフル適用）
+
+   一行の世界観:
+     「淡い紙に貼られた、恩のループのステッカー集」
+
+   死守する3つのルール（これを破ると様式が崩れる）:
+     1. 影を使わない（box-shadow 禁止）。立体は色帯と1px黒輪郭で出す
+     2. グラデーションを使わない。唯一の例外は署名モチーフのループリボン
+     3. 青（Base Blue / Electric Blue）はCTAに使わない。装飾専用色
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── 地と輪郭 ── */
+  --color-carbon: #000000;
+  --color-paper-white: #ffffff;
+  --color-sky-wash: #dceeff;
+  --color-concrete-gray: #cccccc;
+  --color-soft-mist: #e9e9e9;
+
+  /* ── ステッカーパレット（共有セット。1画面で必ず複数使う） ── */
+  --color-base-blue: #0052ff;      /* Base ブランド固定色・装飾専用 */
+  --color-electric-blue: #4da2ff;  /* リボン／ウォッシュ */
+  --color-mint-pop: #55db9c;
+  --color-lavender: #e9ccff;
+  --color-ember: #fb4903;
+  --color-sunburst: #ffd731;
+  --color-voltage-violet: #5c4ade;
+  --color-rose: #ff4d6d;           /* ONLOOP拡張（8ステージ用） */
+  --color-aqua: #7ee8e8;           /* ONLOOP拡張（8ステージ用） */
+
+  /* ── 書体 ── */
+  --font-display: "Bowlby One", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-ja: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Noto Sans JP", sans-serif;
+  --font-sans: var(--font-ja);
+  --font-mono: ui-monospace, "SFMono-Regular", monospace;
+
+  /* ── 角丸（ピル＝1600px、カード＝20/40px。16px未満は使わない） ── */
+  --radius-card: 20px;
+  --radius-card-lg: 40px;
+  --radius-pill: 1600px;
+  --radius-icon: 16px;
+}
+
+/* shadcn/ui とのブリッジ（ui/* コンポーネントが参照する） */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-pixel: "Press Start 2P", monospace;
-  --font-ja: "DotGothic16", "Hiragino Sans", "Noto Sans JP", sans-serif;
-  --font-sans: var(--font-ja);
-  --font-mono: "Press Start 2P", monospace;
-  --font-heading: var(--font-pixel);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: 16px;
+  --radius-md: 20px;
+  --radius-lg: 20px;
+  --radius-xl: 40px;
+  --radius-2xl: 40px;
+  --radius-3xl: 1600px;
+  --radius-4xl: 1600px;
 }
 
 :root {
-  /* Base Blue: #0052FF = oklch(0.488 0.243 264.4) */
-  --base-blue: oklch(0.488 0.243 264.4);
-  --base-blue-light: oklch(0.94 0.06 264.4);
-  --base-blue-dark: oklch(0.36 0.22 264.4);
-
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.13 0.01 264.4);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.01 264.4);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0.01 264.4);
-  --primary: var(--base-blue);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.015 264.4);
-  --secondary-foreground: oklch(0.36 0.12 264.4);
-  --muted: oklch(0.97 0.008 264.4);
-  --muted-foreground: oklch(0.52 0.04 264.4);
-  --accent: oklch(0.94 0.06 264.4);
-  --accent-foreground: oklch(0.36 0.22 264.4);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.91 0.015 264.4);
-  --input: oklch(0.91 0.015 264.4);
-  --ring: oklch(0.488 0.243 264.4 / 40%);
-  --chart-1: oklch(0.488 0.243 264.4);
-  --chart-2: oklch(0.62 0.18 264.4);
-  --chart-3: oklch(0.74 0.12 264.4);
-  --chart-4: oklch(0.84 0.07 264.4);
-  --chart-5: oklch(0.94 0.04 264.4);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.97 0.01 264.4);
-  --sidebar-foreground: oklch(0.13 0.01 264.4);
-  --sidebar-primary: var(--base-blue);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.94 0.06 264.4);
-  --sidebar-accent-foreground: oklch(0.36 0.22 264.4);
-  --sidebar-border: oklch(0.91 0.015 264.4);
-  --sidebar-ring: oklch(0.488 0.243 264.4 / 40%);
-}
-
-.dark {
-  --background: oklch(0.12 0.02 264.4);
-  --foreground: oklch(0.97 0.005 264.4);
-  --card: oklch(0.17 0.025 264.4);
-  --card-foreground: oklch(0.97 0.005 264.4);
-  --popover: oklch(0.17 0.025 264.4);
-  --popover-foreground: oklch(0.97 0.005 264.4);
-  --primary: oklch(0.62 0.22 264.4);
-  --primary-foreground: oklch(0.1 0.01 264.4);
-  --secondary: oklch(0.22 0.04 264.4);
-  --secondary-foreground: oklch(0.97 0.005 264.4);
-  --muted: oklch(0.22 0.03 264.4);
-  --muted-foreground: oklch(0.65 0.05 264.4);
-  --accent: oklch(0.25 0.06 264.4);
-  --accent-foreground: oklch(0.97 0.005 264.4);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.62 0.22 264.4 / 50%);
-  --chart-1: oklch(0.62 0.22 264.4);
-  --chart-2: oklch(0.72 0.16 264.4);
-  --chart-3: oklch(0.80 0.10 264.4);
-  --chart-4: oklch(0.86 0.07 264.4);
-  --chart-5: oklch(0.92 0.04 264.4);
-  --sidebar: oklch(0.17 0.025 264.4);
-  --sidebar-foreground: oklch(0.97 0.005 264.4);
-  --sidebar-primary: oklch(0.62 0.22 264.4);
-  --sidebar-primary-foreground: oklch(0.1 0.01 264.4);
-  --sidebar-accent: oklch(0.25 0.06 264.4);
-  --sidebar-accent-foreground: oklch(0.97 0.005 264.4);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.62 0.22 264.4 / 50%);
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  /* CTAは黒塗り。青は装飾専用のため primary には入れない */
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #e9e9e9;
+  --secondary-foreground: #000000;
+  --muted: #e9e9e9;
+  --muted-foreground: #4a4a4a;
+  --accent: #dceeff;
+  --accent-foreground: #000000;
+  --destructive: #fb4903;
+  --border: #000000;
+  --input: #000000;
+  --ring: rgba(0, 0, 0, 0.35);
+  --radius: 20px;
 }
 
 @layer base {
@@ -129,95 +107,215 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background: var(--color-paper-white);
+    color: var(--color-carbon);
     font-family: var(--font-ja);
-    -webkit-font-smoothing: none;
-    image-rendering: pixelated;
     word-break: break-word;
     overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
   }
+  /* 見出しはディスプレイ書体。ただし和文はここで潰れるので .h-ja を使う */
   h1, h2, h3 {
-    font-family: var(--font-pixel);
-    letter-spacing: 0.05em;
-    line-height: 1.8;
+    font-family: var(--font-display);
+    letter-spacing: 0;
+    line-height: 0.85;
+  }
+  /* ドット絵アセット（NFT・ステージ画像）だけ補間を切る */
+  img[src*="/stages/"], img[src*="/nft/"], .img-pixel {
+    image-rendering: pixelated;
   }
 }
 
-/* ── ピクセルアート ユーティリティ ── */
 @layer utilities {
-  .font-pixel {
-    font-family: var(--font-pixel);
-    letter-spacing: 0.05em;
-    line-height: 1.8;
+
+  /* ══ 書体ユーティリティ ══════════════════════════════ */
+
+  /* ディスプレイ書体。line-height 0.80 は英字前提（和文には使わない） */
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 0.85;
+    letter-spacing: 0;
+  }
+  /* UI・ラベル・ボタン。Slush の Aeonik Pro 相当 */
+  .font-ui {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    letter-spacing: 0.032em;
   }
   .font-ja {
     font-family: var(--font-ja);
+    letter-spacing: 0.01em;
   }
 
-  /* ピクセルボーダー (4px ハードシャドウ) */
-  .pixel-box {
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0 #000;
-    border-radius: 0 !important;
+  /* 巨大ディスプレイ（英字専用）。彫刻的に見せるための詰め行間 */
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 13vw, 10rem);
+    line-height: 0.80;
+    letter-spacing: -0.01em;
   }
-  .pixel-box-sm {
-    border: 2px solid #000;
-    box-shadow: 3px 3px 0 #000;
-    border-radius: 0 !important;
+  .display-lg {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    line-height: 0.82;
+  }
+  .display-md {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    line-height: 0.88;
+  }
+  /* 和文見出し。0.85 では字面が衝突するため 1.25 を下限にする */
+  .h-ja {
+    font-family: var(--font-ja);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
   }
 
-  /* ピクセルボタン */
-  .pixel-btn {
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0 #000;
-    border-radius: 0 !important;
-    transition: transform 0.05s, box-shadow 0.05s;
-    font-family: var(--font-pixel);
-    font-size: 0.6rem;
-    letter-spacing: 0.05em;
+  /* ══ コンポーネント ══════════════════════════════════ */
+
+  /* 手切りステッカー風カード。影は使わない */
+  .slush-card {
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-card);
+    background: var(--color-paper-white);
+    box-shadow: none;
   }
-  .pixel-btn:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 #000;
+  .slush-card-lg {
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-card-lg);
+    background: var(--color-paper-white);
+    box-shadow: none;
   }
-  .pixel-btn:active {
-    transform: translate(4px, 4px);
+  .slush-card-sm {
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-icon);
+    background: var(--color-paper-white);
     box-shadow: none;
   }
 
-  /* ステージバッジ */
-  .stage-badge {
+  /* ボタン（ピル）。既定は黒塗り＝主アクション */
+  .slush-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-pill);
+    background: var(--color-carbon);
+    color: var(--color-paper-white);
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.032em;
+    padding: 0.75rem 1.5rem;
+    box-shadow: none;
+    transition: background 0.15s, color 0.15s, transform 0.1s;
+  }
+  .slush-btn:hover { transform: translateY(-1px); }
+  .slush-btn:active { transform: translateY(0); }
+
+  /* 副アクション: 白地・黒縁 */
+  .slush-btn-ghost {
+    background: var(--color-paper-white);
+    color: var(--color-carbon);
+  }
+  .slush-btn-ghost:hover { background: var(--color-soft-mist); }
+
+  /* バッジ／タグ（ピル・塗り＋黒縁） */
+  .slush-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.25rem 0.6rem;
-    border: 2px solid currentColor;
-    box-shadow: 3px 3px 0 currentColor;
-    font-family: var(--font-pixel);
-    font-size: 0.55rem;
-    letter-spacing: 0.08em;
-    border-radius: 0 !important;
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-pill);
+    padding: 0.3rem 0.85rem;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.032em;
+    background: var(--color-paper-white);
+    color: var(--color-carbon);
+    box-shadow: none;
+  }
+
+  /* ステッカー枠: 装飾要素を「切り抜いて貼った」ように見せる */
+  .sticker {
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-card);
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sticker-round {
+    border: 1px solid var(--color-carbon);
+    border-radius: var(--radius-pill);
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* 貼り付けの傾き。グリッドに揃えないための微回転 */
+  .tilt-l  { transform: rotate(-6deg); }
+  .tilt-l2 { transform: rotate(-12deg); }
+  .tilt-r  { transform: rotate(6deg); }
+  .tilt-r2 { transform: rotate(12deg); }
+
+  /* セクション色帯。境界線も影も置かず、色の切り替えだけで階層を作る */
+  .band-sky      { background: var(--color-sky-wash); }
+  .band-paper    { background: var(--color-paper-white); }
+  .band-concrete { background: var(--color-concrete-gray); }
+  .band-lavender { background: var(--color-lavender); }
+
+  /* マーキー（黒帯の流れる告知） */
+  .marquee {
+    background: var(--color-carbon);
+    color: var(--color-paper-white);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 28s linear infinite;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.032em;
+    text-transform: uppercase;
+  }
+
+  /* ══ 廃止済みクラスの安全網 ══════════════════════════
+     旧ピクセル様式のクラスが残っていても影・角0が復活しないようにする */
+  .pixel-box, .pixel-box-sm, .pixel-btn, .stage-badge {
+    border: 1px solid var(--color-carbon) !important;
+    border-radius: var(--radius-card) !important;
+    box-shadow: none !important;
   }
 }
 
-/* ── アニメーション ── */
-@keyframes pixel-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-@keyframes pixel-float {
+
+/* ══ アニメーション（マーキーとホバー以外は動かさない） ══ */
+@keyframes sticker-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50%      { transform: translateY(-8px); }
 }
-@keyframes stage-up {
-  0%   { transform: scale(0.8) translateY(10px); opacity: 0; }
-  60%  { transform: scale(1.1) translateY(-4px); opacity: 1; }
-  100% { transform: scale(1)   translateY(0);    opacity: 1; }
+.sticker-float { animation: sticker-float 4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .sticker-float { animation: none; }
 }
 
-.pixel-blink { animation: pixel-blink 1s step-end infinite; }
-.pixel-float { animation: pixel-float 2s ease-in-out infinite; }
-.stage-up    { animation: stage-up 0.5s ease-out forwards; }
-
-.nav-link { color: #607080; transition: color 0.15s; }
-.nav-link:hover { color: #0052FF; }
+.nav-link {
+  color: var(--color-carbon);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.032em;
+  transition: opacity 0.15s;
+}
+.nav-link:hover { opacity: 0.55; }

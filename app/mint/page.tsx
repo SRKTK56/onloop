@@ -1,16 +1,17 @@
 import { MintSection } from "@/components/nft/MintSection"
 import { MintGallery } from "@/components/nft/MintGallery"
+import { PageHead } from "@/components/shared/PageHead"
 
 export default function MintPage() {
   return (
-    <div className="min-h-screen" style={{ background: "#0a0a1a" }}>
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <h1
-          className="font-pixel mb-8 leading-loose"
-          style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
-        >
-          MINT
-        </h1>
+    <div className="min-h-screen band-paper">
+      <PageHead
+        en="MINT"
+        ja="NFTを発行する"
+        sub="恩送りで稼いだONトークンと約100円でMINTできます。保有すると恩送り報酬が最大×2倍に。"
+        band="lavender"
+      />
+      <div className="max-w-2xl mx-auto px-5 py-12">
         <MintSection />
         <MintGallery />
       </div>

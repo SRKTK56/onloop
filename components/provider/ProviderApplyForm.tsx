@@ -47,27 +47,26 @@ function AiImageGenerator({
         type="button"
         onClick={handleGenerate}
         disabled={!title || loading}
-        className="pixel-btn font-pixel w-full"
+        className="slush-btn font-display w-full"
         style={{
           background:  !title || loading ? "#0a1a2a" : "#060f2a",
-          color:       !title || loading ? "#2a4a6a" : "#7ab0ff",
-          borderColor: !title || loading ? "#1a2a3a" : "#0052FF",
-          boxShadow:   !title || loading ? "none" : "3px 3px 0 #0052FF",
+          color:       !title || loading ? "#2a4a6a" : "#4a4a4a",
+          borderColor: !title || loading ? "#000000" : "#000000",
+          boxShadow:   "none",
           padding:     "0.6rem 1rem",
           fontSize:    "0.72rem",
           cursor:      !title || loading ? "not-allowed" : "pointer",
-          opacity:     loading ? 0.7 : 1,
-        }}
+          opacity:     loading ? 0.7 : 1, borderRadius: "1600px"}}
       >
         {loading ? "✦ AI生成中... (最大30秒)" : "✦ AIで画像を自動生成"}
       </button>
       {!title && (
-        <p className="font-ja text-xs" style={{ color: "#3a5a7a" }}>
+        <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
           ※「提供できること」を入力すると生成できます
         </p>
       )}
       {error && (
-        <p className="font-ja text-xs" style={{ color: "#e63946" }}>{error}</p>
+        <p className="font-ja text-sm" style={{ color: "#fb4903" }}>{error}</p>
       )}
     </div>
   )
@@ -93,17 +92,17 @@ function PreviewCard({
 
   return (
     <div className="sticky top-20">
-      <p className="font-pixel text-[0.72rem] mb-4" style={{ color: "#506070" }}>
+      <p className="font-display text-[0.72rem] mb-4" style={{ color: "#4a4a4a" }}>
         ▸ MENU PREVIEW
       </p>
       <div
-        className="pixel-box flex flex-col overflow-hidden"
-        style={{ background: "#0f1628", maxWidth: 320 }}
+        className="slush-card flex flex-col overflow-hidden"
+        style={{ background: "#ffffff", maxWidth: 320 }}
       >
         {/* サービス画像エリア */}
         <div
           className="h-36 flex items-center justify-center relative overflow-hidden"
-          style={{ background: "#060610" }}
+          style={{ background: "#dceeff" }}
         >
           {serviceImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -115,7 +114,7 @@ function PreviewCard({
           ) : (
             <div className="flex flex-col items-center gap-2">
               <span className="text-4xl opacity-10">🙌</span>
-              <p className="font-pixel text-[0.55rem]" style={{ color: "#2a3a4a" }}>
+              <p className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>
                 IMAGE PREVIEW
               </p>
             </div>
@@ -123,13 +122,12 @@ function PreviewCard({
 
           {/* アバターオーバーレイ */}
           <div
-            className="absolute -bottom-5 left-4 w-12 h-12 overflow-hidden flex items-center justify-center font-pixel text-sm"
+            className="absolute -bottom-5 left-4 w-12 h-12 overflow-hidden flex items-center justify-center font-display text-sm"
             style={{
-              border: "3px solid #0052FF",
-              boxShadow: "3px 3px 0 #0052FF",
-              background: "#0a1628",
-              color: "#0052FF",
-            }}
+              border: "1px solid #000000",
+              boxShadow: "none",
+              background: "#ffffff",
+              color: "#000000", borderRadius: "20px"}}
           >
             {displayName ? displayName[0].toUpperCase() : "?"}
           </div>
@@ -138,22 +136,21 @@ function PreviewCard({
         {/* 情報 */}
         <div className="pt-8 px-4 pb-4 flex flex-col gap-3">
           <div>
-            <p className="font-ja font-bold text-base" style={{ color: "#e0e8ff" }}>
-              {displayName || <span style={{ color: "#304050" }}>ユーザー名未設定</span>}
+            <p className="font-ja font-bold text-base" style={{ color: "#000000" }}>
+              {displayName || <span style={{ color: "#4a4a4a" }}>ユーザー名未設定</span>}
             </p>
-            <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>
+            <p className="font-mono text-xs" style={{ color: "#4a4a4a" }}>
               {shortAddr}
             </p>
           </div>
 
           <div>
             <span
-              className="font-pixel text-[0.72rem] px-2 py-0.5 mb-1.5 inline-block"
+              className="font-display text-[0.72rem] px-2 py-0.5 mb-1.5 inline-block"
               style={{
-                background: "#0052FF22",
-                border: "2px solid #0052FF",
-                color: "#7ab0ff",
-              }}
+                background: "#dceeff",
+                border: "1px solid #000000",
+                color: "#4a4a4a", borderRadius: "1600px"}}
             >
               提供できること
             </span>
@@ -170,12 +167,11 @@ function PreviewCard({
           </p>
 
           <div
-            className="font-pixel text-center py-2 text-[0.65rem]"
+            className="font-display text-center py-2 text-[0.7rem]"
             style={{
-              background: "#0a0a1a",
-              color: "#3a5a7a",
-              border: "2px solid #1a2a3a",
-            }}
+              background: "#ffffff",
+              color: "#4a4a4a",
+              border: "1px solid #000000", borderRadius: "20px"}}
           >
             ▸ 恩送りをお願いする
           </div>
@@ -212,13 +208,13 @@ export function ProviderApplyForm() {
   if (!isConnected) {
     return (
       <div
-        className="pixel-box text-center py-16 space-y-5"
-        style={{ background: "#0f1628" }}
+        className="slush-card text-center py-16 space-y-5"
+        style={{ background: "#ffffff" }}
       >
-        <p className="font-pixel text-[0.72rem]" style={{ color: "#3a6080" }}>
+        <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
           WALLET NOT CONNECTED
         </p>
-        <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
+        <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>
           申請にはウォレットの接続が必要です。
         </p>
         <WalletButton />
@@ -229,14 +225,14 @@ export function ProviderApplyForm() {
   if (done) {
     return (
       <div
-        className="pixel-box text-center py-16 space-y-5"
-        style={{ background: "#0f1628" }}
+        className="slush-card text-center py-16 space-y-5"
+        style={{ background: "#ffffff" }}
       >
         <div className="text-5xl">🙌</div>
-        <p className="font-pixel text-[0.85rem]" style={{ color: "#52b788" }}>
+        <p className="font-display text-[0.85rem]" style={{ color: "#000000" }}>
           申請を受け付けました！
         </p>
-        <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
+        <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>
           運営が内容を確認します。数日以内にご連絡します。
         </p>
       </div>
@@ -268,10 +264,10 @@ export function ProviderApplyForm() {
   }
 
   const inputStyle = {
-    background: "#060610",
-    border: "2px solid #1a2a3a",
+    background: "#ffffff",
+    border: "1px solid #000000",
     color: "#e0e8ff",
-    borderRadius: 0,
+    borderRadius: "20px",
     fontFamily: "inherit",
   }
   const focusStyle = "focus:border-primary"
@@ -284,49 +280,47 @@ export function ProviderApplyForm() {
 
         {/* ロール選択 */}
         <div className="space-y-3">
-          <p className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
-            登録タイプを選んでください <span style={{ color: "#e63946" }}>*</span>
+          <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
+            登録タイプを選んでください <span style={{ color: "#fb4903" }}>*</span>
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* 起点者 */}
             <button
               type="button"
               onClick={() => setRole("origin")}
-              className="pixel-box p-4 text-left transition-all"
+              className="slush-card p-4 text-left transition-all"
               style={{
-                background: role === "origin" ? "#001a66" : "#060610",
-                border: `2px solid ${role === "origin" ? "#0052FF" : "#1a2a3a"}`,
-                boxShadow: role === "origin" ? "4px 4px 0 #0052FF" : "none",
-                cursor: "pointer",
-              }}
+                background: role === "origin" ? "#dceeff" : "#dceeff",
+                border: `1px solid ${role === "origin" ? "#0052FF" : "#000000"}`,
+                boxShadow: "none",
+                cursor: "pointer", borderRadius: "1600px"}}
             >
-              <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#0052FF" }}>★ 起点者として登録</p>
-              <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>新しい恩送りチェーンを始める</p>
+              <p className="font-display text-[0.72rem] mb-1" style={{ color: "#000000" }}>★ 起点者として登録</p>
+              <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>新しい恩送りチェーンを始める</p>
             </button>
             {/* 中継者 */}
             <button
               type="button"
               onClick={() => setRole("relay")}
-              className="pixel-box p-4 text-left transition-all"
+              className="slush-card p-4 text-left transition-all"
               style={{
-                background: role === "relay" ? "#2a1000" : "#060610",
-                border: `2px solid ${role === "relay" ? "#f97316" : "#1a2a3a"}`,
-                boxShadow: role === "relay" ? "4px 4px 0 #f97316" : "none",
-                cursor: "pointer",
-              }}
+                background: role === "relay" ? "#fff3cf" : "#dceeff",
+                border: `1px solid ${role === "relay" ? "#fb4903" : "#000000"}`,
+                boxShadow: "none",
+                cursor: "pointer", borderRadius: "1600px"}}
             >
-              <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#f97316" }}>⇢ 中継者として登録</p>
-              <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>既存のチェーンに参加してつなぐ</p>
+              <p className="font-display text-[0.72rem] mb-1" style={{ color: "#fb4903" }}>⇢ 中継者として登録</p>
+              <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>既存のチェーンに参加してつなぐ</p>
             </button>
           </div>
 
           {/* 中継者の場合：チェーンID入力 */}
           {role === "relay" && (
             <div className="space-y-2">
-              <Label className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
-                参加するチェーンID <span style={{ color: "#e63946" }}>*</span>
+              <Label className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
+                参加するチェーンID <span style={{ color: "#fb4903" }}>*</span>
               </Label>
-              <p className="font-ja text-sm" style={{ color: "#506070" }}>
+              <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
                 参加したいチェーンのIDを入力してください（例：12）
               </p>
               <Input
@@ -336,7 +330,7 @@ export function ProviderApplyForm() {
                 value={chainIdInput}
                 onChange={(e) => setChainIdInput(e.target.value)}
                 className="font-ja focus:border-primary"
-                style={{ background: "#060610", border: "2px solid #f9731655", color: "#e0e8ff", borderRadius: 0 }}
+                style={{ background: "#dceeff", border: "1px solid #fb490355", color: "#000000", borderRadius: "20px" }}
               />
             </div>
           )}
@@ -345,16 +339,16 @@ export function ProviderApplyForm() {
         {/* ウォレット・ユーザー名 */}
         <div
           className="p-4 space-y-2"
-          style={{ background: "#060610", border: "2px solid #1a2a3a" }}
+          style={{ background: "#dceeff", border: "1px solid #000000" , borderRadius: "20px"}}
         >
-          <p className="font-pixel text-[0.72rem]" style={{ color: "#506070" }}>ACCOUNT</p>
-          <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>{address}</p>
+          <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>ACCOUNT</p>
+          <p className="font-mono text-xs" style={{ color: "#4a4a4a" }}>{address}</p>
           {displayName ? (
-            <p className="font-ja text-base font-bold" style={{ color: "#7ab0ff" }}>
+            <p className="font-ja text-base font-bold" style={{ color: "#4a4a4a" }}>
               {displayName}
             </p>
           ) : (
-            <p className="font-ja text-sm" style={{ color: "#506070" }}>
+            <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
               ※ マイページで名前を設定するとカードに表示されます
             </p>
           )}
@@ -362,10 +356,10 @@ export function ProviderApplyForm() {
 
         {/* サービス画像 */}
         <div className="space-y-2">
-          <Label className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
+          <Label className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
             サービス画像（任意）
           </Label>
-          <p className="font-ja text-xs" style={{ color: "#506070" }}>
+          <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
             提供するサービスの内容が伝わる画像をアップロードするか、AIで自動生成できます
           </p>
           <ImageUpload
@@ -383,8 +377,8 @@ export function ProviderApplyForm() {
 
         {/* 提供できること */}
         <div className="space-y-2">
-          <Label htmlFor="serviceTitle" className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
-            提供できること <span style={{ color: "#e63946" }}>*</span>
+          <Label htmlFor="serviceTitle" className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
+            提供できること <span style={{ color: "#fb4903" }}>*</span>
           </Label>
           <Input
             id="serviceTitle"
@@ -399,8 +393,8 @@ export function ProviderApplyForm() {
 
         {/* 詳細説明 */}
         <div className="space-y-2">
-          <Label htmlFor="serviceDescription" className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
-            詳細説明 <span style={{ color: "#e63946" }}>*</span>
+          <Label htmlFor="serviceDescription" className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
+            詳細説明 <span style={{ color: "#fb4903" }}>*</span>
           </Label>
           <Textarea
             id="serviceDescription"
@@ -416,7 +410,7 @@ export function ProviderApplyForm() {
 
         {/* 自己紹介 */}
         <div className="space-y-2">
-          <Label htmlFor="bio" className="font-pixel text-[0.72rem]" style={{ color: "#90a0b8" }}>
+          <Label htmlFor="bio" className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
             自己紹介（任意）
           </Label>
           <Textarea
@@ -434,16 +428,15 @@ export function ProviderApplyForm() {
         <button
           type="submit"
           disabled={pending}
-          className="pixel-btn font-pixel w-full"
+          className="slush-btn font-display w-full"
           style={{
-            background: "#0052FF",
+            background: "#000000",
             color: "#fff",
-            borderColor: "#000",
+            borderColor: "#000000",
             padding: "1rem",
             fontSize: "0.8rem",
             opacity: pending ? 0.6 : 1,
-            cursor: pending ? "not-allowed" : "pointer",
-          }}
+            cursor: pending ? "not-allowed" : "pointer", borderRadius: "1600px"}}
         >
           {pending ? "送信中..." : "▸ 申請する"}
         </button>

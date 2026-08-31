@@ -69,9 +69,9 @@ export function OfferForm({ provider }: { provider: Provider }) {
     <div className="space-y-6">
 
       {/* ギバー情報カード */}
-      <div className="pixel-box overflow-visible" style={{ background: "#0f1628" }}>
+      <div className="slush-card overflow-visible" style={{ background: "#ffffff" }}>
         {/* サービス画像 */}
-        <div className="h-36 overflow-hidden relative" style={{ background: "#060610" }}>
+        <div className="h-36 overflow-hidden relative" style={{ background: "#dceeff" }}>
           {provider.serviceImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={provider.serviceImageUrl} alt="" className="w-full h-full object-cover" />
@@ -84,10 +84,9 @@ export function OfferForm({ provider }: { provider: Provider }) {
           <div
             className="absolute -bottom-6 left-5 w-14 h-14 flex items-center justify-center overflow-hidden z-10"
             style={{
-              border: "3px solid #0052FF",
-              boxShadow: "4px 4px 0 #0052FF",
-              background: "#0a0a1a",
-            }}
+              border: "1px solid #000000",
+              boxShadow: "none",
+              background: "#ffffff", borderRadius: "20px"}}
           >
             {provider.profileAvatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -99,20 +98,20 @@ export function OfferForm({ provider }: { provider: Provider }) {
         </div>
 
         <div className="pt-10 px-5 pb-5 space-y-3">
-          <p className="font-ja font-bold text-lg" style={{ color: "#e0e8ff" }}>{displayName}</p>
+          <p className="font-ja font-bold text-lg" style={{ color: "#000000" }}>{displayName}</p>
           {provider.bio && (
             <p className="font-ja text-sm leading-relaxed" style={{ color: "#606878" }}>{provider.bio}</p>
           )}
           <div>
             <span
-              className="font-pixel text-[0.65rem] px-2 py-0.5 inline-block mb-1"
-              style={{ background: "#0052FF22", border: "2px solid #0052FF", color: "#7ab0ff" }}
+              className="font-display text-[0.7rem] px-2 py-0.5 inline-block mb-1"
+              style={{ background: "#dceeff", border: "1px solid #000000", color: "#4a4a4a" , borderRadius: "1600px"}}
             >
               提供できること
             </span>
-            <p className="font-ja font-bold text-base" style={{ color: "#c0d0e8" }}>{provider.serviceTitle}</p>
+            <p className="font-ja font-bold text-base" style={{ color: "#000000" }}>{provider.serviceTitle}</p>
           </div>
-          <p className="font-ja text-sm leading-relaxed" style={{ color: "#607080" }}>
+          <p className="font-ja text-sm leading-relaxed" style={{ color: "#4a4a4a" }}>
             {provider.serviceDescription}
           </p>
         </div>
@@ -121,13 +120,13 @@ export function OfferForm({ provider }: { provider: Provider }) {
       {/* 依頼フォーム */}
       {!isConnected ? (
         <div
-          className="pixel-box text-center py-10 space-y-4"
-          style={{ background: "#0f1628" }}
+          className="slush-card text-center py-10 space-y-4"
+          style={{ background: "#ffffff" }}
         >
-          <p className="font-pixel text-[0.72rem]" style={{ color: "#3a6080" }}>
+          <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
             WALLET NOT CONNECTED
           </p>
-          <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
+          <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>
             依頼にはウォレットの接続が必要です。
           </p>
           <WalletButton />
@@ -135,14 +134,14 @@ export function OfferForm({ provider }: { provider: Provider }) {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-5">
           <div
-            className="pixel-box p-5 space-y-4"
-            style={{ background: "#0f1628" }}
+            className="slush-card p-5 space-y-4"
+            style={{ background: "#ffffff" }}
           >
             <div>
-              <p className="font-pixel text-[0.72rem] mb-2" style={{ color: "#0052FF" }}>
+              <p className="font-display text-[0.72rem] mb-2" style={{ color: "#000000" }}>
                 依頼内容
               </p>
-              <p className="font-ja text-sm mb-3" style={{ color: "#506070" }}>
+              <p className="font-ja text-sm mb-3" style={{ color: "#4a4a4a" }}>
                 {displayName} さんに何をお願いしたいか、具体的に教えてください。
               </p>
               <Textarea
@@ -153,12 +152,11 @@ export function OfferForm({ provider }: { provider: Provider }) {
                 required
                 className="font-ja"
                 style={{
-                  background: "#060610",
-                  border: "2px solid #1a2a3a",
-                  color: "#e0e8ff",
-                  borderRadius: 0,
-                  resize: "vertical",
-                }}
+                  background: "#dceeff",
+                  border: "1px solid #000000",
+                  color: "#000000",
+                  borderRadius: "20px",
+                  resize: "vertical"}}
               />
             </div>
 
@@ -166,11 +164,10 @@ export function OfferForm({ provider }: { provider: Provider }) {
             <label
               className="flex items-start gap-3 p-4 cursor-pointer"
               style={{
-                background: agreed ? "#060a18" : "#080810",
-                border: `2px solid ${agreed ? "#0052FF" : "#1a2a3a"}`,
-                boxShadow: agreed ? "3px 3px 0 #0052FF" : "3px 3px 0 #1a2a3a",
-                transition: "border-color 0.15s, box-shadow 0.15s",
-              }}
+                background: agreed ? "#ffffff" : "#080810",
+                border: `1px solid ${agreed ? "#0052FF" : "#000000"}`,
+                boxShadow: "none",
+                transition: "border-color 0.15s, box-shadow 0.15s", borderRadius: "20px"}}
             >
               <input
                 type="checkbox"
@@ -180,10 +177,10 @@ export function OfferForm({ provider }: { provider: Provider }) {
                 style={{ accentColor: "#0052FF" }}
               />
               <div>
-                <p className="font-pixel text-[0.65rem] mb-1.5" style={{ color: agreed ? "#0052FF" : "#3a5a7a" }}>
+                <p className="font-display text-[0.7rem] mb-1.5" style={{ color: agreed ? "#000000" : "#4a4a4a" }}>
                   ▸ 恩送りの約束
                 </p>
-                <p className="font-ja text-sm leading-relaxed" style={{ color: agreed ? "#90a0b8" : "#4a6080" }}>
+                <p className="font-ja text-sm leading-relaxed" style={{ color: agreed ? "#4a4a4a" : "#4a6080" }}>
                   恩送りを受け取ったら、あなたも次の誰かへ恩を繋ぐことを約束します。連鎖が続くほど、全員のONトークン報酬が増えます。
                 </p>
               </div>
@@ -193,7 +190,7 @@ export function OfferForm({ provider }: { provider: Provider }) {
           {error && (
             <p
               className="font-ja text-sm px-4 py-3"
-              style={{ background: "#2a0808", border: "2px solid #e63946", color: "#e63946" }}
+              style={{ background: "#ffe3d8", border: "1px solid #fb4903", color: "#fb4903" , borderRadius: "20px"}}
             >
               {error}
             </p>
@@ -202,16 +199,15 @@ export function OfferForm({ provider }: { provider: Provider }) {
           <button
             type="submit"
             disabled={pending || !description.trim() || !agreed}
-            className="pixel-btn font-pixel w-full"
+            className="slush-btn font-display w-full"
             style={{
-              background: pending || !description.trim() || !agreed ? "#1a2a3a" : "#0052FF",
-              color: pending || !description.trim() || !agreed ? "#3a5a7a" : "#fff",
-              borderColor: pending || !description.trim() || !agreed ? "#1a2a3a" : "#000",
-              boxShadow: pending || !description.trim() || !agreed ? "4px 4px 0 #1a2a3a" : "4px 4px 0 #000",
+              background: pending || !description.trim() || !agreed ? "#cccccc" : "#000000",
+              color: pending || !description.trim() || !agreed ? "#4a4a4a" : "#fff",
+              borderColor: pending || !description.trim() || !agreed ? "#000000" : "#000",
+              boxShadow: "none",
               padding: "1rem",
               fontSize: "0.78rem",
-              cursor: pending || !agreed ? "not-allowed" : "pointer",
-            }}
+              cursor: pending || !agreed ? "not-allowed" : "pointer", borderRadius: "1600px"}}
           >
             {pending ? "送信中..." : "▸ 恩送りを依頼する"}
           </button>

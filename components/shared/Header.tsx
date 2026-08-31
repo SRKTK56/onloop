@@ -6,31 +6,36 @@ import { AdminButton } from "./AdminButton"
 import { LangToggle } from "./LangToggle"
 import { useLang } from "@/lib/i18n/context"
 
+/** ナビはピル。地は紙白・1px黒縁で統一し、影と下線は置かない */
 export function Header() {
   const { T } = useLang()
 
   return (
-    <header
-      className="sticky top-0 z-50"
-      style={{
-        background: "#060610",
-        borderBottom: "none",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.6)",
-      }}
-    >
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link
-          href="/"
-          className="font-pixel"
-          style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
-        >
-          <span style={{ color: "#ffffff", textShadow: "2px 2px 0 #0052FF" }}>ON</span>LOOP
+    <header className="sticky top-0 z-50 band-paper">
+      <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-3">
+        {/* ロゴマーク: 黒縁の丸バッジ */}
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          <span
+            className="sticker-round"
+            style={{ width: 34, height: 34, background: "#0052ff", color: "#ffffff" }}
+          >
+            <span className="font-display" style={{ fontSize: "0.95rem", lineHeight: 1 }}>O</span>
+          </span>
+          <span className="font-display" style={{ fontSize: "1.15rem" }}>ONLOOP</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6">
-          <Link href="/menu" className="nav-link font-ja text-sm">{T.nav.menu}</Link>
-          <Link href="/mint" className="nav-link font-pixel text-[0.72rem]">{T.nav.mint}</Link>
-          <Link href="/profile" className="nav-link font-ja text-sm">{T.nav.mypage}</Link>
+
+        <nav className="hidden md:flex items-center gap-1.5">
+          <Link href="/menu" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
+            {T.nav.menu}
+          </Link>
+          <Link href="/mint" className="slush-badge font-ui">
+            {T.nav.mint}
+          </Link>
+          <Link href="/profile" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
+            {T.nav.mypage}
+          </Link>
         </nav>
+
         <div className="flex items-center gap-2">
           <LangToggle />
           <AdminButton />

@@ -52,19 +52,18 @@ function PixelTabs({ tabs, active, onChange }: {
   onChange: (key: string) => void
 }) {
   return (
-    <div className="flex" style={{ borderBottom: "3px solid #1a2a3a" }}>
+    <div className="flex" style={{ borderBottom: "1px solid #000000" }}>
       {tabs.map((tab) => (
         <button
           key={tab.key}
           onClick={() => onChange(tab.key)}
-          className="flex-1 font-pixel py-3 transition-colors"
+          className="flex-1 font-display py-3 transition-colors"
           style={{
             fontSize: "0.72rem",
-            color: active === tab.key ? "#0052FF" : "#506070",
-            background: active === tab.key ? "#0a1628" : "transparent",
-            borderBottom: active === tab.key ? "3px solid #0052FF" : "3px solid transparent",
-            marginBottom: "-3px",
-          }}
+            color: active === tab.key ? "#000000" : "#4a4a4a",
+            background: active === tab.key ? "#ffffff" : "transparent",
+            borderBottom: active === tab.key ? "1px solid #0052FF" : "1px solid transparent",
+            marginBottom: "-3px"}}
         >
           {tab.label}
         </button>
@@ -77,12 +76,11 @@ function PixelTabs({ tabs, active, onChange }: {
 function StatusBadge({ confirmed }: { confirmed: boolean }) {
   return (
     <span
-      className="font-pixel text-[0.85rem] px-2 py-0.5 shrink-0"
+      className="font-display text-[0.85rem] px-2 py-0.5 shrink-0"
       style={{
         background: confirmed ? "#052a10" : "#2a1a00",
-        border: `2px solid ${confirmed ? "#52b788" : "#aa8800"}`,
-        color: confirmed ? "#52b788" : "#ffcc00",
-      }}
+        border: `1px solid ${confirmed ? "#55db9c" : "#ffd731"}`,
+        color: confirmed ? "#000000" : "#000000", borderRadius: "1600px"}}
     >
       {confirmed ? "完了" : "承認待ち"}
     </span>
@@ -138,13 +136,13 @@ export function ProfileView() {
   if (!isConnected) {
     return (
       <div
-        className="pixel-box text-center py-16 space-y-6"
-        style={{ background: "#0f1628" }}
+        className="slush-card text-center py-16 space-y-6"
+        style={{ background: "#ffffff" }}
       >
-        <p className="font-pixel text-[0.82rem]" style={{ color: "#3a6080" }}>
+        <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>
           WALLET NOT CONNECTED
         </p>
-        <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
+        <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>
           マイページを見るにはウォレットを接続してください。
         </p>
         <div className="flex justify-center">
@@ -160,8 +158,8 @@ export function ProfileView() {
         {[1, 2].map((i) => (
           <div
             key={i}
-            className="pixel-box h-32 animate-pulse"
-            style={{ background: "#0f1628" }}
+            className="slush-card h-32 animate-pulse"
+            style={{ background: "#ffffff" }}
           />
         ))}
       </div>
@@ -176,7 +174,7 @@ export function ProfileView() {
     <div className="space-y-5">
 
       {/* プロフィールカード */}
-      <div className="pixel-box p-6" style={{ background: "#0f1628" }}>
+      <div className="slush-card p-6" style={{ background: "#ffffff" }}>
         <div className="flex items-start gap-6 flex-wrap">
           {/* アバター */}
           <div className="flex flex-col items-center gap-2">
@@ -191,33 +189,31 @@ export function ProfileView() {
           {/* 名前・アドレス */}
           <div className="flex-1 space-y-3 min-w-48">
             <div className="space-y-1.5">
-              <p className="font-pixel text-[0.85rem]" style={{ color: "#506070" }}>DISPLAY NAME</p>
+              <p className="font-display text-[0.85rem]" style={{ color: "#4a4a4a" }}>DISPLAY NAME</p>
               <Input
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 placeholder="名前を設定する（任意）"
                 className="max-w-xs font-ja"
                 style={{
-                  background: "#060610",
-                  border: "2px solid #1a2a3a",
-                  color: "#e0e8ff",
-                  borderRadius: 0,
-                }}
+                  background: "#dceeff",
+                  border: "1px solid #000000",
+                  color: "#000000",
+                  borderRadius: "20px"}}
               />
             </div>
-            <p className="font-mono text-xs" style={{ color: "#3a5a7a" }}>{address}</p>
+            <p className="font-mono text-xs" style={{ color: "#4a4a4a" }}>{address}</p>
             <button
               onClick={saveProfile}
               disabled={saving}
-              className="pixel-btn font-pixel"
+              className="slush-btn font-display"
               style={{
-                background: "#0052FF",
+                background: "#000000",
                 color: "#fff",
-                borderColor: "#000",
+                borderColor: "#000000",
                 padding: "0.5rem 1rem",
                 fontSize: "0.72rem",
-                opacity: saving ? 0.6 : 1,
-              }}
+                opacity: saving ? 0.6 : 1, borderRadius: "1600px"}}
             >
               {saving ? "保存中..." : "▸ 保存する"}
             </button>
@@ -225,39 +221,38 @@ export function ProfileView() {
 
           {/* ONトークン残高 */}
           <div
-            className="pixel-box p-4 text-right"
-            style={{ background: "#060610", borderColor: "#0052FF", boxShadow: "3px 3px 0 #0052FF" }}
+            className="slush-card p-4 text-right"
+            style={{ background: "#dceeff", borderColor: "#000000", boxShadow: "none", borderRadius: "20px"}}
           >
-            <p className="font-pixel text-[0.85rem] mb-1" style={{ color: "#506070" }}>ON BALANCE</p>
-            <p className="font-pixel" style={{ fontSize: "1.8rem", color: "#0052FF", textShadow: "3px 3px 0 #ffffff" }}>
+            <p className="font-display text-[0.85rem] mb-1" style={{ color: "#4a4a4a" }}>ON BALANCE</p>
+            <p className="font-display" style={{ fontSize: "1.8rem", color: "#000000", textShadow: "none"}}>
               {data.balance}
             </p>
-            <p className="font-pixel text-[0.72rem]" style={{ color: "#3a6080" }}>ON TOKEN</p>
+            <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>ON TOKEN</p>
             <div className="mt-3 space-y-1">
-              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>送った恩: {sentNodes.length}</p>
-              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>受けた恩: {receivedNodes.length}</p>
-              <p className="font-pixel text-[0.82rem]" style={{ color: "#405060" }}>起点: {data.originChains.length}</p>
+              <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>送った恩: {sentNodes.length}</p>
+              <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>受けた恩: {receivedNodes.length}</p>
+              <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>起点: {data.originChains.length}</p>
             </div>
           </div>
         </div>
 
         {/* ギバー登録ボタン */}
-        <div className="mt-5 pt-5" style={{ borderTop: "2px solid #1a2a3a" }}>
+        <div className="mt-5 pt-5" style={{ borderTop: "1px solid #000000" }}>
           <Link
             href="/provider/apply"
-            className="pixel-btn font-pixel inline-flex items-center gap-2"
+            className="slush-btn font-display inline-flex items-center gap-2"
             style={{
-              background: "#0a0a1a",
-              color: "#7ab0ff",
-              borderColor: "#0052FF",
-              boxShadow: "4px 4px 0 #0052FF",
+              background: "#ffffff",
+              color: "#4a4a4a",
+              borderColor: "#000000",
+              boxShadow: "none",
               padding: "0.75rem 1.5rem",
-              fontSize: "0.72rem",
-            }}
+              fontSize: "0.72rem", borderRadius: "1600px"}}
           >
             ▸ ギバーとして登録する
           </Link>
-          <p className="font-ja text-sm mt-2" style={{ color: "#405060" }}>
+          <p className="font-ja text-sm mt-2" style={{ color: "#4a4a4a" }}>
             スキルや好意を提供してメニューに掲載されます
           </p>
         </div>
@@ -266,34 +261,33 @@ export function ProfileView() {
       {/* 承認待ち */}
       {pendingNodes.length > 0 && (
         <div
-          className="pixel-box p-4 space-y-3"
-          style={{ background: "#1a1000", borderColor: "#aa8800", boxShadow: "4px 4px 0 #aa8800" }}
+          className="slush-card p-4 space-y-3"
+          style={{ background: "#fff3cf", borderColor: "#000000", boxShadow: "none", borderRadius: "20px"}}
         >
-          <p className="font-pixel text-[0.9rem]" style={{ color: "#ffcc00" }}>
+          <p className="font-display text-[0.9rem]" style={{ color: "#000000" }}>
             ⚡ 承認待ち {pendingNodes.length} 件
           </p>
           {pendingNodes.map((node) => (
             <div
               key={node.id}
               className="flex items-center justify-between p-3"
-              style={{ background: "#0a0800", border: "2px solid #554400" }}
+              style={{ background: "#ffffff", border: "1px solid #000000" , borderRadius: "20px"}}
             >
               <div>
                 <p className="font-ja text-sm font-medium" style={{ color: "#e0d0a0" }}>{node.description}</p>
-                <p className="font-mono text-xs mt-0.5" style={{ color: "#806040" }}>
+                <p className="font-mono text-xs mt-0.5" style={{ color: "#4a4a4a" }}>
                   送り主：{shortAddr(node.giverWallet)}
                 </p>
               </div>
               <Link
                 href={`/match/${node.id}`}
-                className="pixel-btn font-pixel shrink-0 ml-3"
+                className="slush-btn font-display shrink-0 ml-3"
                 style={{
-                  background: "#0052FF",
+                  background: "#000000",
                   color: "#fff",
-                  borderColor: "#000",
+                  borderColor: "#000000",
                   padding: "0.4rem 0.8rem",
-                  fontSize: "0.45rem",
-                }}
+                  fontSize: "0.7rem", borderRadius: "1600px"}}
               >
                 ▸ 確認する
               </Link>
@@ -303,7 +297,7 @@ export function ProfileView() {
       )}
 
       {/* タブ */}
-      <div className="pixel-box overflow-hidden" style={{ background: "#0f1628" }}>
+      <div className="slush-card overflow-hidden" style={{ background: "#ffffff" }}>
         <PixelTabs
           tabs={[
             { key: "chains", label: "参加チェーン" },
@@ -320,8 +314,8 @@ export function ProfileView() {
           {activeTab === "chains" && (
             !data.myChains || data.myChains.length === 0 ? (
               <div className="text-center py-10 space-y-4">
-                <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO CHAINS YET</p>
-                <p className="font-ja text-sm" style={{ color: "#506070" }}>まだ恩送りのチェーンに参加していません。</p>
+                <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>NO CHAINS YET</p>
+                <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>まだ恩送りのチェーンに参加していません。</p>
                 <Link href="/menu" className={cn(buttonVariants({ variant: "outline", size: "sm" }), "font-ja")}>
                   メニューから始める
                 </Link>
@@ -332,27 +326,27 @@ export function ProfileView() {
                                  : chain.myRole === "giver"    ? "▸ 送り人"
                                  : "✦ 受取人"
                 const roleColor  = chain.myRole === "origin"   ? "#0052FF"
-                                 : chain.myRole === "giver"    ? "#52b788"
-                                 : "#f9c74f"
+                                 : chain.myRole === "giver"    ? "#55db9c"
+                                 : "#ffd731"
                 const isLoop = chain.confirmedNodes >= 5
                 return (
                   <Link
                     key={chain.id}
                     href={`/chain/${chain.id}`}
                     className="flex items-start justify-between gap-3 p-4 transition-colors"
-                    style={{ background: "#060610", border: `2px solid #1a2a3a` }}
+                    style={{ background: "#dceeff", border: `1px solid #000000` , borderRadius: "1600px"}}
                     onMouseEnter={(e) => (e.currentTarget.style.borderColor = chain.stage.accent)}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a2a3a")}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#000000")}
                   >
                     {/* 左：チェーン情報 */}
                     <div className="space-y-2 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-pixel text-[0.7rem]" style={{ color: "#3a5a7a" }}>
+                        <span className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>
                           CHAIN #{chain.id}
                         </span>
                         {isLoop && (
-                          <span className="font-pixel text-[0.62rem] px-1.5 py-0.5"
-                            style={{ background: "#ffcc0022", border: "1px solid #aa8800", color: "#ffcc00" }}>
+                          <span className="font-display text-[0.7rem] px-1.5 py-0.5"
+                            style={{ background: "#fff3cf", border: "1px solid #000000", color: "#000000" , borderRadius: "1600px"}}>
                             🎉 LOOP
                           </span>
                         )}
@@ -361,22 +355,20 @@ export function ProfileView() {
                       {/* ステージ + 役割 バッジ行 */}
                       <div className="flex items-center gap-2 flex-wrap">
                         <span
-                          className="font-pixel text-[0.62rem] px-1.5 py-0.5"
+                          className="font-display text-[0.7rem] px-1.5 py-0.5"
                           style={{
                             background: `${chain.stage.accent}22`,
-                            border: `2px solid ${chain.stage.accent}`,
-                            color: chain.stage.accent,
-                          }}
+                            border: `1px solid ${chain.stage.accent}`,
+                            color: chain.stage.accent, borderRadius: "1600px"}}
                         >
                           {chain.stage.emoji} {chain.stage.name}
                         </span>
                         <span
-                          className="font-pixel text-[0.62rem] px-1.5 py-0.5"
+                          className="font-display text-[0.7rem] px-1.5 py-0.5"
                           style={{
                             background: `${roleColor}22`,
-                            border: `2px solid ${roleColor}`,
-                            color: roleColor,
-                          }}
+                            border: `1px solid ${roleColor}`,
+                            color: roleColor, borderRadius: "1600px"}}
                         >
                           {roleLabel}
                         </span>
@@ -384,25 +376,24 @@ export function ProfileView() {
 
                       {/* ノード進捗バー */}
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1.5 max-w-[120px]" style={{ background: "#1a2a3a" }}>
+                        <div className="flex-1 h-1.5 max-w-[120px]" style={{ background: "#e9e9e9" }}>
                           <div
                             className="h-full"
                             style={{
                               width: chain.totalNodes > 0
                                 ? `${Math.round((chain.confirmedNodes / Math.max(chain.totalNodes, 1)) * 100)}%`
                                 : "0%",
-                              background: chain.stage.accent,
-                            }}
+                              background: chain.stage.accent}}
                           />
                         </div>
-                        <span className="font-pixel text-[0.62rem]" style={{ color: "#3a5a7a" }}>
+                        <span className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>
                           {chain.confirmedNodes}/{chain.totalNodes} 完了
                         </span>
                       </div>
                     </div>
 
                     {/* 右：矢印 */}
-                    <span className="font-pixel text-[0.7rem] shrink-0 mt-1" style={{ color: "#3a5a7a" }}>▸</span>
+                    <span className="font-display text-[0.7rem] shrink-0 mt-1" style={{ color: "#4a4a4a" }}>▸</span>
                   </Link>
                 )
               })
@@ -417,7 +408,7 @@ export function ProfileView() {
           {/* ON獲得履歴 */}
           {activeTab === "tokens" && (
             data.history.length === 0 ? (
-              <p className="text-center py-10 font-ja text-sm" style={{ color: "#506070" }}>
+              <p className="text-center py-10 font-ja text-sm" style={{ color: "#4a4a4a" }}>
                 まだONトークンを獲得していません。
               </p>
             ) : (
@@ -425,26 +416,26 @@ export function ProfileView() {
                 <div
                   key={tx.id}
                   className="flex items-center justify-between p-3"
-                  style={{ background: "#060610", border: "2px solid #1a2a3a" }}
+                  style={{ background: "#dceeff", border: "1px solid #000000" , borderRadius: "20px"}}
                 >
                   <div className="space-y-0.5">
-                    <p className="font-ja text-sm font-medium" style={{ color: "#c0d0e8" }}>
+                    <p className="font-ja text-sm font-medium" style={{ color: "#000000" }}>
                       {reasonLabel(tx.reason)}
                     </p>
                     <div className="flex gap-3">
                       {tx.chainId && (
-                        <p className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
+                        <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>
                           CHAIN #{tx.chainId}
                         </p>
                       )}
-                      <p className="font-pixel text-[0.82rem]" style={{ color: "#3a5a7a" }}>
+                      <p className="font-display text-[0.82rem]" style={{ color: "#4a4a4a" }}>
                         {new Date(tx.createdAt).toLocaleDateString("ja-JP")}
                       </p>
                     </div>
                   </div>
                   <span
-                    className="font-pixel text-[0.9rem] shrink-0"
-                    style={{ color: "#0052FF", textShadow: "2px 2px 0 #ffffff" }}
+                    className="font-display text-[0.9rem] shrink-0"
+                    style={{ color: "#000000", textShadow: "none"}}
                   >
                     +{tx.amount} ON
                   </span>
@@ -457,19 +448,18 @@ export function ProfileView() {
           {activeTab === "giver" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="font-ja text-sm" style={{ color: "#90a0b8" }}>
+                <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
                   あなたのギバー申請状況
                 </p>
                 <Link
                   href="/provider/apply"
-                  className="pixel-btn font-pixel"
+                  className="slush-btn font-display"
                   style={{
-                    background: "#0052FF",
+                    background: "#000000",
                     color: "#fff",
-                    borderColor: "#000",
+                    borderColor: "#000000",
                     padding: "0.4rem 0.8rem",
-                    fontSize: "0.65rem",
-                  }}
+                    fontSize: "0.7rem", borderRadius: "1600px"}}
                 >
                   ▸ 新規申請
                 </Link>
@@ -477,15 +467,15 @@ export function ProfileView() {
 
               {providers.length === 0 ? (
                 <div className="text-center py-10 space-y-4">
-                  <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO APPLICATIONS</p>
-                  <p className="font-ja text-sm" style={{ color: "#506070" }}>
+                  <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>NO APPLICATIONS</p>
+                  <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
                     まだギバー申請をしていません。
                   </p>
                 </div>
               ) : (
                 providers.map((prov) => {
                   const sc: Record<string, string> = {
-                    pending: "#aa8800", approved: "#52b788", rejected: "#e63946",
+                    pending: "#ffd731", approved: "#55db9c", rejected: "#ff4d6d",
                   }
                   const sl: Record<string, string> = {
                     pending: "審査待ち", approved: "承認済み・掲載中", rejected: "却下",
@@ -495,29 +485,27 @@ export function ProfileView() {
                       key={prov.id}
                       className="p-4 space-y-3"
                       style={{
-                        background: "#060610",
-                        border: `2px solid ${sc[prov.status] ?? "#1a2a3a"}`,
-                      }}
+                        background: "#dceeff",
+                        border: `1px solid ${sc[prov.status] ?? "#000000"}`, borderRadius: "20px"}}
                     >
                       <div className="flex items-start justify-between gap-3 flex-wrap">
-                        <p className="font-ja font-bold text-base" style={{ color: "#c0d0e8" }}>
+                        <p className="font-ja font-bold text-base" style={{ color: "#000000" }}>
                           {prov.serviceTitle}
                         </p>
                         <span
-                          className="font-pixel text-[0.62rem] px-2 py-0.5 shrink-0"
+                          className="font-display text-[0.7rem] px-2 py-0.5 shrink-0"
                           style={{
                             background: `${sc[prov.status] ?? "#506070"}22`,
-                            border: `2px solid ${sc[prov.status] ?? "#506070"}`,
-                            color: sc[prov.status] ?? "#506070",
-                          }}
+                            border: `1px solid ${sc[prov.status] ?? "#000000"}`,
+                            color: sc[prov.status] ?? "#4a4a4a", borderRadius: "1600px"}}
                         >
                           {sl[prov.status] ?? prov.status}
                         </span>
                       </div>
-                      <p className="font-ja text-sm line-clamp-2 leading-relaxed" style={{ color: "#607080" }}>
+                      <p className="font-ja text-sm line-clamp-2 leading-relaxed" style={{ color: "#4a4a4a" }}>
                         {prov.serviceDescription}
                       </p>
-                      <p className="font-pixel text-[0.62rem]" style={{ color: "#304050" }}>
+                      <p className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>
                         申請日: {new Date(prov.createdAt).toLocaleDateString("ja-JP")}
                       </p>
                     </div>

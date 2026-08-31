@@ -12,16 +12,15 @@ export function AdminButton() {
   return (
     <Link
       href="/admin"
-      className="font-pixel"
+      className="font-display"
       style={{
-        fontSize: "0.65rem",
-        color: "#ffcc00",
-        border: "2px solid #aa8800",
-        boxShadow: "2px 2px 0 #aa8800",
+        fontSize: "0.7rem",
+        color: "#000000",
+        border: "1px solid #000000",
+        boxShadow: "none",
         padding: "0.3rem 0.6rem",
-        background: "#1a1000",
-        transition: "none",
-      }}
+        background: "#fff3cf",
+        transition: "none", borderRadius: "1600px"}}
     >
       ⚙ 管理画面
     </Link>

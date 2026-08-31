@@ -237,8 +237,8 @@ export function PixelChar({ type, scale = 4, label, sublabel }: Props) {
       <PixelSprite grid={CHAR_MAP[type]} scale={scale} />
       {(label ?? sublabel) && (
         <div className="text-center">
-          {label && <p className="font-pixel text-[0.38rem]" style={{ color: "#e0e8ff" }}>{label}</p>}
-          {sublabel && <p className="font-pixel text-[0.3rem]" style={{ color: "#607080" }}>{sublabel}</p>}
+          {label && <p className="font-display text-[0.7rem]" style={{ color: "#000000" }}>{label}</p>}
+          {sublabel && <p className="font-display text-[0.7rem]" style={{ color: "#4a4a4a" }}>{sublabel}</p>}
         </div>
       )}
     </div>

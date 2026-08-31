@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { providers, userProfiles, chainNodes } from "@/lib/db/schema"
 import { eq, and, inArray } from "drizzle-orm"
 import Link from "next/link"
+import { PageHead } from "@/components/shared/PageHead"
 import { MenuGrid } from "@/components/provider/MenuGrid"
 import { getStage } from "@/lib/stages"
 
@@ -50,78 +51,46 @@ export default async function MenuPage() {
   const approvedProviders = await getApprovedProviders()
 
   return (
-    <div className="min-h-screen" style={{ background: "#0a0a1a" }}>
-      <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="min-h-screen band-paper">
+      <PageHead
+        en="KINDNESS MENU"
+        ja="恩送りメニュー"
+        sub="恩送りメニューに登録されたメンバーが、スキルや好意を提供してくれます。"
+        band="sky"
+      >
+        <Link href="/provider/apply" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
+          ▸ 恩送りメニュー登録
+        </Link>
+        <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+          ▸ こんな恩送りが欲しい
+        </Link>
+      </PageHead>
 
-        {/* ヘッダー */}
-        <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
-          <div>
-            <h1
-              className="font-pixel mb-3 leading-loose"
-              style={{ fontSize: "1rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
-            >
-              恩送りメニュー
-            </h1>
-            <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
-              恩送りメニューに登録されたメンバーが、スキルや好意を提供してくれます。
-            </p>
-          </div>
-          <div className="flex gap-3 flex-wrap">
-            <Link
-              href="/request"
-              className="pixel-btn font-pixel"
-              style={{
-                background: "#0a0a1a",
-                color: "#7ab0ff",
-                borderColor: "#0052FF",
-                boxShadow: "3px 3px 0 #0052FF",
-                padding: "0.5rem 1rem",
-                fontSize: "0.75rem",
-              }}
-            >
-              ▸ こんな恩送りが欲しい
-            </Link>
-            <Link
-              href="/provider/apply"
-              className="pixel-btn font-pixel"
-              style={{
-                background: "#0052FF",
-                color: "#fff",
-                borderColor: "#000",
-                padding: "0.5rem 1rem",
-                fontSize: "0.75rem",
-              }}
-            >
-              ▸ 恩送りメニュー登録
-            </Link>
-          </div>
-        </div>
-
+      <div className="max-w-5xl mx-auto px-5 py-12">
         {/* 空の場合 */}
         {approvedProviders.length === 0 ? (
           <div
-            className="pixel-box text-center py-20"
-            style={{ background: "#0f1628" }}
+            className="slush-card text-center py-20"
+            style={{ background: "#ffffff" }}
           >
-            <p className="font-pixel text-[0.82rem] mb-4" style={{ color: "#3a6080" }}>
+            <p className="font-display text-[0.82rem] mb-4" style={{ color: "#4a4a4a" }}>
               NO MENU YET...
             </p>
-            <p className="font-ja text-base mb-2" style={{ color: "#90a0b8" }}>
+            <p className="font-ja text-base mb-2" style={{ color: "#4a4a4a" }}>
               現在掲載中の恩送りメニューはありません。
             </p>
-            <p className="font-ja text-sm mb-8" style={{ color: "#506070" }}>
+            <p className="font-ja text-sm mb-8" style={{ color: "#4a4a4a" }}>
               最初に登録しませんか？
             </p>
             <Link
               href="/provider/apply"
-              className="pixel-btn font-pixel"
+              className="slush-btn font-display"
               style={{
-                background: "#0052FF",
+                background: "#000000",
                 color: "#fff",
-                borderColor: "#000",
+                borderColor: "#000000",
                 padding: "0.75rem 1.5rem",
-                fontSize: "0.8rem",
-              }}
+                fontSize: "0.8rem", borderRadius: "1600px"}}
             >
               ▸ 恩送りメニューに登録する
             </Link>

@@ -11,13 +11,13 @@ export function MintGallery() {
   return (
     <div className="mt-12">
       <div
-        className="pixel-box p-5"
-        style={{ background: "#0f1628", borderColor: "#9b5de5", boxShadow: "4px 4px 0 #9b5de5" }}
+        className="slush-card p-5"
+        style={{ background: "#ffffff", borderColor: "#5c4ade", boxShadow: "none", borderRadius: "20px"}}
       >
-        <p className="font-pixel text-[0.72rem] mb-1" style={{ color: "#9b5de5" }}>
+        <p className="font-display text-[0.72rem] mb-1" style={{ color: "#5c4ade" }}>
           MY COLLECTION
         </p>
-        <p className="font-ja text-sm mb-5" style={{ color: "#7090a8" }}>
+        <p className="font-ja text-sm mb-5" style={{ color: "#4a4a4a" }}>
           あなたが保有するONLOOP NFT
         </p>
         <NFTGallery walletAddress={address} />

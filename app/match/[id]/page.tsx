@@ -23,16 +23,16 @@ export default async function MatchPage({ params }: Props) {
     : [undefined]
 
   return (
-    <div className="min-h-screen" style={{ background: "#0a0a1a" }}>
+    <div className="min-h-screen" style={{ background: "#ffffff" }}>
       <div className="max-w-lg mx-auto px-4 py-12 space-y-8">
         <div>
           <h1
-            className="font-pixel mb-3 leading-loose"
-            style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
+            className="font-display mb-3 leading-loose"
+            style={{ fontSize: "0.9rem", color: "#000000", textShadow: "none"}}
           >
             恩送りの確認
           </h1>
-          <p className="font-ja text-base" style={{ color: "#90a0b8" }}>
+          <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>
             承認前に日程や場所をメッセージで調整できます。
           </p>
         </div>

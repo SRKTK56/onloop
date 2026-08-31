@@ -15,7 +15,7 @@ export function AdminNav() {
   return (
     <div
       className="sticky top-14 z-40"
-      style={{ background: "#060610", borderBottom: "2px solid #1a1a2a" }}
+      style={{ background: "#dceeff", borderBottom: "1px solid #000000" }}
     >
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center gap-0">
@@ -25,13 +25,12 @@ export function AdminNav() {
               <Link
                 key={tab.key}
                 href={tab.href}
-                className="font-pixel px-5 py-3 transition-colors"
+                className="font-display px-5 py-3 transition-colors"
                 style={{
                   fontSize:    "0.68rem",
-                  color:       isActive ? "#ffcc00" : "#506070",
-                  borderBottom: isActive ? "3px solid #ffcc00" : "3px solid transparent",
-                  background:  isActive ? "#0a0800" : "transparent",
-                }}
+                  color:       isActive ? "#000000" : "#4a4a4a",
+                  borderBottom: isActive ? "1px solid #ffd731" : "1px solid transparent",
+                  background:  isActive ? "#ffffff" : "transparent"}}
               >
                 {tab.label}
               </Link>

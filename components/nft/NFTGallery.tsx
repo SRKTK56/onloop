@@ -16,7 +16,7 @@ type NFTMeta = {
 }
 
 const RARITY_ACCENT: Record<string, string> = {
-  Common: "#52b788", Uncommon: "#f9c74f", Rare: "#4361ee", Epic: "#48cae4", Legendary: "#9b5de5",
+  Common: "#55db9c", Uncommon: "#ffd731", Rare: "#4da2ff", Epic: "#7ee8e8", Legendary: "#5c4ade",
 }
 
 export function NFTGallery({ walletAddress }: { walletAddress: string }) {
@@ -99,7 +99,7 @@ export function NFTGallery({ walletAddress }: { walletAddress: string }) {
     return (
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {[1,2,3].map(i => (
-          <div key={i} className="pixel-box animate-pulse aspect-square" style={{ background: "#0f1628" }} />
+          <div key={i} className="slush-card animate-pulse aspect-square" style={{ background: "#ffffff" }} />
         ))}
       </div>
     )
@@ -108,12 +108,12 @@ export function NFTGallery({ walletAddress }: { walletAddress: string }) {
   if (nfts.length === 0) {
     return (
       <div className="text-center py-12 space-y-4">
-        <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>NO NFTs YET</p>
-        <p className="font-ja text-sm" style={{ color: "#506070" }}>まだONLOOP NFTを保有していません</p>
+        <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>NO NFTs YET</p>
+        <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>まだONLOOP NFTを保有していません</p>
         <Link
           href="/mint"
-          className="pixel-btn font-pixel inline-block"
-          style={{ background: "#0052FF", color: "#fff", borderColor: "#000", padding: "0.6rem 1.5rem", fontSize: "0.75rem" }}
+          className="slush-btn font-display inline-block"
+          style={{ background: "#000000", color: "#fff", borderColor: "#000000", padding: "0.6rem 1.5rem", fontSize: "0.75rem" , borderRadius: "1600px"}}
         >
           ▸ MINTする
         </Link>
@@ -123,15 +123,15 @@ export function NFTGallery({ walletAddress }: { walletAddress: string }) {
 
   return (
     <div className="space-y-4">
-      <p className="font-ja text-sm" style={{ color: "#7090a8" }}>
+      <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
         {nfts.length}体のNFTを保有しています
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {nfts.map((nft) => (
           <div
             key={nft.tokenId}
-            className="pixel-box flex flex-col overflow-hidden"
-            style={{ borderColor: nft.accent, boxShadow: `3px 3px 0 ${nft.accent}` }}
+            className="slush-card flex flex-col overflow-hidden"
+            style={{ borderColor: nft.accent, boxShadow: "none", borderRadius: "20px"}}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -140,17 +140,17 @@ export function NFTGallery({ walletAddress }: { walletAddress: string }) {
               className="w-full aspect-square object-cover"
               style={{ imageRendering: "pixelated" }}
             />
-            <div className="p-2 space-y-1.5" style={{ background: "#0a0a14" }}>
-              <p className="font-pixel text-[0.62rem]" style={{ color: nft.accent }}>
+            <div className="p-2 space-y-1.5" style={{ background: "#ffffff" }}>
+              <p className="font-display text-[0.7rem]" style={{ color: "#000000" }}>
                 {nft.name}
               </p>
               {nft.stage && (
-                <p className="font-ja text-xs" style={{ color: "#7090a8" }}>{nft.stage}</p>
+                <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>{nft.stage}</p>
               )}
               {nft.rarity && (
                 <span
-                  className="font-pixel text-[0.55rem] px-1 py-0.5 inline-block"
-                  style={{ background: `${nft.accent}22`, border: `1px solid ${nft.accent}`, color: nft.accent }}
+                  className="font-display text-[0.7rem] px-1 py-0.5 inline-block"
+                  style={{ background: `${nft.accent}22`, border: `1px solid ${nft.accent}`, color: "#000000" , borderRadius: "1600px"}}
                 >
                   {nft.rarity}
                 </span>
@@ -158,14 +158,13 @@ export function NFTGallery({ walletAddress }: { walletAddress: string }) {
               <button
                 onClick={() => setAsIcon(nft)}
                 disabled={saving === nft.tokenId}
-                className="w-full font-pixel text-center py-1.5 mt-1 transition-colors"
+                className="w-full font-display text-center py-1.5 mt-1 transition-colors"
                 style={{
                   fontSize:   "0.55rem",
-                  background: saved === nft.tokenId ? "#052e16" : "#060a14",
-                  border:     `2px solid ${saved === nft.tokenId ? "#52b788" : "#1a2a3a"}`,
-                  color:      saved === nft.tokenId ? "#52b788" : "#506070",
-                  cursor:     saving === nft.tokenId ? "not-allowed" : "pointer",
-                }}
+                  background: saved === nft.tokenId ? "#ddf7ea" : "#ffffff",
+                  border:     `1px solid ${saved === nft.tokenId ? "#55db9c" : "#000000"}`,
+                  color:      saved === nft.tokenId ? "#000000" : "#4a4a4a",
+                  cursor:     saving === nft.tokenId ? "not-allowed" : "pointer", borderRadius: "1600px"}}
               >
                 {saved === nft.tokenId ? "✓ 設定済み" : saving === nft.tokenId ? "設定中..." : "アイコンに設定"}
               </button>

@@ -18,33 +18,31 @@ export function StageDisplay({ chainLength, showProgress = true, size = "md" }: 
     <div className="flex flex-col gap-2">
       {/* ステージバッジ */}
       <div
-        className={`stage-badge ${textSize}`}
-        style={{ color: stage.accent, borderColor: stage.accent }}
+        className={`slush-badge ${textSize}`}
+        style={{ color: "#000000", background: stage.accent, borderColor: "#000000", borderRadius: "1600px" }}
       >
         <span className={emojiSize}>{stage.emoji}</span>
         <span>STAGE {stage.level}</span>
-        <span style={{ color: stage.accent }}>{stage.nameEn}</span>
+        <span style={{ color: "#000000" }}>{stage.nameEn}</span>
       </div>
 
       {/* プログレスバー */}
       {showProgress && nextStage && (
         <div className="flex flex-col gap-1">
           <div
-            className="h-3 w-full border-2 border-black"
-            style={{ background: "#111" }}
+            className="h-3 w-full overflow-hidden"
+            style={{ background: "#e9e9e9", border: "1px solid #000000", borderRadius: "1600px" }}
           >
             <div
               className="h-full transition-all duration-500"
               style={{
                 width: `${progress}%`,
-                background: stage.accent,
-                imageRendering: "pixelated",
-              }}
+                background: stage.accent }}
             />
           </div>
           <p
-            className="font-pixel text-[0.85rem] leading-relaxed"
-            style={{ color: stage.accent }}
+            className="font-display text-[0.85rem] leading-relaxed"
+            style={{ color: "#000000" }}
           >
             {stage.nextMessage}（{chainLength}/{nextStage.min - 1}）
           </p>
@@ -62,20 +60,19 @@ export function StageLadder({ currentLength }: { currentLength: number }) {
       {STAGES.map((s, i) => (
         <div key={s.id} className="flex items-center gap-1">
           <div
-            className={`pixel-box-sm flex items-center gap-1 px-2 py-1 text-[0.85rem] font-pixel transition-all`}
+            className={`slush-card-sm flex items-center gap-1 px-2 py-1 text-[0.85rem] font-display transition-all`}
             style={{
               background: s.level <= current.level ? s.bgLight : "#e5e5e5",
               color: s.level <= current.level ? s.bgDark : "#999",
               borderColor: s.level <= current.level ? s.accent : "#ccc",
-              boxShadow: s.level <= current.level ? `3px 3px 0 ${s.accent}` : "3px 3px 0 #ccc",
-              transform: s.id === current.id ? "scale(1.1)" : "scale(1)",
-            }}
+              boxShadow: "none",
+              transform: s.id === current.id ? "scale(1.1)" : "scale(1)", borderRadius: "20px"}}
           >
             <span>{s.emoji}</span>
             <span>{s.name}</span>
           </div>
           {i < STAGES.length - 1 && (
-            <span className="text-xs font-pixel text-muted-foreground">→</span>
+            <span className="text-xs font-display text-muted-foreground">→</span>
           )}
         </div>
       ))}

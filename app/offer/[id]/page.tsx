@@ -27,11 +27,11 @@ export default async function OfferPage({ params }: Props) {
   if (!row || row.id === undefined) notFound()
 
   return (
-    <div className="min-h-screen" style={{ background: "#0a0a1a" }}>
+    <div className="min-h-screen" style={{ background: "#ffffff" }}>
       <div className="max-w-2xl mx-auto px-4 py-12">
         <h1
-          className="font-pixel mb-8 leading-loose"
-          style={{ fontSize: "0.9rem", color: "#fff", textShadow: "3px 3px 0 #0052FF" }}
+          className="font-display mb-8 leading-loose"
+          style={{ fontSize: "0.9rem", color: "#000000", textShadow: "none"}}
         >
           恩送りを依頼する
         </h1>

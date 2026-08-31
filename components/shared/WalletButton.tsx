@@ -116,17 +116,16 @@ export function WalletButton() {
         <button
           onClick={handleConnect}
           disabled={isPending}
-          className="pixel-btn font-pixel cursor-pointer"
+          className="slush-btn font-display cursor-pointer"
           style={{
-            background: "#0052FF",
+            background: "#000000",
             color: "#fff",
-            borderColor: "#000",
+            borderColor: "#000000",
             padding: "0.45rem 0.7rem",
-            fontSize: "0.62rem",
+            fontSize: "0.7rem",
             whiteSpace: "nowrap",
             opacity: isPending ? 0.6 : 1,
-            cursor: isPending ? "not-allowed" : "pointer",
-          }}
+            cursor: isPending ? "not-allowed" : "pointer", borderRadius: "1600px"}}
         >
           {isPending ? (
             "接続中..."
@@ -143,17 +142,16 @@ export function WalletButton() {
           href="https://base.app/invite/onloop/6JY26BX1"
           target="_blank"
           rel="noopener noreferrer"
-          className="pixel-btn font-pixel hidden sm:inline-block"
+          className="slush-btn font-display hidden sm:inline-block"
           style={{
-            background: "#0a0a1a",
-            color: "#7ab0ff",
-            borderColor: "#0052FF",
-            boxShadow: "3px 3px 0 #0052FF",
+            background: "#ffffff",
+            color: "#4a4a4a",
+            borderColor: "#000000",
+            boxShadow: "none",
             padding: "0.45rem 0.7rem",
-            fontSize: "0.62rem",
+            fontSize: "0.7rem",
             whiteSpace: "nowrap",
-            cursor: "pointer",
-          }}
+            cursor: "pointer", borderRadius: "20px"}}
         >
           無料でウォレット作成
         </a>

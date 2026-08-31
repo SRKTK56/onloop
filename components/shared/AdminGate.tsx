@@ -15,17 +15,17 @@ export function AdminGate({ children }: { children: ReactNode }) {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#0a0a1a" }}>
-        <p className="font-pixel text-[0.72rem]" style={{ color: "#304050" }}>LOADING...</p>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#ffffff" }}>
+        <p className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>LOADING...</p>
       </div>
     )
   }
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#0a0a1a" }}>
-        <p className="font-pixel text-[0.85rem]" style={{ color: "#e63946" }}>ADMIN ACCESS REQUIRED</p>
-        <p className="font-ja text-base" style={{ color: "#90a0b8" }}>管理アカウントでウォレット接続してください</p>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6" style={{ background: "#ffffff" }}>
+        <p className="font-display text-[0.85rem]" style={{ color: "#fb4903" }}>ADMIN ACCESS REQUIRED</p>
+        <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>管理アカウントでウォレット接続してください</p>
         <WalletButton />
       </div>
     )
@@ -33,10 +33,10 @@ export function AdminGate({ children }: { children: ReactNode }) {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#0a0a1a" }}>
-        <p className="font-pixel text-[0.85rem]" style={{ color: "#e63946" }}>ACCESS DENIED</p>
-        <p className="font-ja text-base" style={{ color: "#90a0b8" }}>このページは運営アカウント専用です</p>
-        <p className="font-mono text-xs" style={{ color: "#304050" }}>{address}</p>
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "#ffffff" }}>
+        <p className="font-display text-[0.85rem]" style={{ color: "#fb4903" }}>ACCESS DENIED</p>
+        <p className="font-ja text-base" style={{ color: "#4a4a4a" }}>このページは運営アカウント専用です</p>
+        <p className="font-mono text-xs" style={{ color: "#4a4a4a" }}>{address}</p>
       </div>
     )
   }
