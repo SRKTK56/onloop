@@ -4,6 +4,7 @@ import Link from "next/link"
 import { PhoneMockup } from "@/components/shared/PhoneMockup"
 import { LoopRibbon, Sticker } from "@/components/shared/LoopRibbon"
 import { LoopFeed } from "@/components/loops/LoopFeed"
+import { OnDiagram } from "@/components/loops/OnDiagram"
 import { STAGES } from "@/lib/stages"
 import { useLang } from "@/lib/i18n/context"
 
@@ -166,6 +167,11 @@ export default function Home() {
               {T.token.sub}
             </p>
           </div>
+          {/* 数字の前に、何が起きているかを絵で見せる */}
+          <div className="mb-8">
+            <OnDiagram labels={{ hop: T.token.fig_hop, loop: T.token.fig_loop }} />
+          </div>
+
           <div className="grid md:grid-cols-3 gap-5 mb-8">
             {T.token.cards.map((item: any, i: number) => (
               <div

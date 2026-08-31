@@ -34,6 +34,8 @@ const t = {
       // 「記録」「実績」だけでは何のことか伝わらないので、まず一文で言い切る。
       lead:  "ONは、あなたが恩を送った量です。",
       sub:   "恩送りに参加するたびに増えて、使って減ることはありません。",
+      fig_hop:  "① 恩がひとつ進むとき",
+      fig_loop: "② 輪が閉じたとき",
       cards: [
         { icon:"🤝", label:"恩送りに参加する", value:"+1〜5",     note:"送っても受け取っても増える",   accent:"#0052FF" },
         { icon:"🎉", label:"ループが完成する", value:"N×20",      note:"起点者はさらに最大4倍",       accent:"#ffcc00" },
@@ -98,6 +100,8 @@ const t = {
       title: "What is ON?",
       lead:  "ON is how much kindness you have passed on.",
       sub:   "It grows every time you take part, and it is never spent.",
+      fig_hop:  "1. When kindness moves one step",
+      fig_loop: "2. When the loop closes",
       cards: [
         { icon:"🤝", label:"Take part in a chain", value:"+1–5",     note:"Giving or receiving, both count", accent:"#0052FF" },
         { icon:"🎉", label:"Close a loop",         value:"N×20",     note:"Up to ×4 more for the origin",    accent:"#ffcc00" },
