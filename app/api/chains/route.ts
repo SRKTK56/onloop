@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { chains, chainNodes, onBalances, onTransactions } from "@/lib/db/schema"
 import { eq, and, sql } from "drizzle-orm"
-import { calcHopRewards, calcLoopRewards, applyNFTBoost } from "@/lib/rewards"
+import { calcHopRewards, calcLoopRewards } from "@/lib/rewards"
+import { getStage } from "@/lib/stages"
 import { mintBatch } from "@/lib/web3/ontoken"
 import { recordNodeOnChain, confirmNodeOnChain } from "@/lib/web3/onchain"
-import { getHighestRarityLevel, nftMultiplier } from "@/lib/web3/nft-ownership"
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -129,16 +129,8 @@ export async function PATCH(req: NextRequest) {
       (w, i, arr) => arr.indexOf(w) === i
     )
 
-    // ── Plan A: NFTブースター適用 ─────────────────────────────
-    const baseHopRewards = calcHopRewards(participants.slice(0, -1), node.receiverWallet)
-    const rewardWallets  = Object.keys(baseHopRewards)
-
-    // 各ウォレットのNFTレアリティを並列取得
-    const nftLevelEntries = await Promise.all(
-      rewardWallets.map(async (w) => [w, await getHighestRarityLevel(w)] as [string, number])
-    )
-    const nftLevels = Object.fromEntries(nftLevelEntries)
-    const rewards   = applyNFTBoost(baseHopRewards, nftLevels)
+    // ── 連鎖1ホップぶんの報酬 ─────────────────────────────────
+    const rewards = calcHopRewards(participants.slice(0, -1), node.receiverWallet)
 
     // 報酬をDBに付与
     for (const [wallet, amount] of Object.entries(rewards)) {
@@ -152,7 +144,7 @@ export async function PATCH(req: NextRequest) {
       await db.insert(onTransactions).values({
         walletAddress: wallet,
         amount,
-        reason: `chain_hop chain=${node.chainId} nft_boost=${nftLevels[wallet] ?? 0}`,
+        reason: `chain_hop chain=${node.chainId}`,
         chainId: node.chainId,
       })
     }
@@ -161,15 +153,13 @@ export async function PATCH(req: NextRequest) {
     const isLoop = allNodes.length >= 5 &&
       allNodes[allNodes.length - 1]?.receiverWallet === originWallet
 
-    // ── Plan B: ループボーナス（起点者のNFTで全員を増幅）────────
+    // ── ループボーナス（連鎖の長さ＝ステージ倍率で全員を増幅）────
+    // 「輪が長く続くほど、閉じたときの報いが大きい」がこのプロダクトの中核。
     let loopRewards: Record<string, number> = {}
+    let loopStage = getStage(participants.length)
     if (isLoop) {
-      const originNFTLevel = await getHighestRarityLevel(originWallet)
-      const loopMult       = nftMultiplier(originNFTLevel)
-      const baseLoop       = calcLoopRewards(participants, originWallet)
-      loopRewards          = Object.fromEntries(
-        Object.entries(baseLoop).map(([w, v]) => [w, Math.round(v * loopMult)])
-      )
+      loopStage   = getStage(participants.length)
+      loopRewards = calcLoopRewards(participants, originWallet, loopStage.loopMultiplier)
 
       for (const [wallet, amount] of Object.entries(loopRewards)) {
         await db
@@ -182,14 +172,14 @@ export async function PATCH(req: NextRequest) {
         await db.insert(onTransactions).values({
           walletAddress: wallet,
           amount,
-          reason: `loop_complete chain=${node.chainId} origin_nft=${originNFTLevel} mult=${loopMult}`,
+          reason: `loop_complete chain=${node.chainId} stage=${loopStage.id} mult=${loopStage.loopMultiplier}`,
           chainId: node.chainId,
         })
       }
-      console.log(`[chains] Loop complete! origin_nft_level=${originNFTLevel} mult=×${loopMult}`)
+      console.log(`[chains] Loop complete! stage=${loopStage.nameEn} mult=×${loopStage.loopMultiplier}`)
     }
 
-    console.log(`[chains] Node confirmed: id=${nodeId}, nft_levels=${JSON.stringify(nftLevels)}`)
+    console.log(`[chains] Node confirmed: id=${nodeId}, chain_length=${participants.length}`)
 
     // オンチェーン記録 + Mint（非同期・失敗してもレスポンス影響なし）
     const allRewards = { ...rewards }
@@ -201,7 +191,7 @@ export async function PATCH(req: NextRequest) {
       mintBatch(allRewards),
     ]).catch((err) => console.error("[chains] onchain error:", err))
 
-    return NextResponse.json({ node, rewards, loopRewards, isLoop, nftLevels })
+    return NextResponse.json({ node, rewards, loopRewards, isLoop, stage: loopStage.id })
   } catch (err) {
     console.error("[chains] PATCH error:", err)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })

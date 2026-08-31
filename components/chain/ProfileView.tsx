@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
-import { NFTGallery } from "@/components/nft/NFTGallery"
 
 type Profile = { walletAddress: string; displayName: string | null; avatarUrl: string | null }
 type Provider = {
@@ -301,7 +300,6 @@ export function ProfileView() {
         <PixelTabs
           tabs={[
             { key: "chains", label: "参加チェーン" },
-            { key: "nft",    label: "NFT" },
             { key: "tokens", label: "ON獲得履歴" },
             { key: "giver",  label: "メニュー登録" },
           ]}
@@ -398,11 +396,6 @@ export function ProfileView() {
                 )
               })
             )
-          )}
-
-          {/* NFTギャラリー */}
-          {activeTab === "nft" && address && (
-            <NFTGallery walletAddress={address} />
           )}
 
           {/* ON獲得履歴 */}

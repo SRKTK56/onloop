@@ -28,9 +28,6 @@ export function Header() {
           <Link href="/menu" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
             {T.nav.menu}
           </Link>
-          <Link href="/mint" className="slush-badge font-ui">
-            {T.nav.mint}
-          </Link>
           <Link href="/profile" className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
             {T.nav.mypage}
           </Link>

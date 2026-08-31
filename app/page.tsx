@@ -9,26 +9,6 @@ import { useLang } from "@/lib/i18n/context"
 /* ステッカーパレット。1画面で必ず複数使う（1色をアクセントに選ばない） */
 const PALETTE = ["#55db9c", "#ffd731", "#e9ccff", "#7ee8e8", "#fb4903", "#5c4ade"]
 
-const STAGE_SAMPLES = [
-  { file: "stage8_宇宙.png",   label: "SPACE",   accent: "#5c4ade" },
-  { file: "stage7_地球.png",   label: "EARTH",   accent: "#0052ff" },
-  { file: "stage6_世界.png",   label: "WORLD",   accent: "#4da2ff" },
-  { file: "stage5_欧米.png",   label: "WEST",    accent: "#7ee8e8" },
-  { file: "stage4_アジア.png", label: "ASIA",    accent: "#ffd731" },
-  { file: "stage3_日本.png",   label: "JAPAN",   accent: "#ff4d6d" },
-  { file: "stage2_街.png",     label: "TOWN",    accent: "#fb4903" },
-  { file: "stage1_村.png",     label: "VILLAGE", accent: "#55db9c" },
-]
-
-const BOOST: { label: string; mult: string; fill: string; ink?: string }[] = [
-  { label: "Common",    mult: "×1.1", fill: "#55db9c" },
-  { label: "Uncommon",  mult: "×1.3", fill: "#ffd731" },
-  { label: "Rare",      mult: "×1.6", fill: "#4da2ff" },
-  { label: "Epic",      mult: "×1.8", fill: "#7ee8e8" },
-  { label: "Legendary", mult: "×2.0", fill: "#5c4ade", ink: "#ffffff" },
-  { label: "—",         mult: "×1.0", fill: "#e9e9e9" },
-]
-
 /** セクション見出し。英字の彫刻的ディスプレイ＋和文サブの2段組が基本形 */
 function SectionHead({ en, sub }: { en: string; sub?: string }) {
   return (
@@ -93,8 +73,8 @@ export default function Home() {
                 <Link href="/menu" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
                   {T.hero.cta_menu}
                 </Link>
-                <Link href="/mint" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
-                  {T.hero.cta_mint}
+                <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+                  {T.hero.cta_request}
                 </Link>
               </div>
 
@@ -179,103 +159,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ══ NFT ══ */}
-      <section className="band-paper py-16 md:py-24">
-        <div className="max-w-5xl mx-auto px-5">
-          <SectionHead en="ONLOOP NFT" sub={T.nft.sub} />
-
-          <div className="slush-card-lg p-6 mb-10" style={{ background: "#e9ccff" }}>
-            <p className="h-ja text-base mb-3">{T.nft.what_q}</p>
-            <p className="font-ja text-sm leading-relaxed">
-              {T.nft.what_a.split("約100円")[0]}
-              <span
-                className="slush-badge mx-1"
-                style={{ background: "#ffd731", fontSize: "0.8125rem" }}
-              >
-                {lang === "ja" ? "約100円" : "~$0.70"}
-              </span>
-              {T.nft.what_a.split("約100円")[1]}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-3 mb-4">
-            {STAGE_SAMPLES.map((s, i) => (
-              <div key={s.file} className="flex flex-col items-center gap-2">
-                <div
-                  className="sticker w-full aspect-square overflow-hidden"
-                  style={{ background: s.accent, transform: `rotate(${i % 2 ? 3 : -3}deg)` }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/nft-samples/${s.file}`}
-                    alt={s.label}
-                    className="w-full h-full object-cover img-pixel"
-                  />
-                </div>
-                <p className="font-ui text-center" style={{ fontSize: "0.7rem" }}>
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p className="font-ja text-center text-sm mb-10">{T.nft.count}</p>
-
-          <div className="grid md:grid-cols-3 gap-5 mb-10">
-            {T.nft.merits.map((item: any, i: number) => (
-              <div
-                key={item.title}
-                className="slush-card p-6"
-                style={{ background: ["#7ee8e8", "#ffffff", "#55db9c"][i] }}
-              >
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <h3 className="h-ja text-base mb-2">{item.title}</h3>
-                <p className="font-ja text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="slush-card-lg overflow-hidden mb-10">
-            <div className="px-5 py-4" style={{ borderBottom: "1px solid #000000" }}>
-              <p className="font-ui text-center">NFT BOOST RATE</p>
-            </div>
-            <div className="grid grid-cols-3 md:grid-cols-6">
-              {BOOST.map((r, i) => (
-                <div
-                  key={r.label}
-                  className="p-4 text-center"
-                  style={{
-                    background: r.fill,
-                    color: r.ink ?? "#000000",
-                    borderRight: i === BOOST.length - 1 ? "none" : "1px solid #000000",
-                    borderTop: "1px solid #000000",
-                  }}
-                >
-                  <p
-                    className={r.label === "—" ? "font-ja mb-2" : "font-ui mb-2"}
-                    style={{ fontSize: r.label === "—" ? "0.875rem" : "0.6875rem", fontWeight: 700 }}
-                  >
-                    {r.label === "—" ? (lang === "ja" ? "未保有" : "No NFT") : r.label}
-                  </p>
-                  <p className="display-md">{r.mult}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center">
-            <p className="font-ja text-sm mb-5">{T.nft.wallet_note}</p>
-            <div className="flex gap-3 justify-center flex-wrap">
-              <Link href="/mint" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
-                {T.nft.cta_mint}
-              </Link>
-              <Link href="/menu" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
-                {T.nft.cta_menu}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ══ WORLD STAGES ══ */}
       <section className="band-sky relative overflow-hidden py-16 md:py-24">
         <div
@@ -344,8 +227,8 @@ export default function Home() {
             <Link href="/menu" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
               {T.cta.btn_menu}
             </Link>
-            <Link href="/mint" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
-              {T.cta.btn_mint}
+            <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+              {T.cta.btn_request}
             </Link>
           </div>
         </div>

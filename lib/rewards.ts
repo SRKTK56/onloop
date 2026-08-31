@@ -2,23 +2,6 @@ export type RewardEvent =
   | { type: "new_hop"; chainId: number; participants: string[]; newReceiver: string }
   | { type: "loop_complete"; chainId: number; participants: string[]; origin: string }
 
-/**
- * NFT保有レアリティに基づく報酬倍率を各ウォレットの報酬に適用する
- * Plan A: 活動ブースター（max ×2.0）
- */
-export function applyNFTBoost(
-  rewards:    Record<string, number>,
-  nftLevels:  Record<string, number>  // wallet → rarityLevel (0-5)
-): Record<string, number> {
-  const MULT: Record<number, number> = { 0:1.0, 1:1.1, 2:1.3, 3:1.6, 4:1.8, 5:2.0 }
-  const boosted: Record<string, number> = {}
-  for (const [wallet, amount] of Object.entries(rewards)) {
-    const level = nftLevels[wallet] ?? 0
-    boosted[wallet] = Math.round(amount * (MULT[level] ?? 1.0))
-  }
-  return boosted
-}
-
 // Called when chain grows by one hop
 // participants: all wallets in chain before new hop (index 0 = origin)
 export function calcHopRewards(participants: string[], newReceiver: string) {
@@ -47,8 +30,16 @@ export function calcHopRewards(participants: string[], newReceiver: string) {
 }
 
 // Called when chain loops back to origin
-// B案: 起点者 N×20、早期中継者ボーナス付き（1番目×3.0 / 2番目×2.5 / 3番目×2.0 / 以降×1.0）
-export function calcLoopRewards(participants: string[], origin: string) {
+// 起点者 N×20、早期中継者ボーナス付き（1番目×3.0 / 2番目×2.5 / 3番目×2.0 / 以降×1.0）
+//
+// stageMultiplier: 連鎖の長さで決まるステージ倍率（村×1 〜 宇宙×20）。
+// 「ループが続くほど報われる」というこのプロダクトの中核をここで表現する。
+// LP で以前から告知していた倍率だが、実装されていなかったため 2026-08-31 に接続した。
+export function calcLoopRewards(
+  participants: string[],
+  origin: string,
+  stageMultiplier: number = 1
+) {
   const n = participants.length
   const rewards: Record<string, number> = {}
   const relayMultipliers: Record<number, number> = { 1: 3.0, 2: 2.5, 3: 2.0 }
@@ -56,10 +47,10 @@ export function calcLoopRewards(participants: string[], origin: string) {
   for (let i = 0; i < participants.length; i++) {
     const wallet = participants[i]
     if (wallet === origin) {
-      rewards[wallet] = n * 20
+      rewards[wallet] = Math.round(n * 20 * stageMultiplier)
     } else {
       const mult = relayMultipliers[i] ?? 1.0
-      rewards[wallet] = Math.round(n * 5 * mult)
+      rewards[wallet] = Math.round(n * 5 * mult * stageMultiplier)
     }
   }
 
