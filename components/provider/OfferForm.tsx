@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation"
 import { PixelChar, type CharType } from "@/components/shared/PixelChar"
 import { Textarea } from "@/components/ui/textarea"
 import { WalletButton } from "@/components/shared/WalletButton"
+import { STAGES } from "@/lib/stages"
+import type { ChainSummary } from "@/lib/loops"
 
 type Provider = {
   id: number
@@ -16,6 +18,8 @@ type Provider = {
   serviceTitle: string
   serviceDescription: string
   profileAvatarUrl: string | null
+  role?: string
+  chainId?: number | null
 }
 
 const CHARS: CharType[] = ["hero", "warrior", "mage", "villager"]
@@ -24,9 +28,18 @@ function charForWallet(wallet: string): CharType {
   return CHARS[sum % CHARS.length]
 }
 
-export function OfferForm({ provider }: { provider: Provider }) {
+export function OfferForm({
+  provider,
+  inheritedChain = null,
+}: {
+  provider: Provider
+  /** 贈り手が中継者として紐づけている輪。あればこれが既定の繋ぎ先になる */
+  inheritedChain?: ChainSummary | null
+}) {
   const { address, isConnected } = useAccount()
   const router = useRouter()
+  // 既定は「継承した輪に繋ぐ」。輪が無ければ新規しか選べない
+  const [joinChain, setJoinChain] = useState(Boolean(inheritedChain))
   const [description, setDescription] = useState("")
   const [agreed, setAgreed] = useState(false)
   const [pending, setPending] = useState(false)
@@ -54,6 +67,9 @@ export function OfferForm({ provider }: { provider: Provider }) {
           giverWallet: provider.walletAddress,
           receiverWallet: address,
           description: description.trim(),
+          // 繋ぎ先。新しい輪を選んだときは API 側の自動継承も抑止する
+          chainId: joinChain && inheritedChain ? inheritedChain.chainId : undefined,
+          startNewChain: !joinChain,
         }),
       })
       const data = await res.json()
@@ -133,6 +149,47 @@ export function OfferForm({ provider }: { provider: Provider }) {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-5">
+
+          {/* ── どの輪に繋ぐか ──
+              起点になるか、既にある輪に加わるか。このプロダクトの中心的な選択 */}
+          {inheritedChain && (
+            <div className="space-y-3">
+              <p className="font-ui">この恩送りをどうしますか？</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setJoinChain(true)}
+                  className="slush-card p-4 text-left"
+                  style={{
+                    background: joinChain
+                      ? (STAGES.find((x) => x.id === inheritedChain.stageId)?.accent ?? "#7ee8e8")
+                      : "#ffffff",
+                    cursor: "pointer",
+                  }}
+                >
+                  <p className="h-ja text-base mb-1">⇢ いまある輪に繋ぐ</p>
+                  <p className="font-ja text-sm">
+                    輪 #{inheritedChain.chainId}（{inheritedChain.length} 連鎖
+                    {STAGES.find((x) => x.id === inheritedChain.stageId)?.emoji}
+                    {STAGES.find((x) => x.id === inheritedChain.stageId)?.name}）が伸びます。
+                    長いほど完成時の報酬が大きくなります。
+                  </p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setJoinChain(false)}
+                  className="slush-card p-4 text-left"
+                  style={{ background: joinChain ? "#ffffff" : "#ffd731", cursor: "pointer" }}
+                >
+                  <p className="h-ja text-base mb-1">★ 新しい輪として始める</p>
+                  <p className="font-ja text-sm">
+                    {provider.name ?? "この人"}を起点に、新しい恩の輪が生まれます。
+                  </p>
+                </button>
+              </div>
+            </div>
+          )}
+
           <div
             className="slush-card p-5 space-y-4"
             style={{ background: "#ffffff" }}

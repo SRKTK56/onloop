@@ -3,6 +3,7 @@ export type Lang = "ja" | "en"
 const t = {
   ja: {
     nav: {
+      start:  "はじめる",
       loops:  "ループを見る",
       menu:   "恩送りメニュー",
       mypage: "マイページ",
@@ -14,8 +15,8 @@ const t = {
       v2:     "恩の連鎖がBase上に永久記録",
       v3:     "輪が閉じると連鎖の全員にボーナス",
       builton: "BUILT ON BASE BLOCKCHAIN",
+      cta_start: "▸ 恩送りをはじめる",
       cta_menu: "▸ 恩送りメニューを見る",
-      cta_request: "▸ こんな恩送りが欲しい",
     },
     how: {
       title: "HOW IT WORKS",
@@ -47,8 +48,8 @@ const t = {
       title: "さあ、はじめよう",
       sub:   "ウォレット不要でメニューを閲覧できます",
       wallet_note: "ウォレットはCoinbase Walletで無料作成できます",
+      btn_start: "▸ 恩送りをはじめる",
       btn_menu: "▸ 恩送りメニューを見る",
-      btn_request: "▸ こんな恩送りが欲しい",
     },
     menu_page: {
       title: "恩送りメニュー",
@@ -65,6 +66,7 @@ const t = {
 
   en: {
     nav: {
+      start:  "Start",
       loops:  "Live Loops",
       menu:   "Kindness Menu",
       mypage: "My Page",
@@ -76,8 +78,8 @@ const t = {
       v2:     "Kindness chains permanently recorded on Base",
       v3:     "When the loop closes, everyone in the chain is rewarded",
       builton: "BUILT ON BASE BLOCKCHAIN",
+      cta_start: "▸ Start Giving",
       cta_menu: "▸ Browse Kindness Menu",
-      cta_request: "▸ Request a kindness",
     },
     how: {
       title: "HOW IT WORKS",
@@ -109,8 +111,8 @@ const t = {
       title: "Let's get started",
       sub:   "Browse the menu without a wallet",
       wallet_note: "Create a free wallet with Coinbase Wallet",
+      btn_start: "▸ Start Giving",
       btn_menu: "▸ Browse Kindness Menu",
-      btn_request: "▸ Request a kindness",
     },
     menu_page: {
       title: "Kindness Menu",

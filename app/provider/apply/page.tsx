@@ -1,13 +1,21 @@
 import { ProviderApplyForm } from "@/components/provider/ProviderApplyForm"
 import { PageHead } from "@/components/shared/PageHead"
 
-export default function ProviderApplyPage() {
+type Props = { searchParams: Promise<{ role?: string; chain?: string }> }
+
+export default async function ProviderApplyPage({ searchParams }: Props) {
+  const sp = await searchParams
+  const initialRole = sp.role === "relay" ? "relay" : "origin"
   return (
     <div className="min-h-screen band-paper">
       <PageHead
-        en="BECOME A GIVER"
-        ja="恩送りメニュー登録"
-        sub="あなたのスキルや好意を、恩送りメニューに登録しましょう。"
+        en={initialRole === "relay" ? "JOIN A LOOP" : "START A LOOP"}
+        ja={initialRole === "relay" ? "いまある輪に加わる" : "新しい輪を始める"}
+        sub={
+          initialRole === "relay"
+            ? "加わる輪を選んで登録します。あなたが恩を送ると、その輪が伸びます。"
+            : "あなたが提供できることを登録します。誰かが受け取った瞬間に、あなたを起点とする輪が生まれます。"
+        }
         band="lavender"
       />
       <div className="max-w-5xl mx-auto px-5 py-12">
@@ -27,7 +35,7 @@ export default function ProviderApplyPage() {
           ))}
         </div>
 
-        <ProviderApplyForm />
+        <ProviderApplyForm initialRole={initialRole} />
       </div>
     </div>
   )

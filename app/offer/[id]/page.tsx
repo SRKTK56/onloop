@@ -3,6 +3,7 @@ import { providers, userProfiles } from "@/lib/db/schema"
 import { eq } from "drizzle-orm"
 import { notFound } from "next/navigation"
 import { OfferForm } from "@/components/provider/OfferForm"
+import { getChainSummary } from "@/lib/loops"
 
 type Props = { params: Promise<{ id: string }> }
 
@@ -18,6 +19,8 @@ export default async function OfferPage({ params }: Props) {
       serviceImageUrl: providers.avatarUrl,
       serviceTitle: providers.serviceTitle,
       serviceDescription: providers.serviceDescription,
+      role: providers.role,
+      chainId: providers.chainId,
       profileAvatarUrl: userProfiles.avatarUrl,
     })
     .from(providers)
@@ -25,6 +28,9 @@ export default async function OfferPage({ params }: Props) {
     .where(eq(providers.id, parseInt(id)))
 
   if (!row || row.id === undefined) notFound()
+
+  // 贈り手が中継者として輪に紐づいていれば、その輪を既定の繋ぎ先にする
+  const inheritedChain = row.chainId ? await getChainSummary(row.chainId) : null
 
   return (
     <div className="min-h-screen" style={{ background: "#ffffff" }}>
@@ -36,7 +42,7 @@ export default async function OfferPage({ params }: Props) {
           恩送りを依頼する
         </h1>
 
-        <OfferForm provider={row} />
+        <OfferForm provider={row} inheritedChain={inheritedChain} />
       </div>
     </div>
   )

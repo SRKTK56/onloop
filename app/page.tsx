@@ -71,11 +71,11 @@ export default function Home() {
               </div>
 
               <div className="flex gap-3 flex-wrap justify-center md:justify-start mb-6">
-                <Link href="/menu" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
-                  {T.hero.cta_menu}
+                <Link href="/start" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
+                  {T.hero.cta_start}
                 </Link>
-                <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
-                  {T.hero.cta_request}
+                <Link href="/menu" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+                  {T.hero.cta_menu}
                 </Link>
               </div>
 
@@ -244,11 +244,11 @@ export default function Home() {
           <p className="font-ja text-sm mb-2">{T.cta.sub}</p>
           <p className="font-ja text-sm mb-8" style={{ opacity: 0.7 }}>{T.cta.wallet_note}</p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Link href="/menu" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
-              {T.cta.btn_menu}
+            <Link href="/start" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
+              {T.cta.btn_start}
             </Link>
-            <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
-              {T.cta.btn_request}
+            <Link href="/menu" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
+              {T.cta.btn_menu}
             </Link>
           </div>
         </div>

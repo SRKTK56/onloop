@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useAccount } from "wagmi"
 import { Input } from "@/components/ui/input"
+import { ChainPicker } from "@/components/loops/ChainPicker"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { WalletButton } from "@/components/shared/WalletButton"
@@ -182,13 +183,13 @@ function PreviewCard({
 }
 
 // ── メインフォーム ──
-export function ProviderApplyForm() {
+export function ProviderApplyForm({ initialRole = "origin" }: { initialRole?: "origin" | "relay" }) {
   const { address, isConnected } = useAccount()
   const [pending, setPending] = useState(false)
   const [done, setDone] = useState(false)
   const [displayName, setDisplayName] = useState("")
-  const [role, setRole] = useState<"origin" | "relay">("origin")
-  const [chainIdInput, setChainIdInput] = useState("")
+  const [role, setRole] = useState<"origin" | "relay">(initialRole)
+  const [selectedChainId, setSelectedChainId] = useState<number | null>(null)
   const [form, setForm] = useState({
     serviceImageUrl: "",
     bio: "",
@@ -254,7 +255,7 @@ export function ProviderApplyForm() {
           serviceTitle: form.serviceTitle,
           serviceDescription: form.serviceDescription,
           role,
-          chainId: role === "relay" && chainIdInput ? parseInt(chainIdInput) : null,
+          chainId: role === "relay" ? selectedChainId : null,
         }),
       })
       setDone(true)
@@ -314,24 +315,14 @@ export function ProviderApplyForm() {
             </button>
           </div>
 
-          {/* 中継者の場合：チェーンID入力 */}
+          {/* 中継者の場合：加わる輪を選ぶ */}
           {role === "relay" && (
-            <div className="space-y-2">
-              <Label className="font-display text-[0.72rem]" style={{ color: "#4a4a4a" }}>
-                参加するチェーンID <span style={{ color: "#fb4903" }}>*</span>
-              </Label>
-              <p className="font-ja text-sm" style={{ color: "#4a4a4a" }}>
-                参加したいチェーンのIDを入力してください（例：12）
+            <div className="space-y-3">
+              <p className="font-ui">加わる輪を選んでください *</p>
+              <p className="font-ja text-sm">
+                選んだ輪に繋がります。あなたが恩送りをすると、この輪が伸びます。
               </p>
-              <Input
-                type="number"
-                placeholder="チェーンIDを入力"
-                required={role === "relay"}
-                value={chainIdInput}
-                onChange={(e) => setChainIdInput(e.target.value)}
-                className="font-ja focus:border-primary"
-                style={{ background: "#dceeff", border: "1px solid #fb490355", color: "#000000", borderRadius: "20px" }}
-              />
+              <ChainPicker value={selectedChainId} onChange={setSelectedChainId} />
             </div>
           )}
         </div>

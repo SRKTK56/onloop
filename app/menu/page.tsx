@@ -58,8 +58,8 @@ export default async function MenuPage() {
         sub="恩送りメニューに登録されたメンバーが、スキルや好意を提供してくれます。"
         band="sky"
       >
-        <Link href="/provider/apply" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
-          ▸ 恩送りメニュー登録
+        <Link href="/start" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
+          ▸ 恩送りをはじめる
         </Link>
         <Link href="/request" className="slush-btn slush-btn-ghost font-ja" style={{ fontWeight: 700 }}>
           ▸ こんな恩送りが欲しい

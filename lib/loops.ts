@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
 import { chains, chainNodes, userProfiles, providers } from "@/lib/db/schema"
-import { inArray, desc } from "drizzle-orm"
+import { inArray, desc, eq } from "drizzle-orm"
 import { getStage } from "@/lib/stages"
 
 /** 公開フィードに出す参加者。表示名が無い人は短縮アドレスに落とす */
@@ -125,4 +125,34 @@ export async function getLoopFeed(limit = 20): Promise<LoopItem[]> {
       return new Date(b.lastAt).getTime() - new Date(a.lastAt).getTime()
     })
     .slice(0, limit)
+}
+
+export type ChainSummary = {
+  chainId: number
+  length: number
+  stageId: string
+  isLoop: boolean
+}
+
+/** 1本の輪の要約。依頼画面で「どの輪に繋ぐか」を示すために使う */
+export async function getChainSummary(chainId: number): Promise<ChainSummary | null> {
+  const [chain] = await db.select().from(chains).where(eq(chains.id, chainId))
+  if (!chain) return null
+
+  const nodes = await db.select().from(chainNodes).where(eq(chainNodes.chainId, chainId))
+  const confirmed = nodes.filter((n) => n.status === "confirmed").sort((a, b) => a.position - b.position)
+
+  // 数え方は lib/rewards.ts と揃える
+  const length = [chain.originWallet, ...confirmed.map((n) => n.receiverWallet)]
+    .filter((w, i, arr) => arr.findIndex((x) => x.toLowerCase() === w.toLowerCase()) === i).length
+
+  const sorted = nodes.slice().sort((a, b) => a.position - b.position)
+  return {
+    chainId,
+    length,
+    stageId: getStage(length).id,
+    isLoop:
+      sorted.length >= 5 &&
+      sorted[sorted.length - 1]?.receiverWallet.toLowerCase() === chain.originWallet.toLowerCase(),
+  }
 }

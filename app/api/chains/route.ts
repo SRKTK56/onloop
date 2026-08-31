@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { chains, chainNodes, onBalances, onTransactions } from "@/lib/db/schema"
+import { chains, chainNodes, onBalances, onTransactions, providers } from "@/lib/db/schema"
 import { eq, and, sql } from "drizzle-orm"
 import { calcHopRewards, calcLoopRewards } from "@/lib/rewards"
 import { getStage } from "@/lib/stages"
@@ -30,15 +30,32 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { giverWallet, receiverWallet, description, chainId } = body
+    const { giverWallet, receiverWallet, description, chainId, startNewChain } = body
 
     if (!giverWallet || !receiverWallet || !description) {
       return NextResponse.json({ error: "必須項目が不足しています" }, { status: 400 })
     }
 
-    let targetChainId = chainId
+    let targetChainId: number | null = chainId ?? null
 
-    // 新規チェーンの場合
+    // 明示指定が無ければ、贈り手が「中継者」として紐づけた輪を引き継ぐ。
+    // ここが無いと、誰が恩送りをしても必ず新しい輪ができて既存の輪が伸びない
+    // （2026-08-31 まで実際にそうなっていた）。
+    if (!targetChainId && !startNewChain) {
+      const [asRelay] = await db
+        .select({ chainId: providers.chainId })
+        .from(providers)
+        .where(and(eq(providers.walletAddress, giverWallet), eq(providers.status, "approved")))
+      if (asRelay?.chainId) targetChainId = asRelay.chainId
+    }
+
+    // 指定された輪が実在するか確認する（消えた輪に繋ごうとしたら新規に倒す）
+    if (targetChainId) {
+      const [exists] = await db.select({ id: chains.id }).from(chains).where(eq(chains.id, targetChainId))
+      if (!exists) targetChainId = null
+    }
+
+    // 新規チェーンの場合。起点者＝最初に与えた人
     if (!targetChainId) {
       const [newChain] = await db
         .insert(chains)
