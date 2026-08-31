@@ -26,7 +26,7 @@ function getWalletClient() {
 }
 
 /**
- * ONトークンをオンチェーンでMintする
+ * ON（譲渡不可の実績記録）をオンチェーンでMintする
  * - 失敗してもDB報酬は影響しないよう、呼び出し元でtry-catchすること
  */
 export async function mintOnToken(to: string, amount: number): Promise<`0x${string}`> {

@@ -224,12 +224,12 @@ export function ProfileView() {
             </button>
           </div>
 
-          {/* ONトークン残高 */}
+          {/* ONの積み上げ（残高ではなく実績として見せる） */}
           <div
             className="slush-card p-4 text-right"
             style={{ background: "#dceeff", borderColor: "#000000", boxShadow: "none", borderRadius: "20px"}}
           >
-            <p className="font-display text-[0.85rem] mb-1" style={{ color: "#4a4a4a" }}>ON BALANCE</p>
+            <p className="font-display text-[0.85rem] mb-1" style={{ color: "#4a4a4a" }}>ON RECORD</p>
             <p className="font-display" style={{ fontSize: "1.8rem", color: "#000000", textShadow: "none"}}>
               {data.balance}
             </p>
@@ -408,7 +408,7 @@ export function ProfileView() {
           {activeTab === "tokens" && (
             data.history.length === 0 ? (
               <p className="text-center py-10 font-ja text-sm" style={{ color: "#4a4a4a" }}>
-                まだONトークンを獲得していません。
+                まだONが積み上がっていません。
               </p>
             ) : (
               data.history.map((tx) => (

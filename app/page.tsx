@@ -158,7 +158,7 @@ export default function Home() {
           <LoopRibbon variant="ring" className="w-full h-full" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-5">
-          <SectionHead en="ON TOKEN" sub={T.token.sub} />
+          <SectionHead en="ON RECORD" sub={T.token.sub} />
           <div className="grid md:grid-cols-3 gap-5 mb-8">
             {T.token.cards.map((item: any, i: number) => (
               <div

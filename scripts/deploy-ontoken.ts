@@ -30,7 +30,8 @@ async function main() {
   console.log("確認待ち...")
 
   const receipt = await client.waitForTransactionReceipt({ hash })
-  console.log("\n✅ OnToken デプロイ完了!")
+  console.log("\n✅ OnToken（譲渡不可）デプロイ完了!")
+  console.log("旧: 0x84e54ce64d13220365f5d1cb4a6fcc5bf35c6ac3（譲渡可能・totalSupply 0・破棄してよい）")
   console.log("コントラクトアドレス:", receipt.contractAddress)
   console.log("\n次のステップ:")
   console.log("  ! vercel env add ON_TOKEN_CONTRACT_ADDRESS")

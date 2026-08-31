@@ -238,7 +238,7 @@ export function OfferForm({
                   ▸ 恩送りの約束
                 </p>
                 <p className="font-ja text-sm leading-relaxed" style={{ color: agreed ? "#4a4a4a" : "#4a6080" }}>
-                  恩送りを受け取ったら、あなたも次の誰かへ恩を繋ぐことを約束します。連鎖が続くほど、全員のONトークン報酬が増えます。
+                  恩送りを受け取ったら、あなたも次の誰かへ恩を繋ぐことを約束します。連鎖が続くほど、全員のONの積み上がりが増えます。
                 </p>
               </div>
             </label>
