@@ -8,7 +8,7 @@
  * 数値は lib/rewards.ts の calcHopRewards / calcLoopRewards に合わせている。
  */
 
-import { calcLoopRewards } from "@/lib/rewards"
+import { calcHopRewards, calcLoopRewards } from "@/lib/rewards"
 import { getStage } from "@/lib/stages"
 
 const INK = "#000000"
@@ -111,28 +111,48 @@ export function OnDiagram({ labels }: { labels: { hop: string; loop: string } })
 /**
  * 具体例。
  *
- * 数字は lib/rewards.ts の calcLoopRewards をそのまま呼んで生成する。
+ * 数字は lib/rewards.ts の calcHopRewards / calcLoopRewards を
+ * app/api/chains/route.ts と同じ手順で回して生成する。
  * 手で書くと実装と乖離するため、必ず実際の計算式から出すこと。
  */
+
+const NUM: React.CSSProperties = { fontVariantNumeric: "tabular-nums" }
+
+/** 6人の輪（p0→p1→…→p5→p0）を最初から最後まで再現する */
+function simulateLoop(n: number) {
+  const people = Array.from({ length: n }, (_, i) => `p${i}`)
+  const receivers = people.map((_, k) => people[(k + 1) % n])
+  const stage = getStage(n)
+
+  // 連鎖が1つ進むたびの報酬を、APIと同じ引数の作り方で積み上げる
+  const hop: Record<string, number> = {}
+  for (let k = 0; k < n; k++) {
+    const parts = [people[0], ...receivers.slice(0, k + 1)].filter(
+      (w, i, a) => a.indexOf(w) === i
+    )
+    const r = calcHopRewards(parts.slice(0, -1), receivers[k])
+    for (const [w, v] of Object.entries(r)) hop[w] = (hop[w] ?? 0) + v
+  }
+
+  const loop = calcLoopRewards(people, people[0], stage.loopMultiplier)
+  return { people, stage, hop, loop }
+}
+
 export function OnExample() {
   const N = 6
-  const people = Array.from({ length: N }, (_, i) => `p${i}`)
-  const stage = getStage(N)
-  const rewards = calcLoopRewards(people, people[0], stage.loopMultiplier)
-  const total = Object.values(rewards).reduce((a, b) => a + b, 0)
-
-  const roles = [
-    "起点者（輪を始めた人）",
-    "最初に繋いだ人",
-    "2番目に繋いだ人",
-    "3番目に繋いだ人",
-    "4番目に繋いだ人",
-    "5番目に繋いだ人",
-  ]
+  const { people, stage, hop, loop } = simulateLoop(N)
+  const rows = people.map((w, i) => ({
+    role: i === 0 ? "起点者（輪を始めた人）" : `${i}番目に繋いだ人`,
+    origin: i === 0,
+    hop: hop[w] ?? 0,
+    loop: loop[w] ?? 0,
+    total: (hop[w] ?? 0) + (loop[w] ?? 0),
+  }))
+  const sum = (k: "hop" | "loop" | "total") => rows.reduce((a, r) => a + r[k], 0)
 
   return (
     <div className="slush-card-lg p-6">
-      <p className="h-ja text-base mb-4">例：6人の輪が閉じたら</p>
+      <p className="h-ja text-base mb-4">例：6人の輪が閉じるまで</p>
 
       <div className="flex flex-wrap gap-2 mb-5">
         <span className="slush-badge font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 700 }}>
@@ -143,36 +163,57 @@ export function OnExample() {
         </span>
       </div>
 
-      <div className="flex flex-col">
-        {people.map((w, i) => (
-          <div
-            key={w}
-            className="flex items-center justify-between gap-3 py-2.5"
-            style={{ borderTop: i === 0 ? "none" : "1px solid #000000" }}
-          >
-            <span className="flex items-center gap-2.5 min-w-0">
-              <span
-                className="sticker-round shrink-0"
-                style={{ width: 14, height: 14, background: i === 0 ? INK : "#ffffff" }}
-              />
-              <span className="font-ja text-sm">{roles[i]}</span>
-            </span>
-            <span className="slush-badge shrink-0" style={{ background: i === 0 ? "#ffd731" : "#ffffff" }}>
-              {rewards[w]} ON
+      {/* 横に広いので、はみ出す場合はこの中だけスクロールさせる */}
+      <div className="overflow-x-auto">
+        <div style={{ minWidth: 460 }}>
+          <div className="flex items-end gap-3 pb-2" style={{ borderBottom: "1px solid #000000" }}>
+            <span className="flex-1 font-ui" style={{ fontSize: "0.6875rem" }}>WHO</span>
+            <span className="w-24 text-right font-ja text-sm" style={{ opacity: 0.7 }}>連鎖の途中</span>
+            <span className="w-24 text-right font-ja text-sm" style={{ opacity: 0.7 }}>輪が閉じて</span>
+            <span className="w-24 text-right font-ja text-sm font-bold">合計</span>
+          </div>
+
+          {rows.map((r) => (
+            <div
+              key={r.role}
+              className="flex items-center gap-3 py-2.5"
+              style={{ borderBottom: "1px solid #000000" }}
+            >
+              <span className="flex-1 flex items-center gap-2.5 min-w-0">
+                <span
+                  className="sticker-round shrink-0"
+                  style={{ width: 14, height: 14, background: r.origin ? INK : "#ffffff" }}
+                />
+                <span className="font-ja text-sm truncate">{r.role}</span>
+              </span>
+              <span className="w-24 text-right font-ja text-sm" style={{ ...NUM, opacity: 0.7 }}>
+                +{r.hop}
+              </span>
+              <span className="w-24 text-right font-ja text-sm" style={NUM}>
+                +{r.loop}
+              </span>
+              <span className="w-24 text-right shrink-0">
+                <span className="slush-badge" style={{ background: r.origin ? "#ffd731" : "#ffffff", ...NUM }}>
+                  {r.total} ON
+                </span>
+              </span>
+            </div>
+          ))}
+
+          <div className="flex items-center gap-3 pt-3">
+            <span className="flex-1 h-ja text-sm">この輪ぜんぶで</span>
+            <span className="w-24 text-right font-ja text-sm" style={{ ...NUM, opacity: 0.7 }}>{sum("hop")}</span>
+            <span className="w-24 text-right font-ja text-sm" style={NUM}>{sum("loop")}</span>
+            <span className="w-24 text-right display-md" style={{ fontSize: "1.35rem", ...NUM }}>
+              {sum("total")}
             </span>
           </div>
-        ))}
-        <div
-          className="flex items-center justify-between gap-3 pt-3 mt-1"
-          style={{ borderTop: "1px solid #000000" }}
-        >
-          <span className="h-ja text-sm">この輪ぜんぶで</span>
-          <span className="display-md" style={{ fontSize: "1.5rem" }}>{total} ON</span>
         </div>
       </div>
 
       <p className="font-ja text-sm mt-4" style={{ opacity: 0.7 }}>
-        輪が長くなるほど N が増え、ステージ倍率も上がるので、閉じたときの取り分が大きくなります。
+        連鎖の途中でも少しずつ入りますが、大きいのは輪が閉じたときです。
+        輪が長くなるほど N が増え、ステージ倍率も上がるので取り分が大きくなります。
       </p>
     </div>
   )
