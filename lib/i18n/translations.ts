@@ -30,13 +30,16 @@ const t = {
     },
     token: {
       title: "ON（恩）とは？",
-      sub:   "恩送りをするたびに積み上がる実績の記録です。売買も譲渡もできません。",
+      // 定義 → 増え方 → 使えない理由、の順で読ませる。
+      // 「記録」「実績」だけでは何のことか伝わらないので、まず一文で言い切る。
+      lead:  "ONは、あなたが恩を送った量です。",
+      sub:   "恩送りに参加するたびに増えて、使って減ることはありません。",
       cards: [
-        { icon:"🤝", label:"恩送り参加",  value:"+1〜5 ON",  note:"送る・受け取るたびに積み上がる", accent:"#0052FF" },
-        { icon:"🎉", label:"ループ完成",  value:"N×20 ON",   note:"起点者には最大4倍ボーナス",   accent:"#ffcc00" },
-        { icon:"🌏", label:"ステージ倍率", value:"最大×20",   note:"連鎖が長いほどループ報酬UP", accent:"#5c4ade" },
+        { icon:"🤝", label:"恩送りに参加する", value:"+1〜5",     note:"送っても受け取っても増える",   accent:"#0052FF" },
+        { icon:"🎉", label:"ループが完成する", value:"N×20",      note:"起点者はさらに最大4倍",       accent:"#ffcc00" },
+        { icon:"🌏", label:"連鎖が長いほど",   value:"最大×20",   note:"完成ぶんに×1〜×20の倍率",     accent:"#5c4ade" },
       ],
-      chain: "ONは譲渡も売買もできない設計です。使うためのものではなく、「どれだけ恩を送ったか」が積み上がる記録として増えていきます。連鎖の記録はBase上のコントラクトに刻まれます。",
+      chain: "ONは売ることも、誰かに渡すこともできません。お金に換えられないぶん、「どれだけ恩を送ったか」という事実だけが正確に残ります。この記録はBase上のコントラクトに刻まれます。",
     },
     stages: {
       title: "WORLD STAGES",
@@ -93,13 +96,14 @@ const t = {
     },
     token: {
       title: "What is ON?",
-      sub:   "A record that builds up each time you pass kindness forward. It cannot be sold or transferred.",
+      lead:  "ON is how much kindness you have passed on.",
+      sub:   "It grows every time you take part, and it is never spent.",
       cards: [
-        { icon:"🤝", label:"Participating",  value:"+1–5 ON",   note:"For each give or receive",         accent:"#0052FF" },
-        { icon:"🎉", label:"Loop Complete",  value:"N×20 ON",   note:"Origin earns up to 4× bonus",      accent:"#ffcc00" },
-        { icon:"🌏", label:"Stage Bonus",   value:"up to ×20",  note:"Longer chains, bigger loop rewards", accent:"#5c4ade" },
+        { icon:"🤝", label:"Take part in a chain", value:"+1–5",     note:"Giving or receiving, both count", accent:"#0052FF" },
+        { icon:"🎉", label:"Close a loop",         value:"N×20",     note:"Up to ×4 more for the origin",    accent:"#ffcc00" },
+        { icon:"🌏", label:"The longer the chain", value:"up to ×20", note:"×1–×20 on the loop bonus",       accent:"#5c4ade" },
       ],
-      chain: "ON cannot be sold or transferred by design. It is not something you spend — it is a record of how much kindness you have passed on. Chain records are written to a contract on Base.",
+      chain: "ON cannot be sold or given to anyone. Because it has no cash value, what remains is an accurate record of how much kindness you have passed on. It is written to a contract on Base.",
     },
     stages: {
       title: "WORLD STAGES",

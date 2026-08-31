@@ -158,7 +158,14 @@ export default function Home() {
           <LoopRibbon variant="ring" className="w-full h-full" />
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-5">
-          <SectionHead en="ON RECORD" sub={T.token.sub} />
+          {/* 定義を大きく、補足を小さく。「何であるか」を先に読ませる */}
+          <div className="mb-8 md:mb-12">
+            <h2 className="display-lg text-center">ON RECORD</h2>
+            <p className="h-ja text-center text-lg md:text-2xl mt-5">{T.token.lead}</p>
+            <p className="font-ja text-center text-sm md:text-base mt-3 max-w-2xl mx-auto">
+              {T.token.sub}
+            </p>
+          </div>
           <div className="grid md:grid-cols-3 gap-5 mb-8">
             {T.token.cards.map((item: any, i: number) => (
               <div
