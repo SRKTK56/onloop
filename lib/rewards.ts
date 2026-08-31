@@ -30,11 +30,10 @@ export function calcHopRewards(participants: string[], newReceiver: string) {
 }
 
 // Called when chain loops back to origin
-// 起点者 N×20、早期中継者ボーナス付き（1番目×3.0 / 2番目×2.5 / 3番目×2.0 / 以降×1.0）
+// 起点者 N×20 / 起点者以外 N×10（2026-09-01 に早期中継者ボーナスを廃止して統一）
 //
 // stageMultiplier: 連鎖の長さで決まるステージ倍率（村×1 〜 宇宙×20）。
 // 「ループが続くほど報われる」というこのプロダクトの中核をここで表現する。
-// LP で以前から告知していた倍率だが、実装されていなかったため 2026-08-31 に接続した。
 export function calcLoopRewards(
   participants: string[],
   origin: string,
@@ -42,16 +41,10 @@ export function calcLoopRewards(
 ) {
   const n = participants.length
   const rewards: Record<string, number> = {}
-  const relayMultipliers: Record<number, number> = { 1: 3.0, 2: 2.5, 3: 2.0 }
 
-  for (let i = 0; i < participants.length; i++) {
-    const wallet = participants[i]
-    if (wallet === origin) {
-      rewards[wallet] = Math.round(n * 20 * stageMultiplier)
-    } else {
-      const mult = relayMultipliers[i] ?? 1.0
-      rewards[wallet] = Math.round(n * 5 * mult * stageMultiplier)
-    }
+  for (const wallet of participants) {
+    const base = wallet === origin ? n * 20 : n * 10
+    rewards[wallet] = Math.round(base * stageMultiplier)
   }
 
   return rewards

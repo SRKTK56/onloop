@@ -134,21 +134,41 @@ function simulateLoop(n: number) {
     for (const [w, v] of Object.entries(r)) hop[w] = (hop[w] ?? 0) + v
   }
 
-  const loop = calcLoopRewards(people, people[0], stage.loopMultiplier)
-  return { people, stage, hop, loop }
+  // ループ完成ボーナスを「基本」と「ステージ倍率で上乗せされたぶん」に分解する。
+  // 実装は掛け算だが、表では足し算として見せたほうが内訳が伝わる。
+  // どちらも同じ関数から出しているので、実装を変えれば表も追従する。
+  const loopBase = calcLoopRewards(people, people[0], 1)
+  const loopFull = calcLoopRewards(people, people[0], stage.loopMultiplier)
+  const stageBonus: Record<string, number> = {}
+  for (const w of people) stageBonus[w] = (loopFull[w] ?? 0) - (loopBase[w] ?? 0)
+
+  return { people, stage, hop, loopBase, stageBonus }
 }
 
 export function OnExample() {
   const N = 6
-  const { people, stage, hop, loop } = simulateLoop(N)
-  const rows = people.map((w, i) => ({
-    role: i === 0 ? "起点者（輪を始めた人）" : `${i}番目に繋いだ人`,
-    origin: i === 0,
-    hop: hop[w] ?? 0,
-    loop: loop[w] ?? 0,
-    total: (hop[w] ?? 0) + (loop[w] ?? 0),
-  }))
-  const sum = (k: "hop" | "loop" | "total") => rows.reduce((a, r) => a + r[k], 0)
+  const { people, stage, hop, loopBase, stageBonus } = simulateLoop(N)
+
+  const rows = people.map((w, i) => {
+    const h = hop[w] ?? 0
+    const b = loopBase[w] ?? 0
+    const sb = stageBonus[w] ?? 0
+    return {
+      role: i === 0 ? "起点者（輪を始めた人）" : `${i}番目に繋いだ人`,
+      origin: i === 0,
+      hop: h,
+      base: b,
+      stage: sb,
+      total: h + b + sb,
+    }
+  })
+  const sum = (k: "hop" | "base" | "stage" | "total") => rows.reduce((a, r) => a + r[k], 0)
+
+  const COLS: { key: "hop" | "base" | "stage"; label: string; sub: string }[] = [
+    { key: "hop",   label: "連鎖ごと",     sub: "1つ進むたび" },
+    { key: "base",  label: "ループ完成",   sub: `N×20 / N×10` },
+    { key: "stage", label: "ステージ",     sub: `×${stage.loopMultiplier} のぶん` },
+  ]
 
   return (
     <div className="slush-card-lg p-6">
@@ -165,33 +185,31 @@ export function OnExample() {
 
       {/* 横に広いので、はみ出す場合はこの中だけスクロールさせる */}
       <div className="overflow-x-auto">
-        <div style={{ minWidth: 460 }}>
+        <div style={{ minWidth: 560 }}>
           <div className="flex items-end gap-3 pb-2" style={{ borderBottom: "1px solid #000000" }}>
             <span className="flex-1 font-ui" style={{ fontSize: "0.6875rem" }}>WHO</span>
-            <span className="w-24 text-right font-ja text-sm" style={{ opacity: 0.7 }}>連鎖の途中</span>
-            <span className="w-24 text-right font-ja text-sm" style={{ opacity: 0.7 }}>輪が閉じて</span>
+            {COLS.map((c) => (
+              <span key={c.key} className="w-24 text-right">
+                <span className="block font-ja text-sm font-bold">{c.label}</span>
+                <span className="block font-ja" style={{ fontSize: "0.7rem", opacity: 0.55 }}>{c.sub}</span>
+              </span>
+            ))}
             <span className="w-24 text-right font-ja text-sm font-bold">合計</span>
           </div>
 
           {rows.map((r) => (
-            <div
-              key={r.role}
-              className="flex items-center gap-3 py-2.5"
-              style={{ borderBottom: "1px solid #000000" }}
-            >
+            <div key={r.role} className="flex items-center gap-3 py-2.5"
+              style={{ borderBottom: "1px solid #000000" }}>
               <span className="flex-1 flex items-center gap-2.5 min-w-0">
-                <span
-                  className="sticker-round shrink-0"
-                  style={{ width: 14, height: 14, background: r.origin ? INK : "#ffffff" }}
-                />
+                <span className="sticker-round shrink-0"
+                  style={{ width: 14, height: 14, background: r.origin ? INK : "#ffffff" }} />
                 <span className="font-ja text-sm truncate">{r.role}</span>
               </span>
-              <span className="w-24 text-right font-ja text-sm" style={{ ...NUM, opacity: 0.7 }}>
-                +{r.hop}
-              </span>
-              <span className="w-24 text-right font-ja text-sm" style={NUM}>
-                +{r.loop}
-              </span>
+              {COLS.map((c) => (
+                <span key={c.key} className="w-24 text-right font-ja text-sm" style={NUM}>
+                  +{r[c.key]}
+                </span>
+              ))}
               <span className="w-24 text-right shrink-0">
                 <span className="slush-badge" style={{ background: r.origin ? "#ffd731" : "#ffffff", ...NUM }}>
                   {r.total} ON
@@ -202,8 +220,9 @@ export function OnExample() {
 
           <div className="flex items-center gap-3 pt-3">
             <span className="flex-1 h-ja text-sm">この輪ぜんぶで</span>
-            <span className="w-24 text-right font-ja text-sm" style={{ ...NUM, opacity: 0.7 }}>{sum("hop")}</span>
-            <span className="w-24 text-right font-ja text-sm" style={NUM}>{sum("loop")}</span>
+            {COLS.map((c) => (
+              <span key={c.key} className="w-24 text-right font-ja text-sm" style={NUM}>{sum(c.key)}</span>
+            ))}
             <span className="w-24 text-right display-md" style={{ fontSize: "1.35rem", ...NUM }}>
               {sum("total")}
             </span>

@@ -38,7 +38,7 @@ const t = {
       fig_loop: "② 輪が閉じたとき",
       cards: [
         { icon:"🤝", label:"恩送りに参加する", value:"+1〜5",     note:"送っても受け取っても増える",   accent:"#0052FF" },
-        { icon:"🎉", label:"輪が閉じる",       value:"人数×20",   note:"起点者の取り分。中継者はその1/4〜3/4", accent:"#ffcc00" },
+        { icon:"🎉", label:"輪が閉じる",       value:"N×20 / N×10", note:"起点者はN×20、それ以外はN×10",   accent:"#ffcc00" },
         { icon:"🌏", label:"連鎖が長いほど",   value:"最大×20",   note:"完成ぶんに×1〜×20の倍率",     accent:"#5c4ade" },
       ],
       chain: "ONは売ることも、誰かに渡すこともできません。お金に換えられないぶん、「どれだけ恩を送ったか」という事実だけが正確に残ります。この記録はBase上のコントラクトに刻まれます。",
@@ -104,7 +104,7 @@ const t = {
       fig_loop: "2. When the loop closes",
       cards: [
         { icon:"🤝", label:"Take part in a chain", value:"+1–5",     note:"Giving or receiving, both count", accent:"#0052FF" },
-        { icon:"🎉", label:"Close a loop",         value:"people×20", note:"For the origin; relays get 1/4–3/4", accent:"#ffcc00" },
+        { icon:"🎉", label:"Close a loop",         value:"N×20 / N×10", note:"N×20 for the origin, N×10 for everyone else", accent:"#ffcc00" },
         { icon:"🌏", label:"The longer the chain", value:"up to ×20", note:"×1–×20 on the loop bonus",       accent:"#5c4ade" },
       ],
       chain: "ON cannot be sold or given to anyone. Because it has no cash value, what remains is an accurate record of how much kindness you have passed on. It is written to a contract on Base.",
