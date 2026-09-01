@@ -39,7 +39,7 @@ const t = {
       cards: [
         { icon:"🤝", label:"恩送りに参加する", value:"+1〜5",     note:"送っても受け取っても増える",   accent:"#0052FF" },
         { icon:"🎉", label:"輪が閉じる",       value:"後続 ×20",   note:"自分より後に続いた人数ぶん受け取る",   accent:"#ffcc00" },
-        { icon:"🌏", label:"連鎖が長いほど",   value:"最大×3",    note:"完成ぶんにステージ倍率がかかる", accent:"#5c4ade" },
+        { icon:"🌏", label:"連鎖が長いほど",   value:"最大×15",   note:"完成ぶんにステージ倍率がかかる", accent:"#5c4ade" },
       ],
       chain: "ONは売ることも、誰かに渡すこともできません。お金に換えられないぶん、「どれだけ恩を送ったか」という事実だけが正確に残ります。この記録はBase上のコントラクトに刻まれます。",
     },
@@ -105,7 +105,7 @@ const t = {
       cards: [
         { icon:"🤝", label:"Take part in a chain", value:"+1–5",     note:"Giving or receiving, both count", accent:"#0052FF" },
         { icon:"🎉", label:"Close a loop",         value:"×20 each",  note:"For every person who continued after you", accent:"#ffcc00" },
-        { icon:"🌏", label:"The longer the chain", value:"up to ×3",  note:"Stage multiplier on the loop bonus", accent:"#5c4ade" },
+        { icon:"🌏", label:"The longer the chain", value:"up to ×15", note:"Stage multiplier on the loop bonus", accent:"#5c4ade" },
       ],
       chain: "ON cannot be sold or given to anyone. Because it has no cash value, what remains is an accurate record of how much kindness you have passed on. It is written to a contract on Base.",
     },
