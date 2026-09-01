@@ -7,7 +7,15 @@ export function LangToggle() {
   return (
     <div
       className="flex items-center font-display"
-      style={{ fontSize: "0.7rem", border: "1px solid #000000", background: "#dceeff" , borderRadius: "20px"}}
+      // 選択中の塗りを角丸で切り取るため overflow: hidden が要る。
+      // これが無いと子の矩形の背景がピルの円弧からはみ出す
+      style={{
+        fontSize: "0.7rem",
+        border: "1px solid #000000",
+        background: "#dceeff",
+        borderRadius: "1600px",
+        overflow: "hidden",
+      }}
     >
       {(["ja", "en"] as const).map((l) => (
         <button
