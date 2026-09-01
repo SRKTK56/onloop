@@ -13,14 +13,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 band-paper">
       <div className="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-3">
-        {/* ロゴマーク: 黒縁の丸バッジ */}
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <span
-            className="sticker-round"
-            style={{ width: 34, height: 34, background: "#0052ff", color: "#ffffff" }}
-          >
-            <span className="font-display" style={{ fontSize: "0.95rem", lineHeight: 1 }}>O</span>
-          </span>
+        {/* ワードマークのみ。丸バッジのアイコンは削除した */}
+        <Link href="/" className="shrink-0">
           <span className="font-display" style={{ fontSize: "1.15rem" }}>ONLOOP</span>
         </Link>
 
