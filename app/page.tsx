@@ -59,14 +59,15 @@ export default function Home() {
                 {T.hero.tagline}
               </p>
 
-              <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-8">
+              {/* 3つの訴求は縦に並べる。絵文字は付けない */}
+              <div className="flex flex-col items-center md:items-start gap-2 mb-8">
                 {[T.hero.v1, T.hero.v2, T.hero.v3].map((v, i) => (
                   <span
                     key={i}
                     className="slush-badge font-ja"
                     style={{ background: PALETTE[i], fontSize: "0.875rem", fontWeight: 700 }}
                   >
-                    {["🤝", "🔗", "🎨"][i]} {v}
+                    {v}
                   </span>
                 ))}
               </div>
