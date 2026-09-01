@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title ON — ONLOOP の恩送り実績レコード
-/// @notice 恩送りの確認ごとに発行される「積み上がる記録」。上限900,000。
+/// @notice 恩送りの確認ごとに発行される「積み上がる記録」。発行上限なし。
 ///
 /// 【重要】このトークンは譲渡できません。
 ///
@@ -15,9 +15,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// 通貨としての流通ではないため、譲渡そのものを実装レベルで塞いでいる。
 ///
 /// 発行（mint）と本人による焼却（burn）だけを許可する。
+/// 発行上限は設けない。譲渡できない記録に希少性は意味を持たず、
+/// 上限を置くと「いつか報酬が黙って止まる」故障モードだけが残るため
+/// （mint の revert は呼び出し側で握り潰される）。
 contract OnToken is ERC20, Ownable {
-    uint256 public constant MAX_SUPPLY = 900_000 * 10 ** 18;
-
     /// @notice 譲渡が試みられたときに返す
     error OnTokenNonTransferable();
 
@@ -28,18 +29,12 @@ contract OnToken is ERC20, Ownable {
 
     /// @notice 恩送り実績としてONを発行する（オーナーのみ）
     function mint(address to, uint256 amount) external onlyOwner {
-        require(totalSupply() + amount <= MAX_SUPPLY, "ON: max supply exceeded");
         _mint(to, amount);
     }
 
     /// @notice 保有者が自分の記録を消す
     function burn(uint256 amount) external {
         _burn(msg.sender, amount);
-    }
-
-    /// @notice 現在の残り発行可能枚数
-    function remainingSupply() external view returns (uint256) {
-        return MAX_SUPPLY - totalSupply();
     }
 
     /// @dev 発行(from=0)と焼却(to=0)以外の移転をすべて拒否する

@@ -87,7 +87,7 @@ function LoopPanel() {
         輪の全員にまとめて入る
       </text>
       <text x={cx} y="120" textAnchor="middle" fontSize="9.5" fill={INK} opacity="0.55">
-        N＝この輪に参加した人数（図では6人）
+        N＝参加した人数。多いほどステージが上がる
       </text>
     </svg>
   )
@@ -166,7 +166,7 @@ export function OnExample() {
 
   const COLS: { key: "hop" | "base" | "stage"; label: string; sub: string }[] = [
     { key: "hop",   label: "連鎖ごと",     sub: "1つ進むたび" },
-    { key: "base",  label: "ループ完成",   sub: `N×20 / N×10` },
+    { key: "base",  label: "ループ完成",   sub: "起点100 / 他50" },
     { key: "stage", label: "ステージ",     sub: `×${stage.loopMultiplier} のぶん` },
   ]
 
