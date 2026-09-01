@@ -52,9 +52,9 @@ export function calcHopRewards(
 //
 // 最後の人は誰も後に続いていないが、恩を起点まで戻して輪を閉じたので1と数える。
 //
-// ステージ倍率は ×1〜×15（lib/stages.ts）。後続人数自体が連鎖の長さに比例するため
-// 総発行は N² で伸びるが、ONは譲渡不可で上限も無いため額そのものは問題にしない。
-// 想定する輪は20〜50人で、その帯（アジア→欧米→世界）の刻みを厚くしている。
+// ステージ倍率は ×1〜×5（lib/stages.ts）。
+// ステージの寄与率は (倍率-1)/倍率 で決まるため、倍率を上げすぎると
+// 「後続人数で報われる」という中核がステージに埋もれる。×5 で寄与80%が上限。
 export const ON_PER_FOLLOWER = 20
 
 export function calcLoopRewards(participants: string[], stageMultiplier: number = 1) {

@@ -15,8 +15,8 @@ export type Stage = {
   image: string
   description: string
   nextMessage: string
-  loopMultiplier: number  // 後続人数ボーナス（後続人数×20）に掛かる倍率。×1〜×15。
-                          // 主戦場を20〜50連鎖と想定し、アジア→欧米→世界の刻みを厚くしてある
+  loopMultiplier: number  // 後続人数ボーナス（後続人数×20）に掛かる倍率。×1〜×5。
+                          // ステージの寄与率は (倍率-1)/倍率 なので、×5 で80%が上限になる
 }
 
 export const STAGES: Stage[] = [
@@ -50,7 +50,7 @@ export const STAGES: Stage[] = [
     image: "/stages/2_town.png",
     description: "恩送りが街に広がってきました",
     nextMessage: "あと少しで 日本 に進化！",
-    loopMultiplier: 2,
+    loopMultiplier: 1.5,
   },
   {
     id: "japan",
@@ -66,7 +66,7 @@ export const STAGES: Stage[] = [
     image: "/stages/3_japan.png",
     description: "日本中に恩送りが届き始めました",
     nextMessage: "あと少しで アジア に進化！",
-    loopMultiplier: 3,
+    loopMultiplier: 2,
   },
   {
     id: "asia",
@@ -82,7 +82,7 @@ export const STAGES: Stage[] = [
     image: "/stages/4_asia.png",
     description: "アジア全体に恩の輪が広がっています",
     nextMessage: "あと少しで 欧米 に進化！",
-    loopMultiplier: 5,
+    loopMultiplier: 2.5,
   },
   {
     id: "the-west",
@@ -98,7 +98,7 @@ export const STAGES: Stage[] = [
     image: "/stages/5_the-west.png",
     description: "欧米へと恩送りの波が届きました",
     nextMessage: "あと少しで 世界 に進化！",
-    loopMultiplier: 8,
+    loopMultiplier: 3,
   },
   {
     id: "world",
@@ -114,7 +114,7 @@ export const STAGES: Stage[] = [
     image: "/stages/6_world.png",
     description: "恩送りが世界の海を越えています",
     nextMessage: "あと少しで 地球 に進化！",
-    loopMultiplier: 11,
+    loopMultiplier: 3.5,
   },
   {
     id: "earth",
@@ -130,7 +130,7 @@ export const STAGES: Stage[] = [
     image: "/stages/7_earth.png",
     description: "地球全体が恩送りで繋がっています",
     nextMessage: "あと少しで 宇宙 に進化！",
-    loopMultiplier: 13,
+    loopMultiplier: 4,
   },
   {
     id: "space",
@@ -146,7 +146,7 @@ export const STAGES: Stage[] = [
     image: "/stages/8_space.png",
     description: "恩送りが宇宙へと旅立ちました",
     nextMessage: "最高ステージに到達！",
-    loopMultiplier: 15,
+    loopMultiplier: 5,
   },
 ]
 
