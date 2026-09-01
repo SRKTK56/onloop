@@ -147,7 +147,7 @@ export async function PATCH(req: NextRequest) {
     )
 
     // ── 連鎖1ホップぶんの報酬 ─────────────────────────────────
-    const rewards = calcHopRewards(participants.slice(0, -1), node.receiverWallet)
+    const rewards = calcHopRewards(participants.slice(0, -1), node.receiverWallet, node.giverWallet)
 
     // 報酬をDBに付与
     for (const [wallet, amount] of Object.entries(rewards)) {
@@ -176,7 +176,7 @@ export async function PATCH(req: NextRequest) {
     let loopStage = getStage(participants.length)
     if (isLoop) {
       loopStage   = getStage(participants.length)
-      loopRewards = calcLoopRewards(participants, originWallet, loopStage.loopMultiplier)
+      loopRewards = calcLoopRewards(participants, loopStage.loopMultiplier)
 
       for (const [wallet, amount] of Object.entries(loopRewards)) {
         await db

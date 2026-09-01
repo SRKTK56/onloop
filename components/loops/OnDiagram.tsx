@@ -87,7 +87,7 @@ function LoopPanel() {
         輪の全員にまとめて入る
       </text>
       <text x={cx} y="120" textAnchor="middle" fontSize="9.5" fill={INK} opacity="0.55">
-        N＝参加した人数。多いほどステージが上がる
+        自分より後に続いた人数ぶん受け取る
       </text>
     </svg>
   )
@@ -130,15 +130,16 @@ function simulateLoop(n: number) {
     const parts = [people[0], ...receivers.slice(0, k + 1)].filter(
       (w, i, a) => a.indexOf(w) === i
     )
-    const r = calcHopRewards(parts.slice(0, -1), receivers[k])
+    // 贈り手は k 番目のノードの giver。APIと同じ引数の作り方にする
+    const r = calcHopRewards(parts.slice(0, -1), receivers[k], people[k])
     for (const [w, v] of Object.entries(r)) hop[w] = (hop[w] ?? 0) + v
   }
 
   // ループ完成ボーナスを「基本」と「ステージ倍率で上乗せされたぶん」に分解する。
   // 実装は掛け算だが、表では足し算として見せたほうが内訳が伝わる。
   // どちらも同じ関数から出しているので、実装を変えれば表も追従する。
-  const loopBase = calcLoopRewards(people, people[0], 1)
-  const loopFull = calcLoopRewards(people, people[0], stage.loopMultiplier)
+  const loopBase = calcLoopRewards(people, 1)
+  const loopFull = calcLoopRewards(people, stage.loopMultiplier)
   const stageBonus: Record<string, number> = {}
   for (const w of people) stageBonus[w] = (loopFull[w] ?? 0) - (loopBase[w] ?? 0)
 
@@ -166,7 +167,7 @@ export function OnExample() {
 
   const COLS: { key: "hop" | "base" | "stage"; label: string; sub: string }[] = [
     { key: "hop",   label: "連鎖ごと",     sub: "1つ進むたび" },
-    { key: "base",  label: "ループ完成",   sub: "起点100 / 他50" },
+    { key: "base",  label: "ループ完成",   sub: "後続人数 ×20" },
     { key: "stage", label: "ステージ",     sub: `×${stage.loopMultiplier} のぶん` },
   ]
 
@@ -231,8 +232,8 @@ export function OnExample() {
       </div>
 
       <p className="font-ja text-sm mt-4" style={{ opacity: 0.7 }}>
-        連鎖の途中でも少しずつ入りますが、大きいのは輪が閉じたときです。
-        輪が長くなるほど N が増え、ステージ倍率も上がるので取り分が大きくなります。
+        輪が閉じたときの取り分は、<span className="h-ja">自分より後に続いた人数</span>で決まります。
+        自分の恩がどこまで先へ伝わったかが、そのまま取り分になる仕組みです。
       </p>
     </div>
   )
