@@ -87,7 +87,7 @@ export function OfferForm({
       {/* ギバー情報カード */}
       <div className="slush-card overflow-visible" style={{ background: "#ffffff" }}>
         {/* サービス画像 */}
-        <div className="h-36 overflow-hidden relative" style={{ background: "#dceeff" }}>
+        <div className="h-36 overflow-hidden relative" style={{ background: "#dceeff", borderRadius: "19px 19px 0 0" }}>
           {provider.serviceImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={provider.serviceImageUrl} alt="" className="w-full h-full object-cover" />

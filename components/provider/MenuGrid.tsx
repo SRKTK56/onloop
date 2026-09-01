@@ -165,7 +165,7 @@ function ProviderModal({ provider, onClose }: { provider: ProviderItem; onClose:
       >
         {/* サービス画像 + アバター */}
         <div className="relative">
-          <div className="h-48 overflow-hidden" style={{ background: "#dceeff" }}>
+          <div className="h-48 overflow-hidden" style={{ background: "#dceeff", borderRadius: "19px 19px 0 0" }}>
             {provider.serviceImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={provider.serviceImageUrl} alt="" className="w-full h-full object-cover" />
@@ -286,9 +286,13 @@ export function MenuGrid({ providers }: { providers: ProviderItem[] }) {
               style={{ background: "#ffffff", overflow: "visible" }}
               onClick={() => setSelected(provider)}
             >
-              {/* サービス画像 */}
-              <div className="h-32 flex items-center justify-center relative" style={{ background: "#dceeff" }}>
-                <div className="absolute inset-0 overflow-hidden">
+              {/* サービス画像。カードは overflow: visible（アバターを枠外に出すため）なので、
+                   画像側で上の角を丸めないとカードの円弧からはみ出す */}
+              <div
+                className="h-32 flex items-center justify-center relative"
+                style={{ background: "#dceeff", borderRadius: "19px 19px 0 0" }}
+              >
+                <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: "19px 19px 0 0" }}>
                   {provider.serviceImageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
