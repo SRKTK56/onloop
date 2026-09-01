@@ -88,13 +88,13 @@ export default function Home() {
 
             {/* 貼り付けたステッカー群。回転させて整列を崩す */}
             <div className="shrink-0 relative">
-              <div className="absolute -left-6 -top-4 z-20 sticker-float">
+              <div className="absolute -left-9 -top-9 z-20 sticker-float">
                 <Sticker fill="#fb4903" rotate={-14} size={58}>🚀</Sticker>
               </div>
-              <div className="absolute -right-5 top-24 z-20">
+              <div className="absolute -right-8 top-32 z-20">
                 <Sticker fill="#ffd731" rotate={12} size={52} round>🪙</Sticker>
               </div>
-              <div className="absolute -left-8 bottom-10 z-20">
+              <div className="absolute -left-9 bottom-12 z-20">
                 <Sticker fill="#55db9c" rotate={8} size={50}>✓</Sticker>
               </div>
               <PhoneMockup />
