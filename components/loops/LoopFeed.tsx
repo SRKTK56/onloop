@@ -22,9 +22,9 @@ function timeAgo(iso: string) {
   return `${Math.floor(d / 30)}ヶ月前`
 }
 
-/** 進行中の連鎖: 点と線で「どこまで伸びたか」を見せる */
+/** 進行中の連鎖: 点と線で「どこまで伸びたか」を見せる。カードの主役なので大きく描く */
 function ChainStrip({ parties, accent }: { parties: Party[]; accent: string }) {
-  const shown = parties.slice(0, 10)
+  const shown = parties.slice(0, 8)
   const rest = parties.length - shown.length
   return (
     <div className="flex items-center gap-1.5 flex-wrap">
@@ -32,16 +32,22 @@ function ChainStrip({ parties, accent }: { parties: Party[]; accent: string }) {
         <div key={`${p.wallet}-${i}`} className="flex items-center gap-1.5">
           <span
             className="sticker-round shrink-0"
-            style={{ width: 16, height: 16, background: i === 0 ? "#000000" : accent }}
+            style={{ width: 22, height: 22, background: i === 0 ? "#000000" : accent }}
             title={p.name}
           />
           {i < shown.length - 1 && (
-            <span aria-hidden style={{ width: 14, height: 1, background: "#000000", display: "block" }} />
+            <span aria-hidden style={{ width: 16, height: 2, background: "#000000", display: "block" }} />
           )}
         </div>
       ))}
-      {rest > 0 && <span className="font-ui" style={{ fontSize: "0.6875rem" }}>+{rest}</span>}
-      <span aria-hidden className="font-ui ml-1" style={{ fontSize: "0.75rem" }}>▸</span>
+      {rest > 0 && <span className="font-ui" style={{ fontSize: "0.75rem" }}>+{rest}</span>}
+      {/* まだ続く、を示す点線と空きスロット */}
+      <span aria-hidden style={{ width: 14, borderTop: "2px dashed #000000", display: "block", opacity: 0.45 }} />
+      <span
+        aria-hidden
+        className="sticker-round shrink-0"
+        style={{ width: 22, height: 22, background: "#ffffff", borderStyle: "dashed", opacity: 0.6 }}
+      />
     </div>
   )
 }
@@ -49,12 +55,12 @@ function ChainStrip({ parties, accent }: { parties: Party[]; accent: string }) {
 /** 完成したループ: 実際に輪として描く。この形が見えることがこのプロダクトの報酬 */
 function LoopRing({ parties, accent }: { parties: Party[]; accent: string }) {
   const n = Math.min(parties.length, 16)
-  const r = 34
-  const c = 44
+  const r = 40
+  const c = 52
   return (
-    <svg viewBox="0 0 88 88" style={{ width: 88, height: 88, overflow: "visible" }} aria-hidden>
+    <svg viewBox="0 0 104 104" style={{ width: 104, height: 104, overflow: "visible" }} aria-hidden>
       <circle cx={c} cy={c} r={r} fill="none" stroke="#000000" strokeWidth="1" />
-      <circle cx={c} cy={c} r={r} fill="none" stroke={accent} strokeWidth="6" opacity="0.85" />
+      <circle cx={c} cy={c} r={r} fill="none" stroke={accent} strokeWidth="8" />
       {Array.from({ length: n }).map((_, i) => {
         const a = (i / n) * Math.PI * 2 - Math.PI / 2
         return (
@@ -62,7 +68,7 @@ function LoopRing({ parties, accent }: { parties: Party[]; accent: string }) {
             key={i}
             cx={c + r * Math.cos(a)}
             cy={c + r * Math.sin(a)}
-            r={i === 0 ? 6 : 4.5}
+            r={i === 0 ? 7 : 5.5}
             fill={i === 0 ? "#000000" : "#ffffff"}
             stroke="#000000"
             strokeWidth="1"
@@ -73,63 +79,93 @@ function LoopRing({ parties, accent }: { parties: Party[]; accent: string }) {
   )
 }
 
-function LoopCard({ item }: { item: LoopItem }) {
+/** カード地の巡回色。1色をアクセントに選ばず、複数色を並べるのが様式のルール */
+const CARD_TINTS = ["#ffffff", "#dceeff", "#e9ccff", "#fff3cf"]
+
+function LoopCard({ item, index }: { item: LoopItem; index: number }) {
   const stage = stageOf(item.stageId)
+  const top = item.hops[0]
+
   return (
     <Link
       href={`/chain/${item.chainId}`}
-      className="slush-card block p-5 transition-transform hover:-translate-y-0.5"
-      style={{ background: item.isLoop ? stage.bgDark : "#ffffff" }}
+      className="slush-card flex flex-col overflow-hidden transition-transform hover:-translate-y-1"
+      style={{ background: "#ffffff" }}
     >
-      <div className="flex items-start justify-between gap-4 mb-4 flex-wrap">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="slush-badge" style={{ background: stage.accent }}>
-            {stage.emoji} STAGE {stage.level}
-          </span>
-          <span className="slush-badge font-ja" style={{ fontSize: "0.875rem", fontWeight: 700 }}>
-            {item.length} 連鎖
-          </span>
-          {item.isLoop && (
-            <span
-              className="slush-badge"
-              style={{ background: "#000000", color: "#ffffff" }}
-            >
-              ✓ LOOP COMPLETE ×{stage.loopMultiplier}
-            </span>
-          )}
-        </div>
-        <span className="font-ja text-sm shrink-0" style={{ opacity: 0.6 }}>
+      {/* ステージ画。どの世界まで育った輪なのかが一目で分かる */}
+      <div
+        className="relative img-pixel shrink-0"
+        style={{
+          height: 84,
+          backgroundImage: `url(${stage.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderBottom: "1px solid #000000",
+          borderRadius: "19px 19px 0 0",
+        }}
+      >
+        <span className="slush-badge absolute left-3 top-3" style={{ background: stage.accent }}>
+          {stage.emoji} STAGE {stage.level}
+        </span>
+        <span
+          className="slush-badge absolute right-3 top-3 font-ja"
+          style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 700 }}
+        >
           {timeAgo(item.lastAt)}
         </span>
       </div>
 
-      <div className="flex items-center gap-5 mb-4">
-        {item.isLoop ? (
-          <LoopRing parties={item.participants} accent={stage.accent} />
-        ) : (
-          <ChainStrip parties={item.participants} accent={stage.accent} />
-        )}
-      </div>
+      <div className="p-5 flex-1" style={{ background: item.isLoop ? stage.bgDark : CARD_TINTS[index % CARD_TINTS.length] }}>
+        {/* 連鎖数を数字の主役として大きく置き、右に輪の形を並べる */}
+        <div className="flex items-center gap-4 mb-4">
+          <span className="flex items-baseline gap-1.5 shrink-0">
+            <span className="display-lg" style={{ fontSize: "3.4rem", lineHeight: 0.8 }}>
+              {item.length}
+            </span>
+            <span className="h-ja text-base">連鎖</span>
+          </span>
+          <span className="ml-auto">
+            {item.isLoop ? (
+              <LoopRing parties={item.participants} accent={stage.accent} />
+            ) : (
+              <ChainStrip parties={item.participants} accent={stage.accent} />
+            )}
+          </span>
+        </div>
 
-      <div className="flex flex-col gap-2">
-        {item.hops.map((h) => (
-          <div key={h.position} className="flex flex-col gap-0.5">
-            <p className="font-ja text-sm" style={{ opacity: 0.7 }}>
-              {h.giver.name} <span aria-hidden>→</span> {h.receiver.name}
+        {item.isLoop ? (
+          <span className="slush-badge mb-4" style={{ background: "#000000", color: "#ffffff" }}>
+            ✓ LOOP COMPLETE ×{stage.loopMultiplier}
+          </span>
+        ) : (
+          <span className="slush-badge mb-4 font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 700 }}>
+            <span className="live-pulse" aria-hidden /> いま伸びている
+          </span>
+        )}
+
+        {/* 恩の中身を一番大きく見せる。ここがこのカードで一番読ませたい部分 */}
+        {top ? (
+          <>
+            <p className="h-ja text-lg leading-snug mb-2">「{top.description}」</p>
+            <p className="font-ja text-sm" style={{ opacity: 0.65 }}>
+              {top.giver.name} <span aria-hidden>→</span> {top.receiver.name}
             </p>
-            <p className="h-ja text-base">「{h.description}」</p>
-          </div>
-        ))}
-        {item.hops.length === 0 && (
+          </>
+        ) : (
           <p className="font-ja text-sm" style={{ opacity: 0.6 }}>まだ恩が動いていません</p>
         )}
-      </div>
 
-      {item.pendingCount > 0 && (
-        <p className="font-ja text-sm mt-3" style={{ opacity: 0.6 }}>
-          確認待ち {item.pendingCount} 件
-        </p>
-      )}
+        {item.hops.length > 1 && (
+          <p className="font-ja text-sm mt-3" style={{ opacity: 0.55 }}>
+            ほか {item.hops.length - 1} 件の恩送り
+          </p>
+        )}
+        {item.pendingCount > 0 && (
+          <p className="font-ja text-sm mt-1" style={{ opacity: 0.55 }}>
+            確認待ち {item.pendingCount} 件
+          </p>
+        )}
+      </div>
     </Link>
   )
 }
@@ -171,8 +207,8 @@ export function LoopFeed({ limit = 20, columns = 2 }: { limit?: number; columns?
 
   return (
     <div className={`grid gap-5 ${columns === 2 ? "md:grid-cols-2" : ""}`}>
-      {items.map((item) => (
-        <LoopCard key={item.chainId} item={item} />
+      {items.map((item, i) => (
+        <LoopCard key={item.chainId} item={item} index={i} />
       ))}
     </div>
   )

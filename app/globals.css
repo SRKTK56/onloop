@@ -319,3 +319,22 @@
   transition: opacity 0.15s;
 }
 .nav-link:hover { opacity: 0.55; }
+
+/* LIVE の鼓動。動きはマーキーとホバーに限る様式だが、
+   「いま動いている」ことがこのプロダクトの主題なのでここだけ例外にする */
+@keyframes live-pulse-kf {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.75); }
+}
+.live-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 1600px;
+  background: #fb4903;
+  border: 1px solid var(--color-carbon);
+  animation: live-pulse-kf 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-pulse { animation: none; }
+}
