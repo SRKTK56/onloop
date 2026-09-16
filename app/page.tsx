@@ -260,12 +260,16 @@ export default function Home() {
           <p className="h-ja text-lg md:text-xl mb-3">{T.cta.title}</p>
           {/* リボンの上に載るので、本文は白ピルに乗せて読めるようにする（影・ぼかしは使わない） */}
           <div className="flex flex-col items-center gap-2 mb-8">
-            <span className="slush-badge font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 500 }}>
-              {T.cta.sub}
-            </span>
-            <span className="slush-badge font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 500 }}>
-              {T.cta.wallet_note}
-            </span>
+            {/* 狭い幅では2行に折れるので、ピルではなくカードと同じ 20px 角丸にして折れても崩れない形にする */}
+            {[T.cta.sub, T.cta.wallet_note].map((t) => (
+              <span
+                key={t}
+                className="slush-badge font-ja text-center"
+                style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 500, borderRadius: 20, padding: "0.4rem 1rem" }}
+              >
+                {t}
+              </span>
+            ))}
           </div>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/start" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
