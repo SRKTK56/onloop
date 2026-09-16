@@ -99,7 +99,8 @@ function LoopCard({ item, index }: { item: LoopItem; index: number }) {
           height: 84,
           backgroundImage: `url(${stage.image})`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          // 同じステージの輪が並ぶと同じ絵が4枚並んでコピペに見えるので、切り出し位置をカードごとにずらす
+          backgroundPosition: `${(index * 37) % 100}% center`,
           borderBottom: "1px solid #000000",
           borderRadius: "19px 19px 0 0",
         }}

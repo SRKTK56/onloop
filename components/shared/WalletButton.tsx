@@ -122,7 +122,7 @@ export function WalletButton() {
             color: "#fff",
             borderColor: "#000000",
             padding: "0.45rem 0.7rem",
-            fontSize: "0.7rem",
+            fontSize: "0.75rem",
             whiteSpace: "nowrap",
             opacity: isPending ? 0.6 : 1,
             cursor: isPending ? "not-allowed" : "pointer", borderRadius: "1600px"}}
@@ -149,7 +149,7 @@ export function WalletButton() {
             borderColor: "#000000",
             boxShadow: "none",
             padding: "0.45rem 0.7rem",
-            fontSize: "0.7rem",
+            fontSize: "0.75rem",
             whiteSpace: "nowrap",
             cursor: "pointer", borderRadius: "20px"}}
         >

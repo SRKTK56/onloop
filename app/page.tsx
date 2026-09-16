@@ -133,7 +133,7 @@ export default function Home() {
         <div className="relative z-10 max-w-5xl mx-auto px-5">
           <SectionHead en="HOW IT WORKS" sub={T.how.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {T.how.steps.map((item: any, i: number) => (
+            {T.how.steps.map((item: { step: string; icon: string; title: string; desc: string }, i: number) => (
               <div
                 key={item.step}
                 className="slush-card p-6 flex flex-col"
@@ -155,7 +155,7 @@ export default function Home() {
       <section className="band-sky relative overflow-hidden py-16 md:py-24">
         <div
           aria-hidden
-          className="absolute -right-16 top-8 w-[320px] h-[320px] opacity-80 pointer-events-none"
+          className="absolute -right-24 -top-20 w-[260px] h-[260px] md:-right-16 md:-top-8 md:w-[320px] md:h-[320px] opacity-80 pointer-events-none"
         >
           <LoopRibbon variant="ring" className="w-full h-full" />
         </div>
@@ -228,7 +228,7 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-5 mb-8">
-            {T.token.cards.map((item: any, i: number) => (
+            {T.token.cards.map((item: { icon: string; label: string; value: string; note: string }, i: number) => (
               <div
                 key={item.label}
                 className="slush-card p-6 text-center"
@@ -251,15 +251,22 @@ export default function Home() {
       <section className="band-lavender relative overflow-hidden py-20 md:py-28 text-center">
         <div
           aria-hidden
-          className="absolute left-1/2 -translate-x-1/2 -bottom-40 w-[520px] h-[520px] opacity-60 pointer-events-none"
+          className="absolute left-1/2 -translate-x-1/2 -bottom-72 md:-bottom-64 w-[520px] h-[520px] opacity-60 pointer-events-none"
         >
           <LoopRibbon variant="ring" className="w-full h-full" />
         </div>
         <div className="relative z-10 max-w-3xl mx-auto px-5">
           <h2 className="display-lg mb-6">JOIN THE LOOP</h2>
           <p className="h-ja text-lg md:text-xl mb-3">{T.cta.title}</p>
-          <p className="font-ja text-sm mb-2">{T.cta.sub}</p>
-          <p className="font-ja text-sm mb-8" style={{ opacity: 0.7 }}>{T.cta.wallet_note}</p>
+          {/* リボンの上に載るので、本文は白ピルに乗せて読めるようにする（影・ぼかしは使わない） */}
+          <div className="flex flex-col items-center gap-2 mb-8">
+            <span className="slush-badge font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 500 }}>
+              {T.cta.sub}
+            </span>
+            <span className="slush-badge font-ja" style={{ background: "#ffffff", fontSize: "0.875rem", fontWeight: 500 }}>
+              {T.cta.wallet_note}
+            </span>
+          </div>
           <div className="flex gap-3 justify-center flex-wrap">
             <Link href="/start" className="slush-btn font-ja" style={{ fontWeight: 700 }}>
               {T.cta.btn_start}

@@ -213,7 +213,7 @@
     box-shadow: none;
     transition: background 0.15s, color 0.15s, transform 0.1s;
   }
-  .slush-btn:hover { transform: translateY(-1px); }
+  .slush-btn:hover { transform: translateY(-1px); background: #262626; }
   .slush-btn:active { transform: translateY(0); }
 
   /* 副アクション: 白地・黒縁 */

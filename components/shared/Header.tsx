@@ -7,6 +7,13 @@ import { LangToggle } from "./LangToggle"
 import { useLang } from "@/lib/i18n/context"
 
 /** ナビはピル。地は紙白・1px黒縁で統一し、影と下線は置かない */
+const NAV = [
+  { href: "/start",   key: "start"  as const, primary: true },
+  { href: "/loops",   key: "loops"  as const, primary: false },
+  { href: "/menu",    key: "menu"   as const, primary: false },
+  { href: "/profile", key: "mypage" as const, primary: false },
+]
+
 export function Header() {
   const { T } = useLang()
 
@@ -43,6 +50,29 @@ export function Header() {
           <WalletButton />
         </div>
       </div>
+
+      {/* モバイル: 4つの導線を消さずに、横スクロールのピル行として残す（ハンバーガーは様式に合わない） */}
+      <nav
+        className="md:hidden flex items-center gap-1.5 px-5 pb-2.5 overflow-x-auto"
+        style={{ scrollbarWidth: "none" }}
+        aria-label="main"
+      >
+        {NAV.map((n) => (
+          <Link
+            key={n.href}
+            href={n.href}
+            className="slush-badge font-ja shrink-0 whitespace-nowrap"
+            style={{
+              background: n.primary ? "#000000" : "#ffffff",
+              color: n.primary ? "#ffffff" : "#000000",
+              fontSize: "0.875rem",
+              fontWeight: 700,
+            }}
+          >
+            {T.nav[n.key]}
+          </Link>
+        ))}
+      </nav>
     </header>
   )
 }

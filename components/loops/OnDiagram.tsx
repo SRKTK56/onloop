@@ -184,9 +184,34 @@ export function OnExample() {
         </span>
       </div>
 
-      {/* 横に広いので、はみ出す場合はこの中だけスクロールさせる */}
-      <div className="overflow-x-auto">
-        <div style={{ minWidth: 560 }}>
+      {/* モバイル: 表にすると「合計」が画面外に消えるので、1人1行の縦積みにして合計を主役に置く */}
+      <div className="sm:hidden">
+        {rows.map((r) => (
+          <div key={r.role} className="py-3" style={{ borderBottom: "1px solid #000000" }}>
+            <div className="flex items-center gap-2.5">
+              <span className="sticker-round shrink-0"
+                style={{ width: 14, height: 14, background: r.origin ? INK : "#ffffff" }} />
+              <span className="font-ja text-sm flex-1 min-w-0 truncate" style={{ fontWeight: r.origin ? 700 : 400 }}>
+                {r.role}
+              </span>
+              <span className="slush-badge shrink-0" style={{ background: r.origin ? "#ffd731" : "#ffffff", ...NUM }}>
+                {r.total} ON
+              </span>
+            </div>
+            <p className="font-ja text-xs mt-1.5 pl-6" style={{ opacity: 0.65, ...NUM }}>
+              {COLS.map((c) => `+${r[c.key]} ${c.label}`).join(" · ")}
+            </p>
+          </div>
+        ))}
+        <div className="flex items-center gap-3 pt-3">
+          <span className="flex-1 h-ja text-sm">この輪ぜんぶで</span>
+          <span className="display-md" style={{ fontSize: "1.35rem", ...NUM }}>{sum("total")}</span>
+        </div>
+      </div>
+
+      {/* デスクトップ: 内訳が横に並ぶ表 */}
+      <div className="hidden sm:block">
+        <div>
           <div className="flex items-end gap-3 pb-2" style={{ borderBottom: "1px solid #000000" }}>
             <span className="flex-1 font-ui" style={{ fontSize: "0.6875rem" }}>WHO</span>
             {COLS.map((c) => (
